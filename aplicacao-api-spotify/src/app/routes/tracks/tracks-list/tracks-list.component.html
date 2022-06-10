@@ -14,11 +14,16 @@
         Your browser does not support the audio element.
     </audio>
     <p><a href={{track?.external_urls.spotify}} target="_blank"><strong>Curta a faixa no Spotify</strong></a></p>
-    <div *ngIf="track?.available_markets.includes('BR'); else brNotFound">
+    <!-- * -->
+    <!-- <div *ngIf="track?.available_markets.includes('BR'); else brNotFound">
         <p><strong>Disponível no Brasil:</strong> Sim</p>
+    </div> -->
+    <div>
+        <p><strong>Disponível no Brasil:</strong> {{track?.available_markets.includes('BR') === true ? "Sim" : "Não"}}</p>
     </div>
 </div>
 
-<ng-template #brNotFound>
+<!-- * Utilização de ngIf utilizando um ng-template, mas houve refatoração de código por questão de duplicação de código. Método paralelo para outras soluções também. -->
+<!-- <ng-template #brNotFound>
     <p><strong>Disponível no Brasil:</strong> Não</p>
-</ng-template>
+</ng-template> -->
