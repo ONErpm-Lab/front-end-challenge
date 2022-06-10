@@ -18,9 +18,9 @@ export class TracksListComponent implements OnInit {
   }
 
   listTracks() {
-    this.apiSpotifyService.ready().subscribe(response => {
-      console.log(response);
+    this.apiSpotifyService.ready().subscribe(tracks => {
+      this.tracks = tracks["tracks"];
+      console.log(tracks);
     });
   }
-
 }
