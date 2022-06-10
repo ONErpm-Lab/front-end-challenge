@@ -7,7 +7,7 @@ import { ApiSpotifyService } from 'src/app/services/api-spotify.service';
   styleUrls: ['./tracks-list.component.scss']
 })
 export class TracksListComponent implements OnInit {
-  tracks: Array<any> = [];
+  items: Array<any> = [];
 
   listISRCs: string[] = [
     "US7VG1846811",
@@ -20,7 +20,7 @@ export class TracksListComponent implements OnInit {
     "BXKZM1900345",
     "QZNJX2081700",
     "QZNJX2078148"
-  ]
+  ];
 
   constructor(
     private readonly apiSpotifyService: ApiSpotifyService,
@@ -31,9 +31,12 @@ export class TracksListComponent implements OnInit {
   }
 
   listTracks() {
-    this.apiSpotifyService.ready(this.listISRCs[0]).subscribe(tracks => {
-      this.tracks = tracks["tracks"];
-      console.log(tracks);
+    this.listISRCs.forEach(isrc => {
+      let eachISRC = isrc;
+
+      this.apiSpotifyService.ready(eachISRC).subscribe(track => {
+        this.items.push(...track["tracks"].items);
+      });
     });
   }
 }
