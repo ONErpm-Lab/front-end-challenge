@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiSpotifyService } from 'src/app/services/api-spotify.service';
 
 @Component({
   selector: 'app-tracks-list',
@@ -6,10 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tracks-list.component.scss']
 })
 export class TracksListComponent implements OnInit {
+  tracks: Array<any> = [];
 
-  constructor() { }
+  constructor(
+    private readonly apiSpotifyService: ApiSpotifyService,
+  ) { }
 
   ngOnInit(): void {
+    this.listTracks();
+  }
+
+  listTracks() {
+    this.apiSpotifyService.ready().subscribe(response => {
+      console.log(response);
+    });
   }
 
 }
