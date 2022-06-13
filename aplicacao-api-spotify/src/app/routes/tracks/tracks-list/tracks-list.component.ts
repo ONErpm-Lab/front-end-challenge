@@ -8,6 +8,7 @@ import { ApiSpotifyService } from 'src/app/services/api-spotify.service';
 })
 export class TracksListComponent implements OnInit {
   items: Array<any> = [];
+  listNames: Array<any> = [];
 
   listISRCs: string[] = [
     "US7VG1846811",
@@ -36,7 +37,16 @@ export class TracksListComponent implements OnInit {
 
       this.apiSpotifyService.ready(eachISRC).subscribe(track => {
         this.items.push(...track["tracks"].items);
+
+        this.order();
       });
     });
   }
+
+  order() {
+    this.items = this.items.sort((a, b) => {
+      return (a.name >= b.name ? 1 : -1);
+    });
+  }
+
 }

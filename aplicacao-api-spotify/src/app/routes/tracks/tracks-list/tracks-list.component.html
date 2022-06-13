@@ -1,25 +1,25 @@
-<div *ngFor="let track of items">
-    <img src={{track?.album?.images[2]?.url}} alt={{track?.album?.name}}>
-    <p><strong>Data de lançamento:</strong> {{track?.album?.release_date | date: "dd/MM/YYYY"}}</p>
-    <p><strong>Título da faixa:</strong> {{track?.album?.name}}</p>
+<div *ngFor="let item of items">
+    <img src={{item?.album?.images[2]?.url}} alt={{item?.album?.name}}>
+    <p><strong>Data de lançamento:</strong> {{item?.album?.release_date | date: "dd/MM/YYYY"}}</p>
+    <p><strong>Título da faixa:</strong> {{item?.name}}</p>
     <p><strong>Artistas das Faixas:</strong></p>
-    <ul *ngFor="let artist of track?.artists">
+    <ul *ngFor="let artist of item?.artists">
         <li>{{artist?.name}}</li>
     </ul>
-    <p><strong>Duração da faixa:</strong> {{track.duration_ms | date: "mm:ss"}}</p>
+    <p><strong>Duração da faixa:</strong> {{item.duration_ms | date: "mm:ss"}}</p>
     <p><strong>Prévia da faixa:</strong></p>
     <audio id="previewAudio" controls>
-        <source src={{track?.preview_url}} type="audio/ogg">
-        <source src={{track?.preview_url}} type="audio/mpeg">
+        <source src={{item?.preview_url}} type="audio/ogg">
+        <source src={{item?.preview_url}} type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-    <p><a href={{track?.external_urls.spotify}} target="_blank"><strong>Curta a faixa no Spotify</strong></a></p>
+    <p><a href={{item?.external_urls.spotify}} target="_blank"><strong>Curta a faixa no Spotify</strong></a></p>
     <!-- * -->
-    <!-- <div *ngIf="track?.available_markets.includes('BR'); else brNotFound">
+    <!-- <div *ngIf="item?.available_markets.includes('BR'); else brNotFound">
             <p><strong>Disponível no Brasil:</strong> Sim</p>
         </div> -->
     <div>
-        <p><strong>Disponível no Brasil:</strong> {{track?.available_markets.includes('BR') === true ? "Sim" : "Não"}}
+        <p><strong>Disponível no Brasil:</strong> {{item?.available_markets.includes('BR') === true ? "Sim" : "Não"}}
         </p>
     </div>
 </div>
