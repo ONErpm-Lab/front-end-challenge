@@ -37,7 +37,6 @@ export class TracksListComponent implements OnInit {
 
       this.apiSpotifyService.ready(eachISRC).subscribe(track => {
         this.items.push(...track["tracks"].items);
-
         this.order();
       });
     });
@@ -49,4 +48,7 @@ export class TracksListComponent implements OnInit {
     });
   }
 
+  containsBR() {
+
+  }
 }
