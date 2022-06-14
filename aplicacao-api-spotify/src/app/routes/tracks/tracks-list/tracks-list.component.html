@@ -1,30 +1,46 @@
-<div *ngFor="let item of items">
-    <img src={{item?.album?.images[2]?.url}} alt={{item?.album?.name}}>
-    <p><strong>Data de lançamento:</strong> {{item?.album?.release_date | date: "dd/MM/YYYY"}}</p>
-    <p><strong>Título da faixa:</strong> {{item?.name}}</p>
-    <p><strong>Artistas das Faixas:</strong></p>
-    <ul *ngFor="let artist of item?.artists">
-        <li>{{artist?.name}}</li>
-    </ul>
-    <p><strong>Duração da faixa:</strong> {{item.duration_ms | date: "mm:ss"}}</p>
-    <p><strong>Prévia da faixa:</strong></p>
-    <audio id="previewAudio" controls>
-        <source src={{item?.preview_url}} type="audio/ogg">
-        <source src={{item?.preview_url}} type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <p><a href={{item?.external_urls.spotify}} target="_blank"><strong>Curta a faixa no Spotify</strong></a></p>
-    <!-- * -->
-    <!-- <div *ngIf="item?.available_markets.includes('BR'); else brNotFound">
-            <p><strong>Disponível no Brasil:</strong> Sim</p>
-        </div> -->
-    <div>
-        <p><strong>Disponível no Brasil:</strong> {{item?.available_markets.includes('BR') === true ? "Sim" : "Não"}}
-        </p>
-    </div>
+<div class="container-tracks p-5 bg-dark table-responsive">
+    <table class="table table-dark table-hover align-middle">
+        <thead>
+            <th>Capa</th>
+            <th>Título</th>
+            <th>Prévia</th>
+            <th>Artistas</th>
+            <th>Lançamento</th>
+            <th>Duração</th>
+            <th>Disponível (BR)</th>
+            <th>Ouça</th>
+        </thead>
+        <tbody *ngFor="let item of items">
+            <td>
+                <img src={{item.album.images[2].url}} alt={{item.album.name}}>
+            </td>
+            <td>
+                {{item.name}}
+            </td>
+            <td>
+                <audio id="previewAudio" controls class="audio--width">
+                    <source src={{item.preview_url}} type="audio/ogg">
+                    <source src={{item.preview_url}} type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </td>
+            <td>
+                <ul class="list-unstyled m-0 p-0">
+                    <li *ngFor="let artist of item.artists">{{artist.name}}</li>
+                </ul>
+            </td>
+            <td>
+                {{item.album.release_date | date: "dd/MM/YYYY"}}
+            </td>
+            <td>
+                {{item.duration_ms | date: "mm:ss"}}
+            </td>
+            <td>
+                {{item.available_markets.includes('BR') === true ? "Sim" : "Não"}}
+            </td>
+            <td>
+                <a href={{item.external_urls.spotify}} target="_blank" ><button class="btn btn-success">Play</button></a>
+            </td>
+        </tbody>
+    </table>
 </div>
-
-<!-- * Utilização de ngIf utilizando um ng-template, mas houve refatoração de código por questão de duplicação de código. Método paralelo para outras soluções também. -->
-<!-- <ng-template #brNotFound>
-    <p><strong>Disponível no Brasil:</strong> Não</p>
-</ng-template> -->
