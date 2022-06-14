@@ -15,7 +15,7 @@ export class ApiSpotifyService {
 
   ready(isrc: string): Observable<any[]> {
     const headers = new HttpHeaders({
-      "Authorization": "Bearer BQCKAZGOZy634fymGQ8sfU4YJqHTsuCeLc9APjPV0mgZSTydbBKCozNbJhFve_YZTSYMu1V1a-52hNw5y2rmDQEv4fQA34NXePkeAcEqoiqbXTSlWMlRmvpeW4FQ7vftt2RwOJRHEtB4SnyFiT3xdcKG6l8u8k8hnyqbqKWHX6X8qGyOomVf593dWYuVIg",
+      "Authorization": "Bearer BQCsuE5FsUzKdUV7_GZaWQ_CUw9q3d09roRWEO_TfpSav5a0d_4Pw05WcM9UYZnjEzzwp4jJSl8cpHyNUGT1M_RArynQijLpsqF6tlUy4czyVSQ4_U6KHRIqVJeuKF_tk7o4KLSVxegjx1oMJMBWG5U0fjRMB77C91PM1K8sb0q40G9eB4FePRcF8Vl32w",
     });
 
     return this.httpClient.get<any[]>(`${this.URL_API}${isrc}&type=track`, { headers });

@@ -7,10 +7,10 @@ import { ApiSpotifyService } from 'src/app/services/api-spotify.service';
   styleUrls: ['./tracks-list.component.scss']
 })
 export class TracksListComponent implements OnInit {
-  items: Array<any> = [];
-  listNames: Array<any> = [];
+  items = Array<any>();
+  listNames = Array<string>();
 
-  listISRCs: string[] = [
+  listISRCs = [
     "US7VG1846811",
     "US7QQ1846811",
     "BRC310600002",
@@ -20,7 +20,7 @@ export class TracksListComponent implements OnInit {
     "BXKZM1900338",
     "BXKZM1900345",
     "QZNJX2081700",
-    "QZNJX2078148"
+    "QZNJX2078148",
   ];
 
   constructor(
@@ -43,12 +43,8 @@ export class TracksListComponent implements OnInit {
   }
 
   order() {
-    this.items = this.items.sort((a, b) => {
-      return (a.name >= b.name ? 1 : -1);
+    this.items = this.items.sort((itemA, itemB) => {
+      return (itemA.name >= itemB.name ? 1 : -1);
     });
-  }
-
-  containsBR() {
-
   }
 }
