@@ -22,7 +22,7 @@ app.get('/tracks', async (_, res) => {
   const tracksService = new Tracks(authenticationService);
   
   try {
-    const tracks = await tracksService.fetchTracksByISRCs(ISRCs);
+    const tracks = await tracksService.getTreatedTracksByISRCs(ISRCs);
     res.status(200).json({ data: tracks });
   } catch (error) {
     console.log(error);
