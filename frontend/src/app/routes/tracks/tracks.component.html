@@ -1,2 +1,15 @@
-<p>tracks works!</p>
-<a routerLink="/">Home</a>
+<div *ngIf="isLoading; else dataContent">
+  <p>Loading...</p>
+</div>
+
+<ng-template #dataContent>
+  <div *ngIf="(tracks$ | async) as tracks">
+    <h3>{{ tracks.data.length }} found</h3>
+    <br/>
+    <ul>
+      <li *ngFor="let track of tracks.data">
+        <app-track [track]="track"></app-track>
+      </li>
+    </ul>
+  </div>
+</ng-template>

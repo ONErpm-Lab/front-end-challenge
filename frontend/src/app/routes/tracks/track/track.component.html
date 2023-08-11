@@ -1,0 +1,35 @@
+<li>
+  <img src="{{ track.images[1].url }}"><br/>
+  <a
+    href="{{ track.albumSpotifyURL }}"
+    target="_blank"
+    rel="noopener"
+  >
+    <p>{{ track.albumName }}</p>
+  </a>
+  <p>{{ dateInDDMMYYYY }}</p>
+  <ul>
+    <li *ngFor="let artist of track.artists">
+      <a
+        href="{{ artist.spotifyURL }}"
+        target="_blank"
+        rel="noopener"
+      >
+        <p>{{ artist.name }}</p>
+      </a>
+    </li>
+  </ul>
+  <a
+    href="{{ track.spotifyURL }}"
+    target="_blank"
+    rel="noopener"
+  >
+    <p>{{ track.name }}</p>
+  </a>
+  <audio controls>
+    <source src="{{ track.previewURL }}" type="audio/mpeg">
+  </audio>
+  <p>Duration: {{ durationInMinutesAndSeconds }}</p>
+  <p *ngIf="isAvailableInBrazil">This soundtrack is available in Brazil</p>
+  <p *ngIf="!isAvailableInBrazil">This soundtrack is not available in Brazil</p>
+</li>
