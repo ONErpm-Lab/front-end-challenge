@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-class Tracks {
+class GetTracks {
   constructor(authenticateService, treatUntreatedTracks) {
     this._authenticateService = authenticateService;
     this._treatUntreatedTracks = treatUntreatedTracks;
@@ -66,5 +66,5 @@ class Tracks {
 }
 
 module.exports = {
-  Tracks
+  GetTracks
 };
