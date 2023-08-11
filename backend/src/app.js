@@ -4,6 +4,13 @@ const { Tracks } = require("./controllers");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use((_, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.header("Access-Control-Allow-Methods", "GET");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
 app.get('/tracks', async (_, res) => {
   const tracksController = new Tracks(); 
   
