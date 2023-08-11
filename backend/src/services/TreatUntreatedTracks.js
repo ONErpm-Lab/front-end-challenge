@@ -15,6 +15,7 @@ class TreatUntreatedTracks {
 
         const trackWithRelevantProperties = {
           releaseDate: track.album.release_date,
+          images: track.album.images,
           artists: relevantArtistsInfo,
           availableMarkets: track.available_markets,
           spotifyURL: track.external_urls.spotify,
