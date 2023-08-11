@@ -14,14 +14,16 @@ class TreatUntreatedTracks {
         const relevantArtistsInfo = this._getRelevantArtistsInfo(artists);
 
         const trackWithRelevantProperties = {
-          releaseDate: track.album.release_date,
-          images: track.album.images,
+          albumName: track.album.name,
+          albumSpotifyURL: track.album.external_urls.spotify,
           artists: relevantArtistsInfo,
           availableMarkets: track.available_markets,
-          spotifyURL: track.external_urls.spotify,
+          durationInMilliseconds: track.duration_ms,
+          images: track.album.images,
           name: track.name,
           previewURL: track.preview_url,
-          durationInMilliseconds: track.duration_ms
+          releaseDate: track.album.release_date,
+          spotifyURL: track.external_urls.spotify
         };
 
         tracksWithRelevantProperties.push(trackWithRelevantProperties);
