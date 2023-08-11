@@ -1,0 +1,58 @@
+.container {
+  margin: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+img {
+  transition: transform 0.5s;
+}
+
+.mainTile:hover img {
+  transform: scale(1.2);
+}
+
+.mainTile {
+  background-color: var(--primaryColor);
+  border-radius: 8px;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+  padding: 10px;
+  display: flex;
+  text-align: center;
+  width: 90%;
+  height: 90%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.cardAlbumImg {
+  width: 200px;
+  height: 180px;
+  margin: 30px 0px 40px 0px;
+  border-radius: 4px;
+}
+
+.cardTrackName {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--textOnPrimary);
+  margin-bottom: 8px;
+}
+
+.cardTitle {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  width: -webkit-fill-available;
+  justify-content: space-evenly;
+}
+
+.cardTrackArtist {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--textOnSecondary);
+}

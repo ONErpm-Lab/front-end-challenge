@@ -1,0 +1,17 @@
+<div class="container">
+  <mat-grid-list [cols]="cols" rowHeight="400px" gutterSize="10px">
+    <mat-grid-tile class="mainTile" *ngFor="let track of items">
+      <mat-card class="card" (click)="openDetails(track)">
+        <img class="cardAlbumImg" src={{track.album.images[1].url}} alt={{track.album.name}} loading="lazy">
+        <mat-card-title class="cardTitle">
+          <span class="cardTrackName">
+            {{track.name}}
+          </span>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <div class="cardTrackArtist" *ngFor="let artist of track.artists">{{artist.name}}</div>
+        </mat-card-subtitle>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
