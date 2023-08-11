@@ -1,0 +1,26 @@
+<div class="containerDetails" *ngIf="track">
+  <img class="detailsAlbumImg" [src]="track.album.images[1].url" [alt]="track.album.name" loading="lazy" width="400px"
+    height="400px" />
+  <h3 class="detailsName">{{ track.name }}</h3>
+  <div class="containerHeader">
+    <div class="containerHeaderArtist">
+      <span *ngFor="let artist of track.artists">
+        {{ artist.name }}
+      </span>
+    </div>
+    <a class="containerHeaderSpotify" href="{{ track.external_urls.spotify }}" target="_blank">
+      <img class="cardIconSpotify" src="../../../assets/spotify50.png" alt="spotify-logo" />
+    </a>
+  </div>
+  <audio id="previewAudio" controls>
+    <source [src]="track.preview_url" type="audio/ogg" />
+    <source [src]="track.preview_url" type="audio/mpeg" />
+    <p>{{ track.duration_ms | date : "mm:ss" }}</p>
+  </audio>
+  <div class="containerFooter">
+    <span>
+      {{ track.album.release_date | date : "dd/MM/YYYY" }}
+    </span>
+    <img [ngClass]="!flag ? 'flagOn' : 'flagOff'" src="../../../assets/brasil.png" alt="brasil" loading="lazy" />
+  </div>
+</div>
