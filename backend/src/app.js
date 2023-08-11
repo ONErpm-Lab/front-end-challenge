@@ -1,5 +1,5 @@
 const express = require("express");
-const { Authentication, Tracks } = require("./services");
+const { Authenticate, Tracks, TreatUntreatedTracks } = require("./services");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,11 +18,15 @@ const ISRCs = [
 ];
 
 app.get('/tracks', async (_, res) => {
-  const authenticationService = new Authentication();
-  const tracksService = new Tracks(authenticationService);
+  const authenticateService = new Authenticate();
+  const treatUntreatedTracksService = new TreatUntreatedTracks();
+  const tracksService = new Tracks(
+    authenticateService,
+    treatUntreatedTracksService
+  );
   
   try {
-    const tracks = await tracksService.getTreatedTracksByISRCs(ISRCs);
+    const tracks = await tracksService.getTracksByISRCs(ISRCs);
     res.status(200).json({ data: tracks });
   } catch (error) {
     console.log(error);

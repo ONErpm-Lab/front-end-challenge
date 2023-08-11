@@ -1,7 +1,9 @@
-const { Authentication } = require("./Authentication");
+const { Authenticate } = require("./Authenticate");
 const { Tracks } = require("./Tracks");
+const { TreatUntreatedTracks } = require("./TreatUntreatedTracks");
 
 module.exports = {
-  Authentication,
-  Tracks
+  Authenticate,
+  Tracks,
+  TreatUntreatedTracks
 };

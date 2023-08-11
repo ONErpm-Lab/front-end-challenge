@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-class Authentication {
+class Authenticate {
   constructor() {
     this._authApiUrl = process.env.SPOTIFY_AUTH_API_URL;
     this._clientId = process.env.CLIENT_ID;
@@ -44,5 +44,5 @@ class Authentication {
 }
 
 module.exports = {
-  Authentication
+  Authenticate
 };

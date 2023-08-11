@@ -1,22 +1,23 @@
 require("dotenv").config();
 
 class Tracks {
-  constructor(authenticationService) {
-    this._authenticationService = authenticationService;
-
+  constructor(authenticateService, treatUntreatedTracks) {
+    this._authenticateService = authenticateService;
+    this._treatUntreatedTracks = treatUntreatedTracks;
     this._apiUrl = process.env.SPOTIFY_API_URL;
     this._headers = new Headers();
   }
 
-  async getTreatedTracksByISRCs(ISRCs) {
+  async getTracksByISRCs(ISRCs) {
     const untreatedTracks = await this._fetchUntreatedTracksByISRCs(ISRCs);
-    const treatedTracks = this._getRelevantTracksProperties(untreatedTracks);
+    const treatedTracks = 
+      this._treatUntreatedTracks.getTreatedTracksProperties(untreatedTracks);
 
     return treatedTracks; 
   }
 
   async _fetchUntreatedTracksByISRCs(ISRCs) {
-    const accessToken = await this._authenticationService.getAccessToken();
+    const accessToken = await this._authenticateService.getAccessToken();
     this._appendBearerTokenToHeader(accessToken);  
 
     const untreatedTracks = [];
@@ -26,33 +27,6 @@ class Tracks {
       .then(trackDataArray => untreatedTracks.push(...trackDataArray));
 
     return untreatedTracks;
-  }
-
-  _getRelevantTracksProperties(untreatedTracks) {
-    const tracksWithRelevantProperties = [];
-
-    untreatedTracks.forEach(untreatedTrack => {
-      if(this._doISRCExistInSpotifyDatabase(untreatedTrack)) {
-        const track = this._getTrackFromObject(untreatedTrack);
-
-        const artists = track.artists;
-        const relevantArtistsInfo = this._getRelevantArtistsInfo(artists);
-
-        const trackWithRelevantProperties = {
-          releaseDate: track.album.release_date,
-          artists: relevantArtistsInfo,
-          availableMarkets: track.available_markets,
-          spotifyURL: track.external_urls.spotify,
-          name: track.name,
-          previewURL: track.preview_url,
-          durationInMilliseconds: track.duration_ms
-        };
-
-        tracksWithRelevantProperties.push(trackWithRelevantProperties);
-      }
-    });
-
-     return tracksWithRelevantProperties;
   }
 
   _appendBearerTokenToHeader(accessToken) {
@@ -88,31 +62,6 @@ class Tracks {
     requestUrl += `&${typeParam}`;
 
     return requestUrl;
-  }
-
-  _doISRCExistInSpotifyDatabase(object) {
-    // If a ISRC does not exist on Spotify's database, then their Web API returns
-    // an empty array
-    return object.tracks.items.length > 0;
-  }
-
-  _getTrackFromObject(object) {
-    // Spotify's Web API always returns array of items with length = 1
-    // when querying items by ISRC
-    return object.tracks.items[0];
-  }
-
-  _getRelevantArtistsInfo(artists) {
-    const relevantArtistsInfo = artists.map(
-      artist => { 
-        return {
-          name: artist.name,
-          spotifyURL: artist.external_urls.spotify
-        }
-      }
-    );
-
-    return relevantArtistsInfo;
   }
 }
 
