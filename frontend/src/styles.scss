@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+body {
+  background-color: #000000;
+  color: #FFFFFF;
+}
+
+.app-root {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
