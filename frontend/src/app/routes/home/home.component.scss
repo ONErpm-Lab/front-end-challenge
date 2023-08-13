@@ -1,0 +1,32 @@
+@import "../../../styles.scss";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main {
+  $margin-top: 0.75rem;
+  $margin-bottom: 0.75rem;
+  margin-top: $margin-top;
+  margin-bottom: $margin-bottom;
+  min-height: calc(100vh - $header-height - $margin-top - $margin-bottom);
+  width: 98%;
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+
+  @media screen and (max-width: 500px) {
+    gap: 2rem;
+  }
+  @media screen and (min-width: 500px) {
+    justify-content: space-around;
+  }
+
+  background-color: map-get($theme-colors, additional-gray);
+  background-image: map-get($theme-colors, primary-background-image);
+}

@@ -2,13 +2,84 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-body {
-  background-color: #000000;
-  color: #FFFFFF;
+@import url('https://fonts.googleapis.com/css2?family=Circular&display=swap');
+
+// Colors
+$background-color: #000000;
+$primary-green: #1DB954;
+$secondary-black: #191414;
+$accent-white: #FFFFFF;
+$additional-gray: #282828;
+$accent-blue: #3D9AE8;
+
+$theme-colors: (
+  background-color: $background-color,
+  primary-green: $primary-green,
+  secondary-black: $secondary-black,
+  accent-white: $accent-white,
+  additional-gray: $additional-gray,
+  accent-blue: $accent-blue,
+  primary-background-image: linear-gradient(
+    $additional-gray,
+    40%,
+    $secondary-black
+  )
+);
+$hover-green: darken(
+  map-get($theme-colors, primary-green),
+  10%
+);
+
+// Font
+$primary-font: 'Circular', sans-serif;
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
 }
 
-.app-root {
-  display: block;
-  width: 100vw;
-  height: 100vh;
+@media screen and (min-width: 450px) {
+  h1 {
+    font-size: 3rem;
+    line-height: 1;
+  }
+  h2 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  h1 {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+  h2 {
+    font-size: 1rem;
+    line-height: 2rem;
+  }
+}
+
+// Layouts
+$header-height: 3.5rem;
+header {
+  height: $header-height;
+}
+
+body {
+  background-color: map-get($theme-colors, background-color);
+  color: map-get($theme-colors, accent-white);
+  font-family: $primary-font;
+}
+
+header {
+  background-color: map-get($theme-colors, secondary-black);
+}
+
+.primary-button {
+  background-color: map-get($theme-colors, primary-green);
+  color: map-get($theme-colors, accent-white);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 200px;
 }
