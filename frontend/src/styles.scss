@@ -21,7 +21,7 @@ $theme-colors: (
   accent-blue: $accent-blue,
   primary-background-image: linear-gradient(
     $additional-gray,
-    40%,
+    300px,
     $secondary-black
   )
 );
@@ -74,6 +74,21 @@ header {
   background-color: map-get($theme-colors, secondary-black);
 }
 
+main {
+  $margin-top: 0.75rem;
+  $margin-bottom: 0.75rem;
+  margin-top: $margin-top;
+  margin-bottom: $margin-bottom;
+  min-height: calc(100vh - $header-height - $margin-top - $margin-bottom);
+  width: 98%;
+  border-radius: 8px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  background-color: map-get($theme-colors, secondary-black);
+  background-image: map-get($theme-colors, primary-background-image);
+}
+
 .primary-button {
   background-color: map-get($theme-colors, primary-green);
   color: map-get($theme-colors, accent-white);
@@ -82,4 +97,8 @@ header {
   border-radius: 4px;
   font-size: 16px;
   width: 200px;
+}
+
+.mat-spinner {
+  --mat-primary: white;
 }
