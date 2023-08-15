@@ -25,7 +25,6 @@ export class TracksComponent {
       next: () => this.isLoading = false,
       error: (error) => {
         this.isLoading = false;
-        alert(error);
         console.error(error);
       }
     });
