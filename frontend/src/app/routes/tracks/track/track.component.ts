@@ -21,11 +21,11 @@ export class TrackComponent implements OnInit {
       this.calculateDurationInMinutesAndSeconds(
         this.track.durationInMilliseconds
       );
-    this.dateInDDMMYYYY = this.formatDateToDDMMYYYY(this.track.releaseDate);
+    this.dateInDDMMYYYY = this.formatDateToDDMMYY(this.track.releaseDate);
   }
 
-  private formatDateToDDMMYYYY(date: string): string {
-    return this.formatDateService.formatDateToDDMMYYYY(date);
+  private formatDateToDDMMYY(date: string): string {
+    return this.formatDateService.formatDateToDDMMYY(date);
   }
 
   private calculateDurationInMinutesAndSeconds(milliseconds: number): string {

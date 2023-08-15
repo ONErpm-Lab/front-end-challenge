@@ -5,7 +5,7 @@ import { format, parseISO } from "date-fns";
   providedIn: 'root'
 })
 export class FormatDateService {
-  formatDateToDDMMYYYY(date: string): string {
+  formatDateToDDMMYY(date: string): string {
     const parsedDate = parseISO(date);
     return format(parsedDate, "dd/MM/yy");
   }
