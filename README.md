@@ -7,6 +7,8 @@ Embora este desafio fosse focado em frontend, surgiu a necessidade de implementa
   - NodeJS v18
   - Bash
 
+  Também será necessário o seu Client ID e o Client Secret da [Web API do Spotify](https://developer.spotify.com/documentation/web-api).
+
 ### Features
   - Pesquisa de faixas pelo ISRC
   - Informações de cada faixa que são exibidas:
@@ -20,12 +22,19 @@ Embora este desafio fosse focado em frontend, surgiu a necessidade de implementa
     - Indicação de disponibilidade da faixa no Brasil (BR)
   - Listagem alfabética das faixas por seus nomes
   - Aviso exibido quando a integração com o fornecedor de dados não está disponível.
-### Tecnologias
+### Tecnologias usadas:
   - Frontend:
     - Angular 13
   - Webservice:
     - NodeJS
     - Express
+
+### Configurando ambiente:
+  - Copie o arquivo .env.example
+  - Cole a cópia no mesmo diretório e a renomeie para .env
+  - Edite o arquivo .env da seguinte forma:
+    - Atribua o seu Client ID a variável CLIENT_ID
+    - Atribua o seu Client Secret a variável CLIENT_SECRET
 
 ### Executando o Projeto:
   Para rodar o projeto, siga os passos abaixo a partir da pasta raiz do projeto em seu terminal:
