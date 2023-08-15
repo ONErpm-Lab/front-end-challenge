@@ -1,3 +1,49 @@
+## Projeto
+Embora este desafio fosse focado em frontend, surgiu a necessidade de implementar um webservice atuando como um proxy para gerenciar as requisições do frontend. Esse intermediário possibilita uma conexão suave entre o frontend e o Spotify, pois a Web API do Spotify exige autenticação por meio de chaves secretas. O uso desse proxy evita a exposição direta da chave, cuida do processo de autenticação e gerencia os dados provenientes da Web API do Spotify.
+
+### Pré-requisitos:
+  Certifique-se de ter os seguintes softwares instalados em seu sistema operacional:
+  - Npm
+  - NodeJS v18
+  - Bash
+
+### Features
+  - Pesquisa de faixas pelo ISRC
+  - Informações de cada faixa que são exibidas:
+    - Thumb do album
+    - Data de lançamento
+    - Título da faixa
+    - Lista dos artistas da faixa
+    - Duração da faixa em minutos e segundos (mm:ss)
+    - Player com prévia do áudio
+    - Link para a página da faixa no Spotify
+    - Indicação de disponibilidade da faixa no Brasil (BR)
+  - Listagem alfabética das faixas por seus nomes
+  - Aviso exibido quando a integração com o fornecedor de dados não está disponível.
+### Tecnologias
+  - Frontend:
+    - Angular 13
+  - Webservice:
+    - NodeJS
+    - Express
+
+### Executando o Projeto:
+  Para rodar o projeto, siga os passos abaixo a partir da pasta raiz do projeto em seu terminal:
+  - Instale as depêndencias do projeto:
+  ```sh
+    $ ./install.sh
+  ```
+  - Inicie o backend e o frontend:
+  ```sh
+    $ ./start.sh
+  ```
+
+### Encerrando a Execução:
+  Para parar a execução do projeto, execute o seguinte comando a partir da pasta raiz do projeto em seu terminal:
+  ```sh
+    $ ./stop.sh
+  ```
+
 ## Início
 
 Bem vindo ao mundo da música!
