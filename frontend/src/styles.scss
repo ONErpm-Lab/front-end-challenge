@@ -1,3 +1,4 @@
+@import '@angular/material/theming';
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
@@ -11,6 +12,11 @@ $secondary-black: #191414;
 $accent-white: #FFFFFF;
 $additional-gray: #282828;
 $accent-blue: #3D9AE8;
+
+$primary: mat-palette($mat-green);
+$accent: mat-palette($mat-orange, A200, A100, A400);
+$theme: mat-dark-theme($primary, $accent);
+@include angular-material-theme($theme);
 
 $theme-colors: (
   background-color: $background-color,
