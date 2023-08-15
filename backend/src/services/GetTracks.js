@@ -39,7 +39,7 @@ class GetTracks {
   _getRequestsPromises(ISRCs) {
     const promises = [];
 
-    for(let ISRC in ISRCs) {
+    ISRCs.forEach((ISRC) => {
       const requestUrl = this._getRequestUrl(ISRC);
       const promise = fetch(
         requestUrl,
@@ -47,7 +47,7 @@ class GetTracks {
       ).then(response => response.json());
 
       promises.push(promise);
-    }
+    })
 
     return promises;
   }
