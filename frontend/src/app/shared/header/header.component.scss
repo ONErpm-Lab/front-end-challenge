@@ -1,0 +1,35 @@
+@import "../../../styles.scss";
+
+.selected-route {
+  background-color: rgba($color: #ffffff, $alpha: 0.15);
+}
+
+ul {
+  padding: 0px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+div {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+}
+
+a {
+  display: block;
+  padding: 0.3rem;
+  border-radius: 8px;
+  &:hover {
+    @extend .selected-route;
+  }
+}
+
+img {
+  height: 35px;
+  width: 35px;
+}

@@ -1,22 +1,18 @@
-<main class="responsive pt-12 px-4 text-center flex flex-col items-center justify-around">
-  <div class="flex flex-col gap-12 items-center">
+<main>
+  <div>
     <h1>OneRPM Frontend Challenge</h1>
     <h2>Frontend: Angular | Backend: NodeJS + Express</h2>
   </div>
-  <div>
-    <p class="px-2 sm:px-24 text-center">
-      Besides this being a frontend challenge, a backend was necessary because it
-      wasn't possible to authenticate in spotify Web API via client-side. This is because
-      it would expose the Spotify Web API Secret key. So, a web service was created
-      in Node in order to prevent that. It's purpose is to serve as a proxy that
-      wrap all client-side requests to the Spotify Web API, handling authentication
-      in this proccess.
-    </p>
-  </div>
+  <p>
+    Besides this being a frontend challenge, a backend was necessary because it
+    wasn't possible to authenticate in spotify Web API via client-side. This is
+    because it would expose the Spotify Web API Secret key. So, a web service
+    was created in Node in order to prevent that. It's purpose is to serve as a
+    proxy that wrap all client-side requests to the Spotify Web API, handling
+    authentication in this proccess.
+  </p>
   <a routerLink="/tracks">
-    <button class="primary-button">
-      List Soundtracks
-    </button>
+    <button mat-flat-button color="primary">List Soundtracks</button>
   </a>
   <app-footer></app-footer>
 </main>

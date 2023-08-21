@@ -1,17 +1,59 @@
-:host {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
+@import "../../../../variables.scss";
 
-.card {
-  max-width: 450px;
-  min-width: 350px;
-  height: 500px;
+$track-card-height: 500px;
+$track-card-img-height: 60%;
+$track-card-max-width: calc(($track-card-img-height / 100) * track-card-height);
+
+.track-card {
+  max-width: $track-card-max-width;
+  min-width: $track-card-min-width;
+  height: $track-card-height;
   border-radius: 8px;
+  background-color: rgb(33, 33, 33);
+  color: white;
+  overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   img {
     height: 60%;
   }
+
+  audio {
+    height: 35px;
+    width: 90%;
+  }
+
+  display: flex;
+  flex-direction: column;
+
+  audio {
+    padding: 0;
+    align-self: center;
+  }
+
+  ul {
+    display: flex;
+    gap: 0.2rem;
+    overflow-x: hidden;
+  }
+}
+
+.card-body {
+  flex: 1;
+  padding-inline: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.card-title {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
 }

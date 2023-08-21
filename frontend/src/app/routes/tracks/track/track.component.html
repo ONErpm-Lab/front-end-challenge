@@ -1,50 +1,35 @@
-<mat-card class="card overflow-hidden w-full flex flex-col align-center">
-  <img src="{{ track.images[1].url }}">
-  <div class="h-full flex flex-col justify-around">
-    <div class="flex flex-col items-center gap-1">
-      <a
-      class="text-cyan-500  decoration-cyan-500"
-      href="{{ track.spotifyURL }}"
-      target="_blank"
-      rel="noopener"
-      >
+<mat-card class="track-card">
+  <img src="{{ track.images[1].url }}" />
+  <div class="card-body">
+    <div class="card-title">
+      <a href="{{ track.spotifyURL }}" target="_blank" rel="noopener">
         {{ track.name }}
       </a>
-      <a
-        href="{{ track.albumSpotifyURL }}"
-        target="_blank"
-        rel="noopener"
-      >
+      <a href="{{ track.albumSpotifyURL }}" target="_blank" rel="noopener">
         Album:
-        <span
-          class="text-cyan-500  decoration-cyan-500"
-        >
+        <span>
           {{ track.albumName }}
         </span>
       </a>
     </div>
-    <div class="text-sm pl-2 flex flex-col gap-1 justify-start">
-      <ul class="flex flex-row gap-1">
+    <div>
+      <ul>
         <span>Artists: </span>
         <li *ngFor="let artist of track.artists; let i = index">
-          <a
-            href="{{ artist.spotifyURL }}"
-            target="_blank"
-            rel="noopener"
-          >
-            <span class="text-cyan-500  decoration-cyan-500">
+          <a href="{{ artist.spotifyURL }}" target="_blank" rel="noopener">
+            <span>
               {{ artist.name }}
             </span>
-            <span *ngIf="i !== track.artists.length - 1"> / </span>
+            <span *ngIf="i !== track.artists.length - 1">/</span>
           </a>
         </li>
       </ul>
       <span>Released on {{ dateInDDMMYYYY }}</span>
     </div>
-    <audio class="w-full h-8 px-3" controls [volume]="0.04">
-      <source src="{{ track.previewURL }}" type="audio/mpeg">
+    <audio controls [volume]="0.04">
+      <source src="{{ track.previewURL }}" type="audio/mpeg" />
     </audio>
-    <div class="text-sm px-2 flex flex-row justify-between">
+    <div class="card-footer">
       <span>Duration: {{ durationInMinutesAndSeconds }}</span>
       <span *ngIf="isAvailableInBrazil">BR Available</span>
       <span *ngIf="!isAvailableInBrazil">BR Unavailable</span>

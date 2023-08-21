@@ -1,23 +1,80 @@
-<header class="self-start flex flex-col justify-center">
-  <ul class="ml-4 flex flex-row gap-3 items-center">
+<mat-toolbar>
+  <ul>
     <li>
       <a
         href="https://github.com/MatMatias/front-end-challenge"
         target="_blank"
         rel="noopener"
       >
-        <img class="w-8 h-8" src="/assets/github-mark-white.svg" alt="GitHub logo">
+        <img src="/assets/github-mark-white.svg" alt="GitHub logo" />
       </a>
     </li>
-    <li>
-      <a routerLink="/">
-        <h2>Home</h2>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/tracks">
-        <h2>List Soundtracks</h2>
-      </a>
-    </li>
+    <div *ngIf="currentViewportWidth >= widthBreakpoint; else hamburgerMenu">
+      <li>
+        <a
+          routerLink="/"
+          *ngIf="currentRoute === '/'; else unselectedHomeRoute"
+          class="selected-route"
+        >
+          <h2>Home</h2>
+        </a>
+        <ng-template #unselectedHomeRoute>
+          <a routerLink="/">
+            <h2>Home</h2>
+          </a>
+        </ng-template>
+      </li>
+      <li>
+        <a
+          routerLink="/tracks"
+          *ngIf="currentRoute === '/tracks'; else unselectedTracksRoute"
+          class="selected-route"
+        >
+          <h2>List Soundtracks</h2>
+        </a>
+        <ng-template #unselectedTracksRoute>
+          <a routerLink="/tracks">
+            <h2>List Soundtracks</h2>
+          </a>
+        </ng-template>
+      </li>
+    </div>
+    <ng-template #hamburgerMenu>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button
+          *ngIf="currentRoute !== '/'; else disabledHomeMenuItem"
+          mat-menu-item
+        >
+          <a routerLink="/">
+            <span>Home</span>
+          </a>
+        </button>
+        <ng-template #disabledHomeMenuItem>
+          <button mat-menu-item disabled>
+            <a routerLink="/">
+              <span>Home</span>
+            </a>
+          </button>
+        </ng-template>
+        <button
+          *ngIf="currentRoute !== '/tracks'; else disabledTracksMenuItem"
+          mat-menu-item
+        >
+          <a routerLink="/tracks">
+            <span>List Soundtracks</span>
+          </a>
+        </button>
+        <ng-template #disabledTracksMenuItem>
+          <button mat-menu-item disabled>
+            <a routerLink="/tracks">
+              <span>List Soundtracks</span>
+            </a>
+          </button>
+        </ng-template>
+      </mat-menu>
+    </ng-template>
   </ul>
-</header>
+</mat-toolbar>
