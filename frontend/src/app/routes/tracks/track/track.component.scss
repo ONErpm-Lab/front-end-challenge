@@ -36,6 +36,11 @@ $track-card-max-width: calc(($track-card-img-height / 100) * track-card-height);
     gap: 0.2rem;
     overflow-x: hidden;
   }
+
+  a {
+    color: darkcyan;
+    text-decoration: underline;
+  }
 }
 
 .card-body {
