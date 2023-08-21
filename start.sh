@@ -6,7 +6,7 @@
 # Run backend in background
 echo "Starting project..."
 cd ./backend
-node ./src/app.js &
+node ./src/app.js http://localhost:4200 &
 
 # Run frontend in backgroud
 cd ../frontend
