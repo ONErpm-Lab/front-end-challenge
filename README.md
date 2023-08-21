@@ -6,6 +6,8 @@ Embora este desafio fosse focado em frontend, surgiu a necessidade de implementa
   - Npm
   - NodeJS v18
   - Bash
+  - killall
+  - lsof
 
   Também será necessário o seu Client ID e o Client Secret da [Web API do Spotify](https://developer.spotify.com/documentation/web-api).
 

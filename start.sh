@@ -2,14 +2,12 @@
 
 #!/bin/bash
 
+
 # Run backend in background
+echo "Starting project..."
 cd ./backend
-echo "Starting backend..."
 node ./src/app.js &
-echo "Backend is running!"
 
 # Run frontend in backgroud
 cd ../frontend
-echo "Starting frontend..."
 ng serve --open &
-echo "Frontend is running!"
