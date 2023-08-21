@@ -1,6 +1,8 @@
 ## Projeto
 Embora este desafio fosse focado em frontend, surgiu a necessidade de implementar um webservice atuando como um proxy para gerenciar as requisições do frontend. Esse intermediário possibilita uma conexão suave entre o frontend e o Spotify, pois a Web API do Spotify exige autenticação por meio de chaves secretas. O uso desse proxy evita a exposição direta da chave, cuida do processo de autenticação e gerencia os dados provenientes da Web API do Spotify.
 
+O projeto pode ser acessado em: https://front-end-challenge-flame.vercel.app/
+
 ### Pré-requisitos:
   Certifique-se de ter os seguintes softwares instalados em seu sistema operacional:
   - Npm
@@ -53,6 +55,15 @@ Embora este desafio fosse focado em frontend, surgiu a necessidade de implementa
   Para parar a execução do projeto, execute o seguinte comando a partir da pasta raiz do projeto em seu terminal:
   ```sh
     $ ./stop.sh
+  ```
+
+  ### Rodando o projeto sem scripts:
+  Para rodar o projeto sem scripts, será necessário abrir duas sessões no terminal, uma na pasta frontend e outra na pasta backend. Em seguida, execute os seguintes comandos:
+  ```sh
+    frontend/$ npm run dev
+  ```
+  ```sh
+    backend/$ npm run dev
   ```
 
 ## Início

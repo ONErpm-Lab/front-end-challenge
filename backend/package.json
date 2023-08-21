@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node src/app.js http://localhost:4200",
-    "prod": "node src/app.js https://front-end-challenge-flame.vercel.app/"
+    "prod": "node src/app.js https://front-end-challenge-flame.vercel.app"
   },
   "author": "SamuraX",
   "license": "ISC",
