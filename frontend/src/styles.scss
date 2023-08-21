@@ -1,0 +1,36 @@
+@import "@angular/material/theming";
+@import "~material-icons/iconfont/material-icons.css";
+
+body {
+  margin: 0px;
+  padding: 0px;
+  display: block;
+}
+
+ul,
+ol {
+  all: unset;
+  list-style: none;
+}
+
+a {
+  all: unset;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@mixin mobile-only {
+  @media (max-width: 500px) {
+    @content;
+  }
+}

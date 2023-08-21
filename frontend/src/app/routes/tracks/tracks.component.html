@@ -1,0 +1,15 @@
+<div *ngIf="isLoading; else dataContent">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
+
+<ng-template #dataContent>
+  <main *ngIf="tracks$ | async as tracks">
+    <h3>{{ tracks.data.length }} Soundtracks found</h3>
+    <br />
+    <ol>
+      <li *ngFor="let track of tracks.data">
+        <app-track [track]="track"></app-track>
+      </li>
+    </ol>
+  </main>
+</ng-template>

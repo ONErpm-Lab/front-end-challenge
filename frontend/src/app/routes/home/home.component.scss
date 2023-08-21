@@ -1,0 +1,20 @@
+@import "../../../styles.scss";
+
+:host {
+  flex: 1;
+}
+
+main {
+  margin-top: 20vh;
+  margin-inline: auto;
+  text-align: center;
+  width: 95%;
+}
+
+div {
+  margin-bottom: 10vh;
+}
+
+p {
+  margin-bottom: 6vh;
+}
