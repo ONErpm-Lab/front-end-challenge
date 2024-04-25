@@ -5,17 +5,22 @@ import { faHeadphones, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import { SearchContent } from 'spotify-types';
 import isrcList from '../../data/isrc-list.data';
 import { SpotifyService } from '../../services/spotify.service';
+import { ModalComponent } from '../modal/modal.component';
+import { fadeInOutAnimation } from './fade-in-out.animation';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterModule, FontAwesomeModule],
+  imports: [RouterModule, FontAwesomeModule, ModalComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
+  animations: [fadeInOutAnimation],
 })
 export class HomeComponent {
   private spotifyService = inject(SpotifyService);
   private router = inject(Router);
+
+  protected showModal = false;
 
   protected icons = {
     faQrcode,
@@ -37,12 +42,11 @@ export class HomeComponent {
 
   private handleSearch(searchResult: SearchContent, isrc: string) {
     if (!searchResult.tracks || searchResult.tracks.items.length === 0) {
-      console.log('No tracks found');
+      this.showModal = true;
       return;
     }
 
     const tracks = searchResult.tracks.items;
-    console.log(tracks);
     this.router.navigate(['/track-info', isrc], {
       state: {
         tracks,

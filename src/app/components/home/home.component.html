@@ -1,3 +1,7 @@
+@if (showModal) {
+<app-modal [@fadeInOut] (modalClosed)="showModal = false"></app-modal>
+}
+
 <main class="home">
   <div class="home__icon">
     <fa-icon [icon]="icons.faHeadphones" size="6x" />
