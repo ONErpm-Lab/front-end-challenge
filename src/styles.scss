@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@use "../node_modules/the-new-css-reset/css/reset.css";
+@use "./assets/scss/colors" as *;
+@use "./assets/scss/fonts" as *;
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+
+body {
+  @extend .defaultFont;
+  background-color: $dark-blue;
+  color: $off-white;
+  height: 100vh;
+}
