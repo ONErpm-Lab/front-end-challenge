@@ -1,0 +1,28 @@
+@use "../../../assets/scss/colors" as *;
+
+.track-info {
+  margin-bottom: 3rem;
+  background-color: $misty-blue;
+  color: $dark-blue;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+
+  .button {
+    font-size: 1.2rem;
+    cursor: pointer;
+
+    .icon {
+      margin-right: 1rem;
+    }
+  }
+
+  &__title {
+    font-size: 2rem;
+    text-align: center;
+
+    &__icon {
+      margin-right: 1rem;
+    }
+  }
+}
