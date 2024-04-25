@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, switchMap, take, timer } from 'rxjs';
+import { BehaviorSubject, switchMap, take, timer } from 'rxjs';
 import { AccessToken } from 'spotify-types';
 
 @Injectable({
@@ -12,14 +12,6 @@ export class TokenService {
     return this.tokenSubject.value;
   }
 
-  public getToken$(): Observable<AccessToken | null> {
-    return this.tokenSubject.asObservable();
-  }
-
-  public getTokenAsObservable(): Observable<AccessToken | null> {
-    return this.tokenSubject.asObservable();
-  }
-
   public setToken(token: AccessToken): void {
     this.tokenSubject.next(token);
 
@@ -30,7 +22,7 @@ export class TokenService {
       });
   }
 
-  public clearToken(): void {
+  private clearToken(): void {
     this.tokenSubject.next(null);
   }
 }
