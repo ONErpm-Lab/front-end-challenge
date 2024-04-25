@@ -1,11 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AccessToken } from 'spotify-types';
+
+import { AccessToken, SearchContent } from 'spotify-types';
 import { environment } from '../../environments/environment';
 import { endpoints } from '../core/endpoints';
-
-import { SearchContent } from 'spotify-types';
 
 @Injectable({
   providedIn: 'root',
@@ -13,27 +12,31 @@ import { SearchContent } from 'spotify-types';
 export class SpotifyService {
   private http = inject(HttpClient);
 
-  public getAccessToken(): Observable<AccessToken> {
+  public generateAccessToken(): Observable<AccessToken> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${btoa(
+        `${environment.spotifyClientID}:${environment.spotifyClientSecret}`
+      )}`,
     });
 
-    const body = `grant_type=client_credentials&client_id=${environment.spotifyClientID}&client_secret=${environment.spotifyClientSecret}`;
+    const body = 'grant_type=client_credentials';
 
     return this.http.post<AccessToken>(endpoints.accessToken, body, {
       headers,
     });
   }
 
-  public getTrack(isrc: string) {
+  public getTrack(isrc: string): Observable<SearchContent> {
     const params = new HttpParams({
       fromObject: {
-        q: `${isrc}`,
+        q: `isrc:${isrc}`,
         type: 'track',
-        limit: 5,
       },
     });
 
-    return this.http.get<SearchContent>(endpoints.search, { params });
+    return this.http.get<SearchContent>(endpoints.search, {
+      params,
+    });
   }
 }
