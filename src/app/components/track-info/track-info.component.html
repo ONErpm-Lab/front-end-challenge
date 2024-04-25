@@ -1,47 +1,18 @@
-<main>
-  <ul>
+<header class="track-info">
+  <button class="button" type="button" (click)="back()">
+    <fa-icon class="icon" [icon]="icons.faChevronLeft" />Voltar
+  </button>
+
+  <h2 class="track-info__title">
+    <fa-icon class="track-info__title__icon" [icon]="icons.faQrcode" />
+    {{ isrc }}
+  </h2>
+</header>
+
+<main class="track-list">
+  <ul class="track-list__list">
     @for (track of tracks; track $index) {
-    <li>
-      <img [src]="track.albumThumbnailUrl" />
-      <div class="release-date">
-        <h6>Data de Lançamento:</h6>
-        <p>
-          {{ track.releaseDate | date : "longDate" : "" : "pt-BR" }}
-        </p>
-      </div>
-
-      <div class="track-name">
-        <h6>Título da Faixa:</h6>
-        <p>{{ track.name }}</p>
-      </div>
-
-      <div class="track-artists">
-        <h6>Artistas na faixa:</h6>
-        <p>{{ track.artists }}</p>
-      </div>
-
-      <div class="duration">
-        <h6>Duração:</h6>
-        <p>{{ track.duration | date : "mm:ss" }}</p>
-      </div>
-
-      <div class="player">
-        <h6>Player:</h6>
-        <audio controls>
-          <source [src]="track.previewUrl" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-      </div>
-
-      <div class="spotify-link">
-        <a [href]="track.spotifyUrl" target="_blank">Escute no Spotity.</a>
-      </div>
-
-      <div class="avaible-brazil">
-        <h6>Disponível no Brasil:</h6>
-        <p>{{ track.availableInBR ? "Sim" : "Não" }}</p>
-      </div>
-    </li>
+    <li class="track-list__list__item"><app-track-card [track]="track" /></li>
     }
   </ul>
 </main>

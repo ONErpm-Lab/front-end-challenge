@@ -1,0 +1,59 @@
+@if(track) {
+<div class="track-card">
+  <figure class="track-card__album-thumbnail">
+    <img [src]="track.albumThumbnailUrl" />
+  </figure>
+
+  <div class="track-card__track-meta">
+    <ul>
+      <li class="release-date">
+        <h6><fa-icon [icon]="icons.faCalendar" /> Data de Lançamento:</h6>
+        <p>
+          {{ track.releaseDate | date : "longDate" : "" : "pt-BR" }}
+        </p>
+      </li>
+
+      <li class="track-name">
+        <h6><fa-icon [icon]="icons.faFileAudio" /> Título da Faixa:</h6>
+        <p>{{ track.name }}</p>
+      </li>
+
+      <li class="track-artists">
+        <h6><fa-icon [icon]="icons.faMicrophone" /> Artistas na faixa:</h6>
+        <p>{{ track.artists }}</p>
+      </li>
+
+      <li class="duration">
+        <h6><fa-icon [icon]="icons.faCirclePlay" /> Duração:</h6>
+        <p>{{ track.duration | date : "mm:ss" }}</p>
+      </li>
+
+      <li class="player">
+        <h6><fa-icon [icon]="icons.faVolumeHigh" /> Escute uma pévia:</h6>
+        <audio controls>
+          <source [src]="track.previewUrl" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      </li>
+
+      <li class="spotify-link">
+        <h6>
+          <a [href]="track.spotifyUrl" target="_blank">
+            <fa-icon [icon]="icons.faSpotify" />
+            Escute no Spotity
+            <fa-icon [icon]="icons.faArrowUpRightFromSquare" size="xs" />
+          </a>
+        </h6>
+      </li>
+
+      @if (track.availableInBR) {
+      <li class="avaible-brazil">
+        <h6>
+          <fa-icon [icon]="icons.faHeadphonesSimple" /> Disponível no Brasil.
+        </h6>
+      </li>
+      }
+    </ul>
+  </div>
+</div>
+}

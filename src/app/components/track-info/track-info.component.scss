@@ -9,20 +9,36 @@
   justify-content: space-between;
 
   .button {
-    font-size: 1.2rem;
+    font-size: 1rem;
     cursor: pointer;
 
+    @media (min-width: 576px) {
+      font-size: 1.2rem;
+    }
+
     .icon {
-      margin-right: 1rem;
+      margin-right: 0.5rem;
+
+      @media (min-width: 576px) {
+        margin-right: 1rem;
+      }
     }
   }
 
   &__title {
-    font-size: 2rem;
+    font-size: 1rem;
     text-align: center;
+
+    @media (min-width: 576px) {
+      font-size: 2rem;
+    }
 
     &__icon {
       margin-right: 1rem;
     }
   }
+}
+
+.track-list {
+  padding-bottom: 50px;
 }

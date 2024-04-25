@@ -1,0 +1,67 @@
+@use "../../../assets/scss/colors" as *;
+
+.track-card {
+  width: 90%;
+  max-width: 1024px;
+  margin: 0 auto;
+
+  border: 4px solid $misty-blue;
+  border-radius: 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+
+  &__album-thumbnail {
+    padding: 1.5rem;
+
+    img {
+      box-shadow: 0 0 10px 2px rgb(0 0 0 / 35%);
+    }
+  }
+
+  &__track-meta {
+    padding: 1.5rem;
+    background-color: $misty-blue;
+    color: $dark-blue;
+
+    ul {
+      li {
+        margin-bottom: 2rem;
+        line-height: 1.5;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        &.spotify-link {
+          h6:hover {
+            color: #b47d17;
+          }
+        }
+
+        &.duration {
+          h6,
+          p {
+            display: inline-block;
+          }
+
+          h6 {
+            margin-right: 0.5rem;
+          }
+        }
+
+        h6 {
+          font-weight: 600;
+
+          fa-icon {
+            margin-right: 0.3rem;
+          }
+        }
+
+        audio {
+          margin-top: 1rem;
+        }
+      }
+    }
+  }
+}
