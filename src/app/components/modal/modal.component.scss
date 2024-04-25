@@ -1,0 +1,46 @@
+@use "../../../assets/scss/colors" as *;
+
+.modal {
+  &__backdrop {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition: all ease 0.3s;
+  }
+
+  &__content {
+    background-color: $blue-grotto;
+    padding: 4rem;
+    color: $off-white;
+    text-align: center;
+    width: 80%;
+    max-width: 300px;
+
+    &__header {
+      h2 {
+        font-size: 2rem;
+        margin-top: 1rem;
+      }
+
+      margin-bottom: 3rem;
+    }
+
+    &__actions {
+      margin-top: 4rem;
+
+      button {
+        background-color: $off-white;
+        border-radius: 50rem;
+        color: $blue-grotto;
+        padding: 0.5rem 1.2rem;
+        cursor: pointer;
+      }
+    }
+  }
+}

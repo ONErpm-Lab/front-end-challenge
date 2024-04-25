@@ -1,0 +1,15 @@
+<div class="modal__backdrop">
+  <div class="modal__content">
+    <div class="modal__content__header">
+      <fa-icon [icon]="icons.faMicrophoneLinesSlash" size="4x" />
+      <h2>Oops!</h2>
+    </div>
+    <p>Não foram encontrados dados para o código selecionado.</p>
+
+    <div class="modal__content__actions">
+      <button type="button" (click)="close()">
+        Fechar <fa-icon [icon]="icons.faCircleXmark" />
+      </button>
+    </div>
+  </div>
+</div>
