@@ -1,0 +1,11 @@
+<main>
+  <ul>
+    @for (isrc of isrcList; track isrc) {
+    <li>
+      <a href="/track-info/{{ isrc }}" (click)="loadTrackInfo($event, isrc)">{{
+        isrc
+      }}</a>
+    </li>
+    }
+  </ul>
+</main>
