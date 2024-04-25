@@ -12,7 +12,11 @@
 <main class="track-list">
   <ul class="track-list__list">
     @for (track of tracks; track $index) {
-    <li class="track-list__list__item"><app-track-card [track]="track" /></li>
+
+    <li class="track-list__list__item">
+      <app-track-card [track]="track" />
+    </li>
+
     }
   </ul>
 </main>

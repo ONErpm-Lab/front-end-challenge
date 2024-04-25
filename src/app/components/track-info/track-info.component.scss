@@ -41,4 +41,12 @@
 
 .track-list {
   padding-bottom: 50px;
+
+  &__list {
+    display: flex;
+    justify-content: center;
+    &__item {
+      margin-bottom: 3rem;
+    }
+  }
 }
