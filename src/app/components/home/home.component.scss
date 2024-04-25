@@ -1,0 +1,70 @@
+@use "../../../assets/scss/colors" as *;
+
+.home {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+
+  @media (min-width: 576px) {
+    padding: 3rem 0;
+  }
+
+  @media (min-width: 768px) {
+    padding: 10rem 0;
+  }
+
+  &__icon {
+    margin-bottom: 0.8rem;
+    color: $yellow;
+  }
+
+  &__title {
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    margin-bottom: 0.6rem;
+    text-align: center;
+  }
+
+  &__disclaimer {
+    text-align: center;
+    font-weight: 300;
+  }
+
+  &__isrc-list {
+    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1.2rem;
+
+    @media (min-width: 576px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (min-width: 992px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    &__item {
+      background-color: $misty-blue;
+      border-radius: 0.5rem;
+      padding: 0.7rem 1.2rem;
+      color: $dark-blue;
+      cursor: pointer;
+      transition: all ease 0.3s;
+
+      &:hover {
+        background-color: $yellow;
+      }
+
+      &-icon {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}

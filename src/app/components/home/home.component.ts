@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faHeadphones, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import { SearchContent } from 'spotify-types';
 import isrcList from '../../data/isrc-list.data';
 import { SpotifyService } from '../../services/spotify.service';
@@ -7,7 +9,7 @@ import { SpotifyService } from '../../services/spotify.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, FontAwesomeModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -15,7 +17,12 @@ export class HomeComponent {
   private spotifyService = inject(SpotifyService);
   private router = inject(Router);
 
-  public get isrcList(): string[] {
+  protected icons = {
+    faQrcode,
+    faHeadphones,
+  };
+
+  protected get isrcList(): string[] {
     return isrcList;
   }
 

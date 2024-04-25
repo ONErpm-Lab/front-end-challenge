@@ -1,10 +1,18 @@
-<main>
-  <ul>
+<main class="home">
+  <div class="home__icon">
+    <fa-icon [icon]="icons.faHeadphones" size="6x" />
+  </div>
+  <h1 class="home__title">Front-end Challenge</h1>
+  <p class="home__disclaimer">Clique no ISRC para ver as informaçõs da faixa</p>
+
+  <ul class="home__isrc-list">
     @for (isrc of isrcList; track isrc) {
-    <li>
-      <a href="/track-info/{{ isrc }}" (click)="loadTrackInfo($event, isrc)">{{
-        isrc
-      }}</a>
+    <li class="home__isrc-list__item" (click)="loadTrackInfo($event, isrc)">
+      <fa-icon
+        class="home__isrc-list__item-icon"
+        [icon]="icons.faQrcode"
+      ></fa-icon
+      >{{ isrc }}
     </li>
     }
   </ul>
