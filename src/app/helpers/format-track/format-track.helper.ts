@@ -1,5 +1,5 @@
 import { Track } from 'spotify-types';
-import TrackInfo from '../components/track-info/track-info.interface';
+import TrackInfo from '../../components/track-info/track-info.interface';
 
 const formatTracks = (tracks: Track[]): TrackInfo[] =>
   tracks.map((track) => ({

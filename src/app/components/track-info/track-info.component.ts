@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronLeft, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import { Track } from 'spotify-types';
-import formatTracks from '../../helpers/format-track.helper';
+import formatTracks from '../../helpers/format-track/format-track.helper';
 import { TrackCardComponent } from '../track-card/track-card.component';
 
 @Component({

@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+
 import { TokenService } from './core/token/token.service';
 import { SpotifyService } from './services/spotify.service';
 
@@ -14,8 +15,8 @@ export class AppComponent {
   private tokenService = inject(TokenService);
 
   constructor() {
-    this.spotifyService.generateAccessToken().subscribe((res) => {
-      this.tokenService.setToken(res);
-    });
+    this.spotifyService
+      .generateAccessToken()
+      .subscribe((res) => this.tokenService.setToken(res));
   }
 }
