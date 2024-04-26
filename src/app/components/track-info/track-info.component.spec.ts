@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { registerLocaleData } from '@angular/common';
 import portuguese from '@angular/common/locales/pt';
 import { ActivatedRoute, Router } from '@angular/router';
-import { spotifyTracksMockArray } from '../../helpers/format-track/track-mock';
+import { spotifyTracksMockArray } from '../../tests/mocks/track-mock';
 import { TrackInfoComponent } from './track-info.component';
 
 registerLocaleData(portuguese, 'pt-BR');

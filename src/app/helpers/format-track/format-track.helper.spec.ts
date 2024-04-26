@@ -1,5 +1,8 @@
+import {
+  spotifyTracksMockArray,
+  trackInfoMockArray,
+} from '../../tests/mocks/track-mock';
 import formatTracks from './format-track.helper';
-import { spotifyTracksMockArray, trackInfoMockArray } from './track-mock';
 
 describe('formatTrack', () => {
   it('should format tracks correctly', () => {

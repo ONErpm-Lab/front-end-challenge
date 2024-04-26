@@ -484,4 +484,4 @@ for (let i = 0; i < 10; i++) {
   trackInfoMockArray.push(trackInfoMock);
 }
 
-export { spotifyTracksMockArray, trackInfoMockArray };
+export { spotifyTracksMockArray, trackInfoMock, trackInfoMockArray };
