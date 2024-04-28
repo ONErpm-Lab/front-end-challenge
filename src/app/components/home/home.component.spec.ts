@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { of } from 'rxjs';
 import isrcList from '../../data/isrc-list.data';
 import { SpotifyService } from '../../services/spotify.service';
@@ -31,6 +31,10 @@ describe('HomeComponent', () => {
       ],
       providers: [
         Router,
+        {
+          provide: ActivatedRoute,
+          useValue: {},
+        },
         { provide: SpotifyService, useValue: spotifyServiceSpy },
       ],
     }).compileComponents();

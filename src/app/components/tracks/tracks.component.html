@@ -1,0 +1,19 @@
+<main class="tracks">
+  <h2>Lista de todas as faixas</h2>
+  <ul class="tracks__tracks-list">
+    @for (multiTrack of multiTtracks$ | async; track $index) {
+    <li class="tracks__tracks-list__item">
+      <h6>{{ multiTrack.isrc }}</h6>
+
+      @if(multiTrack.tracks.length) { @for (track of multiTrack.tracks; track
+      $index) {
+      <div class="card-container">
+        <app-track-card [track]="track" />
+      </div>
+      } } @else {
+      <p>Não foram encontradas informações para este ISRC.</p>
+      }
+    </li>
+    }
+  </ul>
+</main>

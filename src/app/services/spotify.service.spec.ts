@@ -6,6 +6,7 @@ import {
 } from '@angular/common/http/testing';
 import { environment } from '../../environments/environment';
 import { endpoints } from '../core/endpoints';
+import isrcList from '../data/isrc-list.data';
 import { accessTokenMock } from '../tests/mocks/access-token.mock';
 import { isrcMock, spotifySearchContentMock } from '../tests/mocks/track-mock';
 import { SpotifyService } from './spotify.service';
@@ -26,7 +27,7 @@ describe('SpotifyService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should generate access token', () => {
+  it('#generateAccessToken should generate access token', () => {
     const credentials = btoa(
       `${environment.spotifyClientID}:${environment.spotifyClientSecret}`
     );
@@ -54,7 +55,7 @@ describe('SpotifyService', () => {
     req.flush(accessTokenMock);
   });
 
-  it('should get track', () => {
+  it('#getTrack should get track', () => {
     service.getTrack(isrcMock).subscribe((searchContent) => {
       expect(searchContent)
         .withContext('checks is the contents matches')
@@ -68,5 +69,13 @@ describe('SpotifyService', () => {
       .withContext('checks if the method used is GET')
       .toBe('GET');
     req.flush(spotifySearchContentMock);
+  });
+
+  it('should call getTrack for each isrc in the array', () => {
+    const spy = spyOn(service, 'getTrack');
+
+    const multiTrack$ = service.getAllTracks(isrcList);
+
+    expect(spy).toHaveBeenCalledTimes(10);
   });
 });

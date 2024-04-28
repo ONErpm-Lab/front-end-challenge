@@ -1,4 +1,4 @@
-import { SearchContent, Track } from 'spotify-types';
+import { Paging, SearchContent, Track } from 'spotify-types';
 import TrackInfo from '../../components/track-info/track-info.interface';
 const isrcMock = 'BRC310600002';
 
@@ -464,16 +464,18 @@ const spotifyTrackMock: Track = {
   restrictions: [],
 };
 
+const spotifyPaging: Paging<Track> = {
+  href: 'https://api.spotify.com/v1/search?query=isrc%3ABRC310600002&type=track&locale=en-US%2Cen%3Bq%3D0.9%2Cpt%3Bq%3D0.8&offset=0&limit=20',
+  limit: 20,
+  next: '',
+  offset: 0,
+  previous: '',
+  total: 1,
+  items: [{ ...spotifyTrackMock }],
+};
+
 const spotifySearchContentMock: SearchContent = {
-  tracks: {
-    href: 'https://api.spotify.com/v1/search?query=isrc%3ABRC310600002&type=track&locale=en-US%2Cen%3Bq%3D0.9%2Cpt%3Bq%3D0.8&offset=0&limit=20',
-    limit: 20,
-    next: '',
-    offset: 0,
-    previous: '',
-    total: 1,
-    items: [spotifyTrackMock],
-  },
+  tracks: { ...spotifyPaging },
 };
 
 const trackInfoMock: TrackInfo = {

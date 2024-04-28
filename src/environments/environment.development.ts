@@ -1,1 +1,3 @@
-export const environment = {};
+import secrets from '../../secrets';
+
+export const environment = { ...secrets };

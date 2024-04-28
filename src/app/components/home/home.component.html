@@ -7,7 +7,12 @@
     <fa-icon [icon]="icons.faHeadphones" size="6x" />
   </div>
   <h1 class="home__title">Front-end Challenge</h1>
-  <p class="home__disclaimer">Clique no ISRC para ver as informaçõs da faixa</p>
+  <p class="home__disclaimer">
+    Clique no ISRC para ver as informaçõs da faixa ou
+    <a href="/tracks" [routerLink]="['/tracks']"
+      >aqui para ver todas as faixas.</a
+    >
+  </p>
 
   <ul class="home__isrc-list">
     @for (isrc of isrcList; track isrc) {

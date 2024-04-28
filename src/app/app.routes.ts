@@ -18,4 +18,11 @@ export const routes: Routes = [
         (c) => c.TrackInfoComponent
       ),
   },
+  {
+    path: 'tracks',
+    loadComponent: () =>
+      import('./components/tracks/tracks.component').then(
+        (c) => c.TracksComponent
+      ),
+  },
 ];

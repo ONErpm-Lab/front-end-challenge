@@ -1,0 +1,30 @@
+.tracks {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+
+  h2 {
+    font-size: 3rem;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 4rem;
+  }
+
+  &__tracks-list {
+    &__item {
+      margin-bottom: 4rem;
+      text-align: center;
+
+      h6 {
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      p {
+        font-weight: 300;
+      }
+
+      .card-container {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}

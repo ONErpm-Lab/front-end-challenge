@@ -1,10 +1,13 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { endpoints } from '../endpoints';
 import { TokenService } from './token.service';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
+  const router = inject(Router);
+
   const skippedURLs = [endpoints.accessToken];
 
   if (skippedURLs.includes(req.url)) {
@@ -25,6 +28,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
           console.error('Unauthorized request:', err);
+          router.navigate(['/']);
         } else {
           console.error('HTTP error:', err);
         }
