@@ -4,9 +4,9 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { endpoints } from '../core/endpoints';
-import isrcList from '../data/isrc-list.data';
 import { accessTokenMock } from '../tests/mocks/access-token.mock';
 import { isrcMock, spotifySearchContentMock } from '../tests/mocks/track-mock';
 import { SpotifyService } from './spotify.service';
@@ -71,11 +71,41 @@ describe('SpotifyService', () => {
     req.flush(spotifySearchContentMock);
   });
 
-  it('should call getTrack for each isrc in the array', () => {
-    const spy = spyOn(service, 'getTrack');
+  it('#getAllTracks call getTrack for each isrc in the array and order all requests', () => {
+    const isrcArray = ['isrc1', 'isrc2', 'isrc3'];
+    const mockTracks = [
+      {
+        tracks: {
+          items: [
+            /* track1 */
+          ],
+        },
+      },
+      {
+        tracks: {
+          items: [
+            /* track2 */
+          ],
+        },
+      },
+      {
+        tracks: {
+          items: [
+            /* track3 */
+          ],
+        },
+      },
+    ];
 
-    const multiTrack$ = service.getAllTracks(isrcList);
+    spyOn(service, 'getTrack').and.returnValues(
+      ...(mockTracks.map((track) => of(track)) as any)
+    );
 
-    expect(spy).toHaveBeenCalledTimes(10);
+    service.getAllTracks(isrcArray).subscribe((result) => {
+      expect(result.length).toBe(isrcArray.length);
+      expect(result[0].isrc).toBe(isrcArray[0]);
+      expect(result[1].isrc).toBe(isrcArray[1]);
+      expect(result[2].isrc).toBe(isrcArray[2]);
+    });
   });
 });

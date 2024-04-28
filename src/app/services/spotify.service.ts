@@ -47,8 +47,8 @@ export class SpotifyService {
     const tracks$ = isrcArray.map((isrc) => this.getTrack(isrc));
 
     return forkJoin(tracks$).pipe(
-      map((tracks, index) =>
-        tracks.map((track) => ({
+      map((tracks) =>
+        tracks.map((track, index) => ({
           isrc: isrcArray[index],
           tracks: formatTracks(track.tracks!.items),
         }))
