@@ -4,14 +4,13 @@ import { registerLocaleData } from '@angular/common';
 import portuguese from '@angular/common/locales/pt';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  isrcMock,
   spotifyTracksMockArray,
   trackInfoMockArray,
 } from '../../tests/mocks/track-mock';
 import { TrackInfoComponent } from './track-info.component';
 
 registerLocaleData(portuguese, 'pt-BR');
-
-const isrcMock = 'BRC310600002';
 
 describe('TrackInfoComponent', () => {
   let component: TrackInfoComponent;

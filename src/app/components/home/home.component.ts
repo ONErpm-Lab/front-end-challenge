@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHeadphones, faQrcode } from '@fortawesome/free-solid-svg-icons';
@@ -17,8 +17,7 @@ import { fadeInOutAnimation } from './fade-in-out.animation';
   animations: [fadeInOutAnimation],
 })
 export class HomeComponent {
-  private spotifyService = inject(SpotifyService);
-  private router = inject(Router);
+  constructor(private spotifyService: SpotifyService, private router: Router) {}
 
   protected showModal = false;
 
@@ -41,10 +40,15 @@ export class HomeComponent {
   }
 
   private handleSearch(searchResult: SearchContent, isrc: string) {
+    console.log('entrei');
+
     if (!searchResult.tracks || searchResult.tracks.items.length === 0) {
       this.showModal = true;
+      console.log('dei errado');
       return;
     }
+
+    console.log('dei certo');
 
     const tracks = searchResult.tracks.items;
     this.router.navigate(['/track-info', isrc], {
