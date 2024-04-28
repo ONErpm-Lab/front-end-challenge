@@ -35,20 +35,14 @@ export class HomeComponent {
 
     this.spotifyService.getTrack(isrc).subscribe({
       next: (searchContent) => this.handleSearch(searchContent, isrc),
-      error: (error) => console.error(error),
     });
   }
 
   private handleSearch(searchResult: SearchContent, isrc: string) {
-    console.log('entrei');
-
     if (!searchResult.tracks || searchResult.tracks.items.length === 0) {
       this.showModal = true;
-      console.log('dei errado');
       return;
     }
-
-    console.log('dei certo');
 
     const tracks = searchResult.tracks.items;
     this.router.navigate(['/track-info', isrc], {
