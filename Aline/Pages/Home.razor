@@ -1,0 +1,124 @@
+﻿@page "/"
+
+<div class="table-responsive">
+	<table class="table text-center">
+		<thead>
+			<tr>
+				<th> Thumb do álbum </th>
+				<th> Lançamento </th>
+				<th> Título da faixa </th>
+				<th> Artistas da faixa </th>
+				<th> Duração </th>
+				<th> Prévia </th>
+				<th> Link </th>
+				<th> @brazilFlag </th>
+			</tr>
+		</thead>
+
+		<tbody>
+			@if (!carregando)
+			{
+				@foreach (var dados in listaDadosMusicas.OrderByDescending(x => x.tracks.items.Count != 0))
+				{
+					if(dados.tracks.items.Count == 0){
+						<tr>
+							<td colspan="9">
+								Alerta: Dados Inexistentes.
+							</td>
+						</tr>
+					} else {
+						<tr>
+							<td>@dados.tracks.items[0].album.name</td>
+							<td>@dados.tracks.items[0].album.release_date</td>
+							<td>@dados.tracks.items[0].name</td>
+							<td>@dados.tracks.items[0].artists[0].name</td>
+							<td>@(TimeSpan.FromMilliseconds(dados.tracks.items[0].duration_ms).ToString(@"mm\:ss"))</td>
+							<td><a target="_blank" href="@dados.tracks.items[0].preview_url">Prévia</a></td>
+							<td><a target="_blank" href="@dados.tracks.items[0].external_urls.spotify">Spotify</a></td>
+							<td>
+								@if(dados.tracks.items[0].available_markets.Contains("BR")){
+									<label>✅</label>
+								}else{
+									<label>❌</label>
+								}
+							</td>
+						</tr>
+					}
+				}	
+			}else{
+				<tr>
+					<td colspan="9">Carregando...</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+@code {
+	private bool carregando = false;
+	private List<Root> listaDadosMusicas = new();
+
+	private List<string> listaCodigosISRC = new()
+	{
+		"US7VG1846811",
+		"US7QQ1846811",
+		"BRC310600002",
+		"BR1SP1200071",
+		"BR1SP1200070",
+		"BR1SP1500002",
+		"BXKZM1900338",
+		"BXKZM1900345",
+		"QZNJX2081700",
+		"QZNJX2078148"
+	};
+
+	string brazilFlag = "\uD83C\uDDE7\uD83C\uDDF7";
+
+	protected override async Task OnInitializedAsync()
+	{
+		carregando = true;
+
+		var token = await RetornarToken();
+
+		http.DefaultRequestHeaders.Add("Authorization", "Bearer " + token.access_token);
+
+		foreach (var codigo in listaCodigosISRC)
+		{
+			var dadosRetornados = await http.GetFromJsonAsync<Root>("https://api.spotify.com/v1/search?type=track&q=isrc:" + codigo);
+
+			listaDadosMusicas.Add(dadosRetornados);
+		}
+
+		http.DefaultRequestHeaders.Remove("Authorization");
+
+		carregando = false;
+	}
+
+	private class Token {
+		public string access_token { get; set; } = string.Empty;
+		public string token_type { get; set; } = string.Empty;
+		public int expires_in { get; set; }
+	} 
+
+	private async Task<Token> RetornarToken()
+	{
+		Token token = new();
+
+		 var values = new Dictionary<string, string>
+			{
+                { "grant_type", "client_credentials" },
+                { "client_id", "527012b23f5f4c3ea645015e9356a822" },
+                { "client_secret", "d4185b1047014f47a4f0c47f1aca0d43" }
+            };
+
+		var encodedValues = new FormUrlEncodedContent(values);
+
+		var response = await http.PostAsync("https://accounts.spotify.com/api/token", encodedValues);
+
+		if(response.IsSuccessStatusCode)
+			token = await response.Content.ReadFromJsonAsync<Token>();
+
+		return token;
+	}
+
+}
