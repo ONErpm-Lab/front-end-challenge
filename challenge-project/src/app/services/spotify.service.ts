@@ -19,7 +19,7 @@ export class SpotifyService {
   }
 
   private getAccessToken(): string {
-    return 'BQApk4y4OKzbSgDrwjn-c7Slv3mDUU393Ha8pfue-CdytL8uvjicJS9so70FuxOnobi8xLGoK-FNw1w_FDPqQs1n6GvFWUCb3GeaEHGNts8jGMmPKzs';
+    return 'BQA3CNwYiwO1YLIRTp8A8AuBGXsTg5KLHaZIi_ce7ef4IP5diOngChqlbMgBzMSHGC_sjhCiOurujxORxHJcBPVMN_dZlj4Vf-ap9HvO58oDmNBfufw';
   }
 
   getArtistData(artistId: string): Observable<any> {
@@ -28,5 +28,14 @@ export class SpotifyService {
     });
     console.log(headers);
     return this.http.get(`${this.apiUrl}/artists/${artistId}`, { headers });
+  }
+
+  getTrackData(isrc: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.getAccessToken()}`,
+    });
+    return this.http.get(`${this.apiUrl}/search?q=isrc:${isrc}&type=track`, {
+      headers,
+    });
   }
 }
