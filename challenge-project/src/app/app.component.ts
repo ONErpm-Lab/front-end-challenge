@@ -15,6 +15,22 @@ export class AppComponent implements OnInit {
 
   artistData: any;
   trackData: any;
+  track: any[] = [];
+
+  isrcs: string[] = [
+    'US7VG1846811',
+    'US7QQ1846811',
+    'BRC310600002',
+    'BR1SP1200071',
+    'BR1SP1200070',
+    'BR1SP1500002',
+    'BXKZM1900338',
+    'BXKZM1900345',
+    'QZNJX2081700',
+    'QZNJX2078148',
+  ];
+
+  tracks: any[] = [];
 
   constructor(private spotifyService: SpotifyService) {}
   ngOnInit(): void {
@@ -30,21 +46,18 @@ export class AppComponent implements OnInit {
     });
   */
 
-    this.spotifyService.getTrackData('QZNJX2078148').subscribe({
-      next: (data) => {
-        console.log('RETORNO OK');
-        console.log(data);
-        if (data.tracks.items.length > 0) {
-          this.trackData = data.tracks.items[0];
-          console.log(this.trackData);
-        } else {
-          console.log('não possui');
-        }
-      },
-      error: (error) => {
-        console.log('ERRO');
-        console.log(error);
-      },
+    this.isrcs.forEach((isrc) => {
+      this.spotifyService.getTrackData(isrc).subscribe({
+        next: (track) => {
+          this.tracks.push({ isrc, ...track.tracks.items });
+        },
+        error: (error) => {
+          console.log('ERRO');
+          console.log(error);
+        },
+      });
     });
+
+    console.log(this.tracks);
   }
 }

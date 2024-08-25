@@ -1,4 +1,5 @@
 <main class="main">
+  <div *ngFor="let track of tracks">{{ track.isrc }}</div>
   <div *ngIf="trackData">
     <img [src]="trackData.album.images[1].url" alt="{{ trackData.name }}" />
     <p>
@@ -11,17 +12,16 @@
       <li>{{ artist.name }}</li>
     </ul>
     <p>Álbum: {{ trackData.album.name }}</p>
-    <p>
-      Duração: {{ trackData.duration_ms / 60000 | number : "1.0-0" }}:{{
-        (trackData.duration_ms % 60000) / 1000 | number : "2.0-0"
-      }}
-    </p>
+    <p>Duração: {{ trackData.duration_ms | date : "mm:ss" }}</p>
+    <audio controls>
+      <source [src]="trackData.preview_url" type="audio/mpeg" />
+    </audio>
     <p>
       <a href="{{ trackData.external_urls.spotify }}"
         >Clique aqui para ouvir a música no Spotify</a
       >
     </p>
-
+    <p>ISRC: {{ trackData.external_ids.isrc }}</p>
     <div *ngFor="let country of trackData.available_markets">
       <p *ngIf="country == 'BR'">Disponível no Brasil</p>
     </div>
