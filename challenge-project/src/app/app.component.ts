@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     this.isrcs.forEach((isrc) => {
       this.spotifyService.getTrackData(isrc).subscribe({
         next: (track) => {
-          this.tracks.push({ isrc, ...track.tracks.items });
+          this.tracks.push({ isrc, ...track.tracks.items[0] });
         },
         error: (error) => {
           console.log('ERRO');
