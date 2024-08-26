@@ -1,4 +1,5 @@
-.card {
+.card,
+.containerNoData {
   color: #000;
   background-color: #ad9b68;
   width: 70%;
@@ -7,6 +8,7 @@
   margin: 1rem;
   border-radius: 2rem;
   font-size: 1.1rem;
+  height: fit-content;
 }
 
 .card span {
@@ -30,12 +32,14 @@ audio {
 }
 
 @media only screen and (min-width: 800px) {
-  .card {
+  .card,
+  .containerNoData {
     width: 40%;
   }
 }
 @media only screen and (min-width: 1350px) {
-  .card {
+  .card,
+  .containerNoData {
     width: 25%;
   }
 }

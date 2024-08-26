@@ -28,6 +28,7 @@ export class CardComponent implements OnInit {
   ];
 
   tracks: any[] = [];
+  noDataTracks: any[] = [];
 
   getArtists(track: any): string {
     return track.artists
@@ -37,22 +38,16 @@ export class CardComponent implements OnInit {
 
   constructor(private spotifyService: SpotifyService) {}
   ngOnInit(): void {
-    /*
-    this.spotifyService.getArtistData('4Z8W4fKeB5YxbusRsdQVPb').subscribe({
-      next: (data) => {
-        this.artistData = data;
-        console.log('Artist data:', this.artistData);
-      },
-      error: (error) => {
-        console.error('API connection failed', error);
-      },
-    });
-  */
-
     this.isrcs.forEach((isrc) => {
       this.spotifyService.getTrackData(isrc).subscribe({
         next: (track) => {
-          this.tracks.push({ isrc, ...track.tracks.items[0] });
+          console.log(track);
+          if (track.tracks.items.length > 0) {
+            this.tracks.push(track.tracks.items[0]);
+            this.sortTracks();
+          } else {
+            this.noDataTracks.push(isrc);
+          }
         },
         error: (error) => {
           console.log('ERRO');
@@ -61,6 +56,14 @@ export class CardComponent implements OnInit {
       });
     });
 
-    console.log(this.tracks);
+    this.sortTracks();
+  }
+
+  private sortTracks(): void {
+    this.tracks.sort((a, b) => {
+      const nameA = a.name ? a.name.toLowerCase() : '';
+      const nameB = b.name ? b.name.toLowerCase() : '';
+      return nameA.localeCompare(nameB);
+    });
   }
 }

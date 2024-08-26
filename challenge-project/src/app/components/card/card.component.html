@@ -25,6 +25,11 @@
         <p *ngIf="country == 'BR'">Faixa está disponível no Brasil</p>
       </div>
     </div>
-    <div *ngIf="!track.name">O isrc {{ track.isrc }} não existe</div>
+  </div>
+  <div class="containerNoData">
+    <h3>ISRC sem retorno</h3>
+    <div *ngFor="let noTrack of noDataTracks">
+      O isrc {{ noTrack }} não existe
+    </div>
   </div>
 </main>
