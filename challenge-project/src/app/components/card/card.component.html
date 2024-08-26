@@ -1,29 +1,28 @@
 <main class="main">
-  <div *ngFor="let track of tracks">
+  <div *ngFor="let track of tracks" class="card">
     <div *ngIf="track.name">
-      <h2>{{ track.name }}</h2>
       <img [src]="track.album.images[1].url" alt="{{ track.name }}" />
-      <p>
-        Data de Lançamento:
-        {{ track.album.release_date | date : "dd/MM/yyyy" }}
-      </p>
-      <p>Artistas:</p>
-      <ul *ngFor="let artist of track.artists">
-        <li>{{ artist.name }}</li>
-      </ul>
-      <p>Álbum: {{ track.album.name }}</p>
-      <p>Duração: {{ track.duration_ms | date : "mm:ss" }}</p>
+      <p><span>Nome da música:</span> {{ track.name }}</p>
+
+      <p><span>Artistas:</span> {{ getArtists(track) }}</p>
+
+      <p><span>Álbum:</span> {{ track.album.name }}</p>
+      <p><span>Duração:</span> {{ track.duration_ms | date : "mm:ss" }}</p>
       <audio controls>
         <source [src]="track.preview_url" type="audio/mpeg" />
       </audio>
+      <p>
+        <span> Data de Lançamento:</span>
+        {{ track.album.release_date | date : "dd/MM/yyyy" }}
+      </p>
       <p>
         <a href="{{ track.external_urls.spotify }}"
           >Clique aqui para ouvir a música no Spotify</a
         >
       </p>
-      <p>ISRC: {{ track.external_ids.isrc }}</p>
+      <p><span>ISRC:</span> {{ track.external_ids.isrc }}</p>
       <div *ngFor="let country of track.available_markets">
-        <p *ngIf="country == 'BR'">Disponível no Brasil</p>
+        <p *ngIf="country == 'BR'">Faixa está disponível no Brasil</p>
       </div>
     </div>
     <div *ngIf="!track.name">O isrc {{ track.isrc }} não existe</div>

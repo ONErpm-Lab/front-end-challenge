@@ -29,6 +29,12 @@ export class CardComponent implements OnInit {
 
   tracks: any[] = [];
 
+  getArtists(track: any): string {
+    return track.artists
+      ? track.artists.map((a: any) => a.name).join(', ')
+      : 'Desconhecido';
+  }
+
   constructor(private spotifyService: SpotifyService) {}
   ngOnInit(): void {
     /*
