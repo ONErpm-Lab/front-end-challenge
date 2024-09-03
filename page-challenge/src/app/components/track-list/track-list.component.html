@@ -1,11 +1,18 @@
 <div class="search-container">
-    <input #isrcInputElement placeholder="Digite o ISRC" />
-    <button (click)="searchTrack(isrcInputElement.value)">Buscar</button>
+    <div class="input-button-container">
+        <input #isrcInputElement (input)="onISRCChange(isrcInputElement.value)" placeholder="Digite o ISRC"
+            [ngClass]="{'invalid-input': !isrcValid && isrcError}" />
+        <button (click)="searchTrack(isrcInputElement.value)" [disabled]="!isrcValid">
+            Buscar
+        </button>
+    </div>
+    <p *ngIf="isrcError" class="error-message">{{ isrcError }}</p>
 </div>
+
 
 <div class="track-list" *ngIf="tracks.length > 0">
     <div class="track-item" *ngFor="let track of tracks">
-        <img class="album-thumb" [src]="track.album.images[0].url "alt="{{ track.name }}">
+        <img class="album-thumb" [src]="track.album.images[0].url " alt="{{ track.name }}">
         <div class="track-info">
             <h3>{{ track.name}}</h3>
             <p><strong>Artistas:</strong> {{ getArtists(track.artists) }}</p>
@@ -20,5 +27,3 @@
         </div>
     </div>
 </div>
-
-
