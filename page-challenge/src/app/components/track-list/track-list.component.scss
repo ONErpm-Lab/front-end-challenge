@@ -108,7 +108,7 @@
         border-radius: 20px;
         border: 1px solid $primary-text;
         background-color: $primary-background;
-        color: white;
+        color: $primary-text;
         cursor: pointer;
         font-size: 16px;
         font-weight: bold;
@@ -142,10 +142,19 @@ mat-error {
     bottom: -20px;
     left: 0;
     margin-left: 20px;
-    color: red;
+    color: #FF0000;
     font-size: 14px;
     font-weight: 500;
 }
 h2{
     color: $primary-color;
+}
+::ng-deep .warning-snackbar {
+    --mdc-snackbar-container-color:#FFCD07;
+    --mdc-snackbar-supporting-text-color: #000000;
+}
+
+::ng-deep .error-snackbar {
+    --mdc-snackbar-container-color: #FF0000;
+    --mdc-snackbar-supporting-text-color: #FFFFFF;
 }

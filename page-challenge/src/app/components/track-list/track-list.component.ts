@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Track } from '../../interfaces/track.intercafe'
 import { SpotifyService } from '../../services/spotify.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -27,11 +27,14 @@ export class TrackListComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   showWarning(message: string): void {
     this.snackBar.open(message, '', {
-      horizontalPosition: 'center',
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
       duration: 3000,
-      verticalPosition: 'bottom',
       panelClass: ['warning-snackbar']
     });
   }
