@@ -16,7 +16,7 @@
     <div class="track-item" *ngFor="let track of tracks">
         <img class="album-thumb" [src]="track.album.images[0].url " alt="{{ track.name }}">
         <div class="track-info">
-            <h3>{{ track.name}}</h3>
+            <h2>{{ track.name}}</h2>
             <p><strong>Artistas:</strong> {{ getArtists(track.artists) }}</p>
             <p><strong>Álbum:</strong> {{ track.album.name}}</p>
             <p><strong>Data de lançamento:</strong> {{ track.album.release_date}}</p>

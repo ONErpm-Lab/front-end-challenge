@@ -16,11 +16,9 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class TrackListComponent implements OnInit {
   tracks: Track[] = [];
-  isrcError:string | null = null
   isrcControl: FormControl;
 
   constructor(private spotifyService: SpotifyService, private snackBar: MatSnackBar) {
-    // Inicializando o FormControl com uma validação personalizada e um validador regex
     this.isrcControl = new FormControl('', [
       Validators.required,
       Validators.pattern(/^[A-Z0-9]{12}$/)
@@ -32,6 +30,7 @@ export class TrackListComponent implements OnInit {
   showWarning(message: string): void {
     this.snackBar.open(message, '', {
       horizontalPosition: 'center',
+      duration: 3000,
       verticalPosition: 'bottom',
       panelClass: ['warning-snackbar']
     });
@@ -40,6 +39,7 @@ export class TrackListComponent implements OnInit {
   showError(){
     this.snackBar.open('Erro ao buscar a faixa', '', {
       horizontalPosition: 'center',
+      duration:3000,
       verticalPosition: 'bottom',
       panelClass: ['error-snackbar']
     });
@@ -52,7 +52,6 @@ export class TrackListComponent implements OnInit {
 
 
   searchTrack(): void {
-    this.isrcError = null;
     this.tracks = [];
 
     if (this.isrcControl.valid) {
@@ -64,7 +63,7 @@ export class TrackListComponent implements OnInit {
             const trackData = data.tracks.items[0];
 
             const track: Track = {
-              name: trackData.name || 'Título não disponível',
+              name: trackData.name,
               artists: trackData.artists?.map((artist: { name: string; }) => ({ name: artist.name })),
               album: {
                 images: trackData.album?.images,
@@ -90,8 +89,6 @@ export class TrackListComponent implements OnInit {
           console.error('Erro ao buscar a faixa:', error);
         }
       );
-    } else {
-      this.isrcError = 'Código ISRC inválido. O ISRC deve conter 12 caracteres.';
     }
   }
 

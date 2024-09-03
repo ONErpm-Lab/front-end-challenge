@@ -91,6 +91,12 @@
         outline: none;
         font-size: 16px;
         color: $secondary-text;
+        background-image: url('https://img.icons8.com/ios/50/000000/search--v1.png');
+        background-size: 20px;
+        background-repeat: no-repeat;
+        background-position: 95% 50%;
+        padding-right: 45px;
+
 
         @media (max-width: 600px) {
             max-width: 100%;
@@ -139,4 +145,7 @@ mat-error {
     color: red;
     font-size: 14px;
     font-weight: 500;
+}
+h2{
+    color: $primary-color;
 }
