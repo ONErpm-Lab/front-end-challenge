@@ -45,12 +45,6 @@ export class TrackListComponent implements OnInit {
     });
   }
 
-  validateISRC(isrc: string): boolean {
-    const isrcPattern = /^[A-Z0-9]{12}$/;
-    return isrcPattern.test(isrc);
-  }
-
-
   searchTrack(): void {
     this.tracks = [];
 
