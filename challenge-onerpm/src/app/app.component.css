@@ -11,16 +11,14 @@ main{
 }
 
 .title{
+  width: 400px;
+  text-align: center;
   font-size: 64px;
   font-weight: bold;
   color: white;
-  text-align: center;
   padding-top: 5%;
-}
-
-.line{
-  border: 3px solid #F5782A;
-  width: 328px;
+  border-bottom: 3px solid #F5782A;
+  border-radius: 3px;
 }
 
   @media screen and (max-width: 650px) {
