@@ -17,6 +17,11 @@
     align-items: center;
     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.4);
     background-color: $primary-text;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        text-align: center;
+    }
 }
 
 .album-thumb {
@@ -25,10 +30,20 @@
     margin-right: 30px;
     margin-left: -40px;
     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
+
+    @media (max-width: 768px) {
+        margin: 0;
+        width: 100%;
+        height: auto;
+    }
 }
 
 .track-info {
     flex: 1;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 }
 
 .track-info h3 {
@@ -45,20 +60,28 @@
     width: 100%;
 }
 
-   .input-button-container {
-       display: flex;
-       align-items: center;
-       gap: 10px;
-       width: 100%;
-       max-width: 600px;
-   }
+.input-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
 .search-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 20px 0;
 
-input {
+    input {
         padding: 10px;
         border-radius: 20px;
         border: 1px solid $secondary-background;
@@ -69,8 +92,8 @@ input {
         font-size: 16px;
         color: $secondary-text;
 
-        &.invalid-input {
-            border-color: red;
+        @media (max-width: 600px) {
+            max-width: 100%;
         }
     }
 
@@ -84,19 +107,36 @@ input {
         font-size: 16px;
         font-weight: bold;
 
-        &:disabled{
+        &:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
-    }
 
-          .error-message {
-              color: red;
-              margin-top: 5px;
-              font-size: 14px;
-              font-weight: 500;
-              width: 100%;
-              max-width: 500px;
-              text-align: start;
-          }
+        @media (max-width: 600px) {
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+
+    @media (max-width: 600px) {
+        max-width: 100%;
+    }
+}
+
+mat-error {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    margin-left: 20px;
+    color: red;
+    font-size: 14px;
+    font-weight: 500;
 }

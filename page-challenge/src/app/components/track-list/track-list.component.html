@@ -1,14 +1,16 @@
 <div class="search-container">
     <div class="input-button-container">
-        <input #isrcInputElement (input)="onISRCChange(isrcInputElement.value)" placeholder="Digite o ISRC"
-            [ngClass]="{'invalid-input': !isrcValid && isrcError}" />
-        <button (click)="searchTrack(isrcInputElement.value)" [disabled]="!isrcValid">
+        <div class="input-container">
+            <input type="search" matInput [formControl]="isrcControl" placeholder="Digite o ISRC" />
+            <mat-error *ngIf="isrcControl.hasError('pattern')">
+                Código ISRC inválido. O ISRC deve conter 12 caracteres.
+            </mat-error>
+        </div>
+        <button mat-raised-button color="primary" (click)="searchTrack()" [disabled]="isrcControl.invalid">
             Buscar
         </button>
     </div>
-    <p *ngIf="isrcError" class="error-message">{{ isrcError }}</p>
 </div>
-
 
 <div class="track-list" *ngIf="tracks.length > 0">
     <div class="track-item" *ngFor="let track of tracks">

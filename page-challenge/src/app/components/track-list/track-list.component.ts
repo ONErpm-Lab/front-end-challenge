@@ -3,20 +3,29 @@ import { Track } from '../../interfaces/track.intercafe'
 import { SpotifyService } from '../../services/spotify.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-track-list',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass],
+  imports: [NgIf, NgFor, NgClass, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
   templateUrl: './track-list.component.html',
   styleUrls: ['./track-list.component.scss']
 })
 export class TrackListComponent implements OnInit {
   tracks: Track[] = [];
   isrcError:string | null = null
-  isrcValid: boolean = false;
+  isrcControl: FormControl;
 
-  constructor(private spotifyService: SpotifyService, private snackBar: MatSnackBar) { }
+  constructor(private spotifyService: SpotifyService, private snackBar: MatSnackBar) {
+    // Inicializando o FormControl com uma validação personalizada e um validador regex
+    this.isrcControl = new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[A-Z0-9]{12}$/)
+    ]);
+  }
 
   ngOnInit(): void { }
 
@@ -41,20 +50,14 @@ export class TrackListComponent implements OnInit {
     return isrcPattern.test(isrc);
   }
 
-  onISRCChange(isrc: string): void {
-    if (this.validateISRC(isrc)) {
-      this.isrcValid = true;
-      this.isrcError = null;
-    } else {
-      this.isrcValid = false;
-      this.isrcError = 'Código ISRC inválido. O ISRC deve conter 12 caracteres.';
-    }
-  }
 
-  searchTrack(isrcInput: string): void {
+  searchTrack(): void {
     this.isrcError = null;
     this.tracks = [];
-    if (isrcInput && this.isrcValid) {
+
+    if (this.isrcControl.valid) {
+      const isrcInput = this.isrcControl.value;
+
       this.spotifyService.getTrackByISRC(isrcInput).subscribe(
         (data) => {
           if (data.tracks.items.length > 0) {
@@ -71,7 +74,7 @@ export class TrackListComponent implements OnInit {
               duration_ms: trackData.duration_ms,
               is_playable: trackData.is_playable,
               external_urls: {
-                spotify: trackData.external_urls?.spotify 
+                spotify: trackData.external_urls?.spotify
               },
               preview_url: trackData.preview_url,
               available_markets: trackData.available_markets
@@ -87,6 +90,8 @@ export class TrackListComponent implements OnInit {
           console.error('Erro ao buscar a faixa:', error);
         }
       );
+    } else {
+      this.isrcError = 'Código ISRC inválido. O ISRC deve conter 12 caracteres.';
     }
   }
 

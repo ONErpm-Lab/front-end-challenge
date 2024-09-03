@@ -3,5 +3,5 @@ export const environment = {
     spotify: {
         baseUrl: 'https://api.spotify.com/v1',
     },
-    accessToken: 'BQCtOf62KDlFTrTlmgsnLtGgtEmW-bEWgPBIDFFZTDp7vdDlkDVsd4IwQgyqF6wTylD85HyhKXkbrJwdKbirbKfDx7Kc4BdCXINSdGJk0nND9ZcvKtg_VQrAgafTABAUG1gDExdcc2siRArxh7W6nWD3g1y3rnReofjoa-NVgx1cRKvMGjgv8L28ygGPlLNgZtG_RPUw5HPRDMNXNarRC-tg1xaMqw'
+    accessToken: 'BQDeUFf8pLGwOCY6nO7kRFuDBBDVn2w5Eq_OFKlqEsEUQiSqYDSvbUoNKPdoFq3sfqy69-WKpkaY7mGLncCWALYQhMssKGmqyRRobajLsESu9qLRBYXEJRhpO_x8_DYOPTEhDaHdRa1_L7IjFmSoIC7H7uVVcZD7Lt7-eOWhr8BtI_zy9ZAWpUOh0jmzAf7biJhBFAfW9FDd1beNqddLzetE7KtW3Q'
 }
