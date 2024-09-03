@@ -1,0 +1,28 @@
+main{
+  width: 100vw;
+  height: 100vh;
+  background-color: #262f36;
+}
+
+.containerTitle{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.title{
+  font-size: 64px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  padding-top: 5%;
+}
+
+.line{
+  border: 3px solid #F5782A;
+  width: 328px;
+}
+
+  @media screen and (max-width: 650px) {
+
+  }
