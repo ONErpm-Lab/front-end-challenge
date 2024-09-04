@@ -31,6 +31,8 @@ export class TrackListComponent implements OnInit {
 
   searchTrack(): void {
     if (this.isrcControl.valid) {
+      this.tracks = [];
+      this.notificationService.clear();
       const isrcInput = this.isrcControl.value;
       this.spotifyService.getTrackByISRC(isrcInput).subscribe(
         (data: AllTrack) => this.handleTrackResponse(data),
@@ -44,6 +46,7 @@ export class TrackListComponent implements OnInit {
       const track = this.mapTrackData(data.tracks.items[0]);
       this.tracks = [track];
     } else {
+      this.tracks = [];
       this.notificationService.showWarning(`Nenhuma faixa encontrada para o ISRC ${this.isrcControl.value}.`);
     }
   }

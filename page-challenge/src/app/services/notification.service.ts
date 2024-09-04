@@ -18,7 +18,7 @@ export class NotificationService {
       panelClass: ['error-snackbar']
     });
   }
-  
+
   showWarning(message: string): void {
     this.snackBar.open(message, '', {
       horizontalPosition: this.horizontalPosition,
@@ -27,4 +27,9 @@ export class NotificationService {
       panelClass: ['warning-snackbar']
     });
   }
+
+  clear(): void {
+    this.snackBar.dismiss();
+  }
+
 }
