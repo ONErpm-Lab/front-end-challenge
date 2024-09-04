@@ -14,12 +14,12 @@
 
 <div class="track-list" *ngIf="tracks.length > 0">
     <div class="track-item" *ngFor="let track of tracks">
-        <img class="album-thumb" [src]="track.album.images[0].url " alt="{{ track.name }}">
+        <img class="album-thumb" [src]="track.album.images[0].url" alt="{{ track.name }}">
         <div class="track-info">
-            <h2>{{ track.name}}</h2>
-            <p><strong>Artistas:</strong> {{ getArtists(track.artists) }}</p>
-            <p><strong>Álbum:</strong> {{ track.album.name}}</p>
-            <p><strong>Data de lançamento:</strong> {{ track.album.release_date}}</p>
+            <h2>{{ track.name }}</h2>
+            <p><strong>Artistas:</strong> {{ getArtistNames(track.artists) }}</p>
+            <p><strong>Álbum:</strong> {{ track.album.name }}</p>
+            <p><strong>Data de lançamento:</strong> {{ track.album.release_date }}</p>
             <p><strong>Duração:</strong> {{ formatDuration(track.duration_ms) }}</p>
             <p><strong>Disponível no Brasil:</strong> {{ isAvailableInBrazil(track.available_markets) }}</p>
             <p><strong><a [href]="track.external_urls.spotify" target="_blank">Ouça no Spotify</a></strong></p>

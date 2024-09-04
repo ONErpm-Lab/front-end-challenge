@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Track } from '../../interfaces/track.intercafe'
+import { AllTrack, Track, TrackItem } from '../../interfaces/track.intercafe';
 import { SpotifyService } from '../../services/spotify.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-track-list',
@@ -18,7 +19,9 @@ export class TrackListComponent implements OnInit {
   tracks: Track[] = [];
   isrcControl: FormControl;
 
-  constructor(private spotifyService: SpotifyService, private snackBar: MatSnackBar) {
+  constructor(private spotifyService: SpotifyService,
+    private notificationService: NotificationService
+  ) {
     this.isrcControl = new FormControl('', [
       Validators.required,
       Validators.pattern(/^[A-Z0-9]{12}$/)
@@ -30,63 +33,44 @@ export class TrackListComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  showWarning(message: string): void {
-    this.snackBar.open(message, '', {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      duration: 3000,
-      panelClass: ['warning-snackbar']
-    });
-  }
-
-  showError(){
-    this.snackBar.open('Erro ao buscar a faixa', '', {
-      horizontalPosition: 'center',
-      duration:3000,
-      verticalPosition: 'bottom',
-      panelClass: ['error-snackbar']
-    });
-  }
-
   searchTrack(): void {
-    this.tracks = [];
-
     if (this.isrcControl.valid) {
       const isrcInput = this.isrcControl.value;
-
       this.spotifyService.getTrackByISRC(isrcInput).subscribe(
-        (data) => {
-          if (data.tracks.items.length > 0) {
-            const trackData = data.tracks.items[0];
-
-            const track: Track = {
-              name: trackData.name,
-              artists: trackData.artists?.map((artist: { name: string; }) => ({ name: artist.name })),
-              album: {
-                images: trackData.album?.images,
-                name: trackData.album?.name,
-                release_date: trackData.album?.release_date
-              },
-              duration_ms: trackData.duration_ms,
-              is_playable: trackData.is_playable,
-              external_urls: {
-                spotify: trackData.external_urls?.spotify
-              },
-              preview_url: trackData.preview_url,
-              available_markets: trackData.available_markets
-            };
-
-            this.tracks = [track];
-          } else {
-            this.showWarning(`Nenhuma faixa encontrada para o ISRC ${isrcInput}`);
-          }
-        },
-        (error) => {
-          this.showError();
-          console.error('Erro ao buscar a faixa:', error);
-        }
+        (data: AllTrack) => this.handleTrackResponse(data),
+        () => this.notificationService.showError('Erro ao buscar a faixa')
       );
     }
+  }
+
+  private handleTrackResponse(data: AllTrack): void {
+    if (data.tracks.items.length > 0) {
+      const track = this.mapTrackData(data.tracks.items[0]);
+      this.tracks = [track];
+    } else {
+      this.notificationService.showWarning(`Nenhuma faixa encontrada para o ISRC ${this.isrcControl.value}`);
+    }
+  }
+
+  private mapTrackData(trackData: TrackItem): Track {
+    return {
+      name: trackData.name,
+      artists: trackData.artists.map(artist => ({ name: artist.name })),
+      album: {
+        images: trackData.album.images,
+        name: trackData.album.name,
+        release_date: trackData.album.release_date
+      },
+      duration_ms: trackData.duration_ms,
+      is_playable: trackData.is_playable,
+      external_urls: trackData.external_urls,
+      preview_url: trackData.preview_url,
+      available_markets: trackData.available_markets
+    };
+  }
+
+  getArtistNames(artists: { name: string }[]): string {
+    return artists.map(artist => artist.name).join(', ');
   }
 
   formatDuration(durationMs: number): string {
@@ -95,18 +79,7 @@ export class TrackListComponent implements OnInit {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   }
 
-  getArtists(artists: { name: string }[]): string {
-    return artists.map(artist => artist.name).join(', ');
-  }
-
   isAvailableInBrazil(availableMarkets: string[]): string {
     return availableMarkets.includes('BR') ? 'Sim' : 'Não';
   }
 }
-
-// isrcInput = [
-//   'US7VG1846811', 'US7QQ1846811', 'BRC310600002',
-//   'BR1SP1200071', 'BR1SP1200070', 'BR1SP1500002',
-//   'BXKZM1900338', 'BXKZM1900345', 'QZNJX2081700',
-//   'QZNJX2078148',
-// ]
