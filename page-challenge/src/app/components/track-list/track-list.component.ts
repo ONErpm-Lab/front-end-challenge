@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AllTrack, Track, TrackItem } from '../../interfaces/track.intercafe';
+import { AllTrack, Track } from '../../interfaces/track.intercafe';
 import { SpotifyService } from '../../services/spotify.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -30,15 +29,12 @@ export class TrackListComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
   searchTrack(): void {
     if (this.isrcControl.valid) {
       const isrcInput = this.isrcControl.value;
       this.spotifyService.getTrackByISRC(isrcInput).subscribe(
         (data: AllTrack) => this.handleTrackResponse(data),
-        () => this.notificationService.showError('Erro ao buscar a faixa')
+        () => this.notificationService.showError('Erro ao buscar a faixa, Token inválido ou expirado.')
       );
     }
   }
@@ -48,11 +44,11 @@ export class TrackListComponent implements OnInit {
       const track = this.mapTrackData(data.tracks.items[0]);
       this.tracks = [track];
     } else {
-      this.notificationService.showWarning(`Nenhuma faixa encontrada para o ISRC ${this.isrcControl.value}`);
+      this.notificationService.showWarning(`Nenhuma faixa encontrada para o ISRC ${this.isrcControl.value}.`);
     }
   }
 
-  private mapTrackData(trackData: TrackItem): Track {
+  private mapTrackData(trackData: Track) {
     return {
       name: trackData.name,
       artists: trackData.artists.map(artist => ({ name: artist.name })),

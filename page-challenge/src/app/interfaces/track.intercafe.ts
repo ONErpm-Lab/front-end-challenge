@@ -1,28 +1,12 @@
 export interface AllTrack {
     tracks: {
-        items: TrackItem[];
+        items: Track[];
     };
-}
-export interface TrackItem {
-    name: string;
-    artists: Artist[];
-    album: Album;
-    duration_ms: number;
-    is_playable: boolean;
-    external_urls: {
-        spotify: string;
-    };
-    preview_url: string | null;
-    available_markets: string[];
 }
 export interface Track {
     name: string;
-    artists: { name: string }[];
-    album: {
-        images: { url: string }[];
-        name: string;
-        release_date: string;
-    };
+    artists: Artist[];
+    album: Album;
     duration_ms: number;
     is_playable: boolean;
     external_urls: {
