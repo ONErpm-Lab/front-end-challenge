@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { SpotifyService } from './spotify.service';
 import { environment } from '../../environments/environment';
-import { AllTrackProps } from '../interfaces/track.intercafe';
+import { AllTrackTest } from '../interfaces/track.intercafe';
 
 describe('SpotifyService', () => {
   let service: SpotifyService;
@@ -30,7 +30,7 @@ describe('SpotifyService', () => {
   it('should get track by ISRC', () => {
     const isrc = 'ISRC_DO_TRACK';
 
-    const mockTrackResponse: AllTrackProps = {
+    const mockTrackResponse: AllTrackTest = {
       tracks: {
         href: 'some-url',
         items: [],

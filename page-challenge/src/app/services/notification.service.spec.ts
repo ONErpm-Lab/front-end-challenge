@@ -34,7 +34,7 @@ describe('NotificationService', () => {
 
   it('should call MatSnackBar.open with the correct parameters for showWarning', () => {
     const message = 'Warning message';
-    service.showWarning(message);  // Chama o método do serviço
+    service.showWarning(message);
 
     expect(snackBar.open).toHaveBeenCalledWith(message, '', {
       duration: 3000,

@@ -29,7 +29,7 @@ export interface images {
     url: string;
 }
 
-export interface AllTrackProps {
+export interface AllTrackTest {
     tracks: {
         href: string;
         items: Track[];
