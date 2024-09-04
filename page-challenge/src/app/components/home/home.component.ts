@@ -20,16 +20,15 @@ export class HomeComponent implements OnInit {
   track: AllTrack | null = null;
 
   constructor(private spotifyService: SpotifyService) { }
+
   ngOnInit() {
     this.spotifyService.getTrackByISRC('ISRC_DO_TRACK').subscribe(
       (data) => {
         this.track = data;
-        console.log(this.track);
       },
       (error) => {
         console.error('Erro ao buscar a faixa:', error);
       }
     );
   }
-
 }
