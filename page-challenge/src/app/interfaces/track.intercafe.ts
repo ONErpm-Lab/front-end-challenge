@@ -28,3 +28,15 @@ export interface Artist {
 export interface images {
     url: string;
 }
+
+export interface AllTrackProps {
+    tracks: {
+        href: string;
+        items: Track[];
+        limit: number;
+        next: string | null;
+        offset: number;
+        previous: string | null;
+        total: number;
+    };
+}

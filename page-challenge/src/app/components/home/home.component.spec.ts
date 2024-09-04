@@ -1,23 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TrackListComponent } from '../track-list/track-list.component'; // Ajuste o caminho conforme necessário
 
-import { HomeComponent } from './home.component';
-
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
-
-  beforeEach(async () => {
+describe('TrackListComponent', () => {
+  it('should create', async () => {
     await TestBed.configureTestingModule({
-      imports: [HomeComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+      imports: [HttpClientTestingModule, TrackListComponent] // Importação correta para standalone component
+    }).compileComponents();
 
-  it('should create', () => {
+    const fixture = TestBed.createComponent(TrackListComponent);
+    const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 });
+
