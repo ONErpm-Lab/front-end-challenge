@@ -5,6 +5,7 @@
         <p><strong>Título:</strong> {{ title }}</p>
         <p><strong>Lançamento:</strong> {{ releaseDate }}</p>
         <p><strong>Artistas:</strong> {{ artists.join(', ') }}</p>
+        <p><strong>Duração:</strong> {{ duration }}</p>
     </div>
 
     <div class="containerPreview">
@@ -12,7 +13,6 @@
             <source [src]="previewUrl" type="audio/mpeg">
             Seu navegador não suporta o elemento de áudio.
         </audio>
-        <p>{{ duration }}</p>
     </div>
 
     <div class="containerIcons">

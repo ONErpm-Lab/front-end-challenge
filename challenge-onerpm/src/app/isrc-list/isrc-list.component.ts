@@ -38,6 +38,8 @@ export class IsrcListComponent implements OnInit{
   fetchTracks() {
     this.spotifyService.authenticate().subscribe({
       next: () => {
+        let requestsCompleted = 0;
+  
         this.isrcs.forEach(isrc => {
           this.spotifyService.searchTrackByISRC(isrc).subscribe({
             next: (response) => {
@@ -51,11 +53,21 @@ export class IsrcListComponent implements OnInit{
                 const fallbackTrack = this.createFallbackTrack(isrc);
                 this.tracks.push(fallbackTrack);
               }
+
+              requestsCompleted++;
+              if (requestsCompleted === this.isrcs.length) {
+                this.tracks.sort((a, b) => a.title.localeCompare(b.title)); 
+              }
             },
             error: (error) => {
               console.error(`Erro ao buscar ISRC ${isrc}:`, error);
               const fallbackTrack = this.createFallbackTrack(isrc, error.message);
               this.tracks.push(fallbackTrack);
+  
+              requestsCompleted++;
+              if (requestsCompleted === this.isrcs.length) {
+                this.tracks.sort((a, b) => a.title.localeCompare(b.title)); 
+              }
             }
           });
         });
@@ -65,6 +77,7 @@ export class IsrcListComponent implements OnInit{
       }
     });
   }
+  
 
   createFallbackTrack(isrc: string, errorMessage: string = 'ISRC não encontrado') {
     return {

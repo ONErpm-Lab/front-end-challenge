@@ -1,6 +1,5 @@
 main{
   width: 100vw;
-  height: 100vh;
   background-color: #262f36;
 }
 
@@ -8,10 +7,11 @@ main{
   width: 100vw;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .title{
-  width: 400px;
+  width: 700px;
   text-align: center;
   font-size: 64px;
   font-weight: bold;
@@ -19,6 +19,10 @@ main{
   padding-top: 5%;
   border-bottom: 3px solid #F5782A;
   border-radius: 3px;
+}
+
+.iconTitle{
+  width: 50px;
 }
 
   @media screen and (max-width: 650px) {

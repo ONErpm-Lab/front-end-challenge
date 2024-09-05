@@ -5,7 +5,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 5%;
+    padding: 5% 0;
+    margin: 5% 0;
 }
 
 .thumb,
@@ -26,9 +27,9 @@
 }
 
 .containerPreview{
-    width: 85%;
+    width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .containerPreview h6{
@@ -44,6 +45,7 @@
     display: flex;
     justify-content: end;
     padding: 10px 20px;
+    align-items: center;
 }
 
 .containerIcons img{
