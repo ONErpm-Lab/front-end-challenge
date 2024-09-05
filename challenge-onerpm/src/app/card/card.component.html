@@ -19,6 +19,6 @@
         <a [href]="spotifyUrl" target="_blank">
             <img src="assets/spotify-logo.png" alt="Spotify Logo">
         </a>
-        <img [src]="isAvailableInBR ? 'assets/brazil.png' : 'assets/not-available.png'" alt="Disponibilidade">
+        <img [src]="getAvailabilityIcon()" alt="Disponibilidade">
     </div>
 </div>

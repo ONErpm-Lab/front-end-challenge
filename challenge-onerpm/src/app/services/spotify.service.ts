@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpotifyService {
-  private clientId = '65d1f89916204b5880ace3d6154dbb89';
-  private clientSecret = '2364f691bd694202851f4a1e467a66b9';
+  private clientId = environment.API_DEV_CLIENT_ID;
+  private clientSecret = environment.API_DEV_CLIENT_SECRET;
   private tokenUrl = 'https://accounts.spotify.com/api/token';
   private searchUrl = 'https://api.spotify.com/v1/search';
 
@@ -23,12 +24,13 @@ export class SpotifyService {
       Authorization: 'Basic ' + btoa(this.clientId + ':' + this.clientSecret),
     });  
 
-    const body = 'grant_type=client_credentials';
+    const body = new URLSearchParams({
+      grant_type: 'client_credentials'
+    }).toString();
 
     return this.http.post<{ access_token: string }>(this.tokenUrl, body, { headers }).pipe(
       map((response) => {
         this.token = response.access_token;
-        console.log('Token obtido: ', this.token)
         return this.token;
       })
     );
@@ -43,13 +45,11 @@ export class SpotifyService {
       Authorization: `Bearer ${this.token}`,
     });
 
-    const params = {
-      q: `isrc: ${isrc}`,
-      type: 'track',
-    };
+    const params = new HttpParams()
+      .set('q', `isrc:${isrc}`)
+      .set('type', 'track');
 
     return this.http.get(this.searchUrl, { headers, params}).pipe(map((response) => {
-      console.log('Resposta da busca do ISRC: ', response);
       return response;
     }));
   }
