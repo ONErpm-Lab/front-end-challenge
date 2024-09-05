@@ -1,0 +1,12 @@
+<div *ngFor="let track of tracks">
+  <app-card
+    [thumbUrl]="track.thumbUrl"
+    [title]="track.title"
+    [releaseDate]="track.releaseDate"
+    [artists]="track.artists"
+    [duration]="track.duration"
+    [previewUrl]="track.previewUrl"
+    [spotifyUrl]="track.spotifyUrl"
+    [isAvailableInBR]="track.isAvailableInBR"
+  ></app-card>
+</div>

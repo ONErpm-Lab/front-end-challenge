@@ -1,20 +1,24 @@
 <div class="containerCard">
-    <img class="thumb" src="assets/thumb.jpeg" alt="">
+    <img class="thumb" [src]="thumbUrl" alt="Thumb do Album">
 
     <div class="containerInfo">
-        <p>Título:</p>
-        <p>Lançamento:</p>
-        <p>Artistas:</p>
+        <p><strong>Título:</strong> {{ title }}</p>
+        <p><strong>Lançamento:</strong> {{ releaseDate }}</p>
+        <p><strong>Artistas:</strong> {{ artists.join(', ') }}</p>
     </div>
 
     <div class="containerPreview">
-        <img class="playIcon" src="assets/play-button.png" alt="">
-        <h6>line</h6>
-        <p>00m:00s</p>
+        <audio controls *ngIf="previewUrl">
+            <source [src]="previewUrl" type="audio/mpeg">
+            Seu navegador não suporta o elemento de áudio.
+        </audio>
+        <p>{{ duration }}</p>
     </div>
 
     <div class="containerIcons">
-        <img src="assets/spotify-logo.png" alt="">
-        <img src="assets/brazil-.png" alt="">
+        <a [href]="spotifyUrl" target="_blank">
+            <img src="assets/spotify-logo.png" alt="Spotify Logo">
+        </a>
+        <img [src]="isAvailableInBR ? 'assets/brazil.png' : 'assets/not-available.png'" alt="Disponibilidade">
     </div>
 </div>
