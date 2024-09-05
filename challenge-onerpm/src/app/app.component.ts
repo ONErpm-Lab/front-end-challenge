@@ -14,6 +14,7 @@ import { SpotifyService } from './services/spotify.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
+  title = 'challenge-onerpm';
   constructor(private spotifyService: SpotifyService) {}
 
   ngOnInit(): void {
