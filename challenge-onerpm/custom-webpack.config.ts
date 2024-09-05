@@ -6,7 +6,6 @@ config();
 module.exports = {
   plugins: [
     new EnvironmentPlugin([
-      // 'API_DEV',
       'API_DEV_CLIENT_ID',
       'API_DEV_CLIENT_SECRET',
     ])
