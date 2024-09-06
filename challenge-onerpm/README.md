@@ -1,27 +1,49 @@
-# ChallengeOnerpm
+# Challenge Front-End API Spotify -  ONErpm
+Esta é uma aplicação Angular, que permite ao usuário consumir os dados das informações de faixas musicais utilizando o código ISRC na API do Spotify.
+<br>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.2.
+### Desafio proposto
+O desafio consiste em fazer uma busca de 10 ISRCs (segue abaixo os solicitados) buscar e exibir as informações de **Thumb do álbum**, **Data de lançamento**, **Título da faixa**, **Lista dos artistas da faixa**, **Duração da faixa em minutos e segundos (mm:ss)**, **Player com prévia do áudio**, **Link para a página da faixa no Spotify** e **Sinalização dizendo se a faixa está ou não disponível no Brasil (BR)**. Essas informações, tem que ser apresentadas através de uma webpage responsiva e publica, com as faixas ordenadas em ordem alfabética pelo título.
+<br>
 
-## Development server
+**ISRCs pesquisados**
+* US7VG1846811
+* US7QQ1846811
+* BRC310600002
+* BR1SP1200071
+* BR1SP1200070
+* BR1SP1500002
+* BXKZM1900338
+* BXKZM1900345
+* QZNJX2081700
+* QZNJX2078148
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## 🚀 Começando:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Essas instruções permitirão que você consiga ter esse projeto em operação na sua máquina local para fins de desenvolvimento e teste.
 
-## Build
+### 📋 Pré-requisitos para instalação:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+* Instale **NodeJS** em seu computador (versão 18 ou superior).
+* Instale o **Angular CLI**
+* Criei sua conta e suas credenciais na **API do Spotify** [aqui](https://developer.spotify.com/)
+<br>
 
-## Running unit tests
+### ⚙️ Configurando o projeto:
+1. Clone esse repositório utilizando o comando
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```git clone git@github.com:SahBianchi/front-end-challenge.git```
 
-## Running end-to-end tests
+2. Entre na pasta do projeto utilizando o comando
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```cd challenge-onerpm```
 
-## Further help
+3. Instale as dependências utilizando o comando
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```npm install```
+
+4. Entre no arquivo `.env-sample`, edite o arquivo com as **chaves geradas na api do Spotify** e renomeie ele apenas para `.env`
+
+5. Após essas configurações de o comando para iniciar o servidor
+```npm start``` ou ```ng serve```
