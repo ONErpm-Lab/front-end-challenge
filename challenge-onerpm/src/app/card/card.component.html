@@ -16,9 +16,9 @@
     </div>
 
     <div class="containerIcons">
-        <a [href]="spotifyUrl" target="_blank">
+        <a *ngIf="spotifyUrl" [href]="spotifyUrl" target="_blank">
             <img src="assets/spotify-logo.png" alt="Spotify Logo">
         </a>
-        <img [src]="getAvailabilityIcon()" alt="Disponibilidade">
+        <img [src]="getAvailabilityIcon()" alt="Disponibilidade da faixa no Brasil">
     </div>
 </div>
