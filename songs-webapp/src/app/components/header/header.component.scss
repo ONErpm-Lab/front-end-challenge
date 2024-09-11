@@ -1,0 +1,35 @@
+@import "../../../styles.scss";
+
+header.header__container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--main-orange);
+    font-family: 'Bebas Neue', cursive;
+
+    img.header__logo {
+        width: 75px;
+
+        @media screen and (max-width: 576px) {
+            width: 40px;
+        }
+    }
+    h1.header__title {
+        font-size: 2rem;
+        font-weight: 500;
+        color: var(--main-white);
+
+        @media screen and (max-width: 576px) {
+            font-size: 1.2rem;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        gap: 1rem;
+    }
+    @media screen and (max-width: 576px) {
+        padding: 1rem;
+    }
+}
