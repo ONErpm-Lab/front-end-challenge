@@ -1,0 +1,23 @@
+@import '../styles.scss';
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+div.app__container{
+    background-color: var(--main-background);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--main-white);
+    min-height: 100vh;
+    
+}
+section.app__content{
+    display: grid;
+    width: 100%;
+    grid-template-columns: 25%  25%  25%  25%;
+    justify-items: center;
+    padding: 1rem;
+} 
