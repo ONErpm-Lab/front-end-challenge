@@ -1,0 +1,29 @@
+@import "../../../styles.scss";
+
+footer.footer__container {
+    background-color: var(--footer-background);
+    color: var(--main-white);
+    font-family: "Montserrat", sans-serif;
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+
+    div.footer__column {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .5rem;
+        font-style: italic;
+    }
+    p.footer__text {
+        font-size: .75rem;
+    }
+    img.footer__logo {
+        width: 100px;
+    }
+}
