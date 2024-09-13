@@ -18,7 +18,7 @@ export class SongsService {
 
   constructor(private http: HttpClient) {}
 
-  onInit() {
+  ngOnInit() {
 
     //Ao iniciar o serviço é feita a requisição para obter o token de acesso a API do Spotify
     this.getToken().subscribe({
