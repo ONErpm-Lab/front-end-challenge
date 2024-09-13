@@ -1,11 +1,16 @@
 export interface SongInterface {
-    id: number,
-    title: string,
-    artist: string,
-    album: string,
-    date: string,
-    duration: string,
+    id: string,
+    name: string,
+    artists: Array<ArtistInterface>,
+    image: string,
+    releaseDate: string,
+    durationMinutesSeconds: string,
     spotifyLink: string,
     avaiableBr: boolean,
-    image: string
+    snippet: string
+}
+
+interface ArtistInterface{
+    id: string,
+    name: string
 }
