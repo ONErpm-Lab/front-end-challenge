@@ -21,4 +21,19 @@ section.app__content{
     justify-items: center;
     row-gap: 2rem;
     padding: 1rem;
+}
+div.app__empty{
+    display: flex;
+    align-items: center;
+    height: 80vh;
+    width: 100%;
+    font-size: 3rem;
+    grid-area: 1 / 1 / 2 / 5;
+    justify-content: space-evenly;
+    font-family: 'Bebas Neue', cursive;
+    font-weight: 400;
+
+    img {
+        width: 500px;
+    }
 } 

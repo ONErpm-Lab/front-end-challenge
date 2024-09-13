@@ -5,7 +5,10 @@
     @for (card of cards; track card) {
       <app-card [song]="card"></app-card>
     } @empty{
-      <p class="app__empty">No songs found</p>
+      <div class="app__empty">
+        <img src="assets/no-data.png" alt="" />
+        <div>Nenhuma música foi encontrada!</div>
+      </div>
     }
   </section>
   
