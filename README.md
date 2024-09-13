@@ -126,7 +126,7 @@ Gabrielli de Oliveira e Silva da Cruz- [Linkedin](https://www.linkedin.com/in/ga
 [TypeScript.com]: https://img.shields.io/badge/Typescript-2f74c0?style=for-the-badge&logo=typescript&logoColor=white
 [TypeScript-url]: https://www.typescriptlang.org/
 
-##DESAFIO
+## DESAFIO
 ## Início
 
 Bem vindo ao mundo da música!
