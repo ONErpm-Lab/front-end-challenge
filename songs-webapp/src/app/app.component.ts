@@ -28,7 +28,7 @@ export class AppComponent {
     'QZNJX2078148',
   ]
   cards: SongInterface[] = []
-
+  notFoundSongs: string[] = []
   constructor(private songsService: SongsService) {}
 
   ngOnInit(): void {
@@ -39,7 +39,10 @@ export class AppComponent {
 
         next: (data) => {
           
-          if (data.tracks.items[0] === undefined) return
+          if (data.tracks.items[0] === undefined){
+            this.notFoundSongs.push(this.ISRC[index])
+            return
+          } 
 
           let card = {
             id: data.tracks.items[0].id,

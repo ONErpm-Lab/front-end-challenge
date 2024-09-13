@@ -11,6 +11,16 @@
       </div>
     }
   </section>
+  @if (notFoundSongs !== []){
+    <section class="app__not-found">
+      <div class="app__not-found__title">{{ notFoundSongs.length }} Músicas não foram encontradas:</div>
+      <div class="app__not-found__subtitle">
+        @for(notFoundSong of notFoundSongs; track notFoundSong) {
+          <div>ISRC: {{ notFoundSong }}</div>
+        }
+      </div>
+    </section>
+  }
   
   <app-footer></app-footer>
 </div>

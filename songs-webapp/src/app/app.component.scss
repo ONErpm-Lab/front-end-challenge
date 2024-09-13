@@ -36,4 +36,19 @@ div.app__empty{
     img {
         width: 500px;
     }
-} 
+}
+section.app__not-found{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 1rem;
+    align-items: center;
+    .app__not-found__title{
+        font-size: 2rem;
+        margin-bottom: 20px;
+        font-family: 'Bebas Neue', cursive;
+    }
+    margin-bottom: 20px;
+}
