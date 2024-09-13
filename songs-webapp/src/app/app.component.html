@@ -2,7 +2,11 @@
   <app-header></app-header>
 
   <section class="app__content">
-
+    @for (card of cards; track card) {
+      <app-card [song]="card"></app-card>
+    } @empty{
+      <p class="app__empty">No songs found</p>
+    }
   </section>
   
   <app-footer></app-footer>
