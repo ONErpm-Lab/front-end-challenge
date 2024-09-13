@@ -21,6 +21,10 @@ section.app__content{
     justify-items: center;
     row-gap: 2rem;
     padding: 1rem;
+
+    @media (max-width: 768px){
+        grid-template-columns: 100%;
+    }
 }
 div.app__empty{
     display: flex;
