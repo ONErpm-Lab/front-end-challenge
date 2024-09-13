@@ -1,0 +1,208 @@
+div.card__container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 250px;
+    border-radius: 5px;
+    background-color: var(--main-orange);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    img.card__image {
+        border-radius: 5px 5px 0px 0px;
+        width: 100%;
+    }
+    div.card__content {
+        padding: 10px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 100%;
+
+        div.card__details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        div.card__header {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+
+            h2.card__title {
+                font-size: 2rem;
+                font-family: 'Bebas Neue', cursive;
+                font-weight: 400;
+                margin: 0;
+            }
+            span.card__artist {
+                font-size: .75rem;
+                margin: 0;
+            }
+        }
+        p {
+            font-size: .875rem;
+            margin: 0;
+        }
+        p.card__details-br {
+            font-size: .75rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            img {
+                width: 16px;
+            }
+        }
+    }
+
+    div.card__player {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+        width: 100%;
+        
+        img:hover {
+            cursor: pointer;
+            transform: scale(1.2);
+            filter: brightness(1.2);
+        }
+        audio {
+            width: 200px;
+        }
+        audio::-webkit-media-controls-panel {
+            background-color: var(--main-orange);
+        }
+        
+        audio::-webkit-media-controls-play-button {
+            background-color: var(--main-white);
+            border-radius: 50%;
+        }
+        audio::-webkit-media-controls-play-button:hover {
+            background-color: var(--main-white);
+        }
+        audio::-webkit-media-controls-current-time-display {
+            display: none;
+        }
+        audio::-webkit-media-controls-time-remaining-display {
+            display: none;
+        }
+    }
+}
+
+.card__player {
+    --player-button-width: 32px;
+    --sound-button-width: 32px;
+    --space: 10px;
+    width: 80%;
+}
+.card__player-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space);
+    width: 100%;
+    margin-top: 10px;
+}
+.card__player-button {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    width: var(--player-button-width);
+    height: var(--player-button-width);
+    cursor: pointer;
+}
+.timeline {
+    appearance: none;
+    -webkit-appearance: none;
+    width: calc(100% - (var(--player-button-width) + var(--sound-button-width) + var(--space)));
+    height: 5px;
+    background-color: var(--main-white);
+    border-radius: 5px;
+    background-size: 0% 100%;
+    background-image: linear-gradient(var(--main-purple), var(--main-purple));
+    background-repeat: no-repeat;
+}
+.timeline::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+    transition: all .1s;
+    background-color: var(--ligth-purple);
+}
+.timeline::-moz-range-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+    transition: all .1s;
+    background-color: var(--ligth-purple);
+}
+.timeline::-ms-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+    transition: all .1s;
+    background-color: var(--ligth-purple);
+}
+.timeline::-webkit-slider-thumb:hover {
+    background-color: var(--ligth-purple);
+}
+.timeline:hover::-webkit-slider-thumb {
+    opacity: 1;
+}
+.timeline::-moz-range-thumb:hover {
+    background-color: var(--ligth-purple);
+}
+.timeline:hover::-moz-range-thumb {
+    opacity: 1;
+}
+.timeline::-ms-thumb:hover {
+    background-color: var(--ligth-purple);
+}
+.timeline:hover::-ms-thumb {
+    opacity: 1;
+}
+.timeline::-webkit-slider-runnable-track {
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+.timeline::-moz-range-track {
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+.timeline::-ms-track {
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+.card__player-button {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    width: var(--sound-button-width);
+    height: var(--sound-button-width);
+    cursor: pointer;
+}

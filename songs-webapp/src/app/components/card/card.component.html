@@ -1,0 +1,55 @@
+<div class="card__container" [id]="song.id">
+    <img 
+    class="card__image" 
+    [src]="song.image" 
+    [alt]="song.name" 
+    />
+    <div class="card__content">
+        <div class="card__header">
+            <h2 class="card__title">{{ song.name }}</h2>
+            <span class="card__artist">
+            @for (artist of song.artists; track artist) {
+                {{ artist.name }},
+            }
+            </span>
+        </div>
+            <div class="card__details">
+                <p>Lançamento: {{ song.releaseDate }}</p>
+                <p>Duração: {{ song.durationMinutesSeconds }}</p>
+                @if (song.avaiableBr) {
+                    <p class="card__details-br">Música disponível no Brasil <img src="assets/brazil-icon.png"></p>
+                }
+            </div>
+            <div class="card__player">
+                <audio 
+                #audio
+                (timeupdate)="changeTimelinePosition()" 
+                (ended)="audioEnded()"
+                [src]="song.snippet"></audio>
+        
+                <div class="card__player-controls">
+                    <button
+                    class="card__player-button"
+                    (click)="toggleAudio()"
+                    >
+                        <img [src]="playImgSrc()" />
+                    </button>
+                    <input 
+                    #timeline
+                    type="range" 
+                    class="timeline" 
+                    max="100" 
+                    value="0" 
+                    (change)="changeSeek()"
+                    >
+                    <button 
+                    class="card__player-button"
+                    (click)="toggleSound()"
+                    >
+                        <img [src]="soundImgSrc()"/>
+                    </button>
+                </div>
+                <a class="card__link" target="_blank" [href]="song.spotifyLink"><img src="assets/spotify-logo.svg"></a>
+        </div>
+    </div>
+</div>
