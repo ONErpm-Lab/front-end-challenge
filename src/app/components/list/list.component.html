@@ -1,1 +1,31 @@
-<p>list works!</p>
+<div class="container-grid">
+  @for (movie of paginateData; track movie.id; let i = $index;) {
+  <mat-card appearance="outlined">
+    <div class="card-item">
+      <img mat-card-sm-image [src]="urlImage + '/' + movie.poster_path"/>
+      <div class="description">
+        <div>
+          <h2>{{ movie.title }}</h2>
+          <h5>{{ movie.release_date | date : "MMMM d, y" }}</h5>
+        </div>
+        <div class="group-action">
+            <div class="actions">
+              <button mat-button (click)="navigateDetails(movie.id)">Details</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  }
+
+  @if(paginateData.length) {
+    <mat-paginator
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[3, 5, 10]"
+    (page)="onPageChange($event)"
+    aria-label="Select page">
+  </mat-paginator>
+}
+</div>

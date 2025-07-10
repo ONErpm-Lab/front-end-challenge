@@ -1,0 +1,93 @@
+@use "@angular/material" as mat;
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:root {
+  @include mat.icon-overrides(
+    (
+      color: orange,
+    )
+  );
+}
+
+.container-grid {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 20px auto;
+  gap: 20px;
+
+  .card-item {
+    display: flex;
+    gap: 25px;
+    padding-right: 20px;
+
+    h2,
+    h5 {
+      margin: 0;
+    }
+    h5 {
+      color: #5e5e5e;
+    }
+
+    img {
+      border-radius: 10px 0 0 10px;
+      width: 100%;
+      max-width: 100px;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .description {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 100%;
+      gap: 10px;
+    }
+
+    .group-action {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .icon {
+        color: #b0b0b0; // Cinza padrão
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+      }
+
+      .added {
+        color: #ffca28; // Amarelo quando adicionado
+      }
+
+      .actions {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+    }
+  }
+
+  mat-card-header {
+    padding: 1rem;
+
+    mat-card-title,
+    mat-card-subtitle {
+      color: #5e5e5e;
+    }
+  }
+
+  mat-list mat-list-item {
+    cursor: pointer;
+    background-color: #fff;
+    margin-bottom: 20px;
+    height: auto;
+
+    h3,
+    h5 {
+      margin: 8px 0;
+    }
+  }
+}
