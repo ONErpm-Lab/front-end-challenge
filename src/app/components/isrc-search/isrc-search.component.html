@@ -1,0 +1,51 @@
+<section class="search-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
+                <form [formGroup]="form" (ngSubmit)="searchIsrc()" class="d-flex align-items-start">
+                    <mat-form-field appearance="outline" description="ISRC" class="flex-grow-1 me-3 w-100">
+                        <mat-label>ISRC</mat-label>
+                        <input matInput formControlName="isrc">
+                        <mat-error *ngIf="isrc?.hasError('required') && isrc?.touched">
+                            Campo obrigatório.
+                        </mat-error>
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" type="submit" class="tall-button">
+                        Buscar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let track of tracks | sort:'trackTitle':'asc'">
+            <div class="card card-custom track-details">
+                <div class="card-image">
+                    <img [src]="track.albumThumb" alt="Capa do Álbum" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <p><strong>Título:</strong> {{ track.trackTitle }}</p>
+                    <p><strong>Artistas:</strong> {{ track.artists }}</p>
+                    <p><strong>Data de Lançamento:</strong> {{ track.releaseDate | date: 'dd/MM/yyyy' }}</p>
+                    <p><strong>Duração:</strong> {{ track.duration }}</p>
+                    <p>
+                        <strong>Disponível no Brasil (BR):</strong>
+                        <span
+                            [ngClass]="{'available': track.availableInBrazil, 'not-available': !track.availableInBrazil}">
+                            {{ track.availableInBrazil ? 'Sim' : 'Não' }}
+                        </span>
+                    </p>
+                    <p *ngIf="track.audioPreviewUrl">
+                        <strong>Prévia do Áudio:</strong>
+                        <audio controls [src]="track.audioPreviewUrl"></audio>
+                    </p>
+                    <p>
+                        <a [href]="track.spotifyPageLink" target="_blank">Abrir no Spotify</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

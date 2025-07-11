@@ -1,0 +1,107 @@
+$primary-green: #1DB954;
+$text-light-grey: #555;
+$border-light-grey: #eee;
+$background-light-blue: #e9ecef;
+$border-medium-grey: #dee2e6;
+$shadow-color: rgba(0, 0, 0, 0.1);
+
+.card-custom {
+    max-width: 300px;
+    min-width: 200px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px $shadow-color;
+    border-radius: 8px;
+    overflow: hidden;
+
+    .card-image {
+        width: 100%;
+        flex: 1;
+        height: 180px;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: inherit;
+            object-fit: cover;
+            display: block;
+        }
+    }
+
+    .card-content {
+        padding: 20px;
+        flex: 1;
+    }
+}
+
+.search-section {
+    background-color: $background-light-blue;
+    padding: 30px 0;
+    border-bottom: 1px solid $border-medium-grey;
+
+    .container {
+        form {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+    }
+}
+
+.full-width-input {
+    max-width: 350px;
+
+    .mat-form-field-wrapper {
+        padding-bottom: 0;
+    }
+
+    .mat-form-field-flex {
+        align-items: center;
+    }
+
+    input.mat-input-element {
+        min-height: 56px;
+        padding: 0 16px;
+    }
+}
+
+.tall-button {
+    height: 56px;
+}
+
+.track-details {
+    border-top: 1px solid $border-light-grey;
+
+    p {
+        margin-bottom: 8px;
+        line-height: 1.5;
+    }
+
+    strong {
+        color: $text-light-grey;
+    }
+
+    audio {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    a {
+        color: $primary-green;
+        text-decoration: none;
+        font-weight: bold;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.available {
+    color: green;
+    font-weight: bold;
+}
+
+.not-available {
+    color: red;
+    font-weight: bold;
+}
