@@ -7,7 +7,7 @@ export class AuthService {
   private readonly tokenKey =  'token';
 
   saveToken(token: string): void {
-    sessionStorage.setItem(this.tokenKey, token);
+    sessionStorage.setItem(this.tokenKey, JSON.stringify(token));
   }
 
   getToken(token: string): string | null {
