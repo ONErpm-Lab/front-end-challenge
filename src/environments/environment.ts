@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://accounts.spotify.com/api'
+  accountsUrl: 'https://accounts.spotify.com/api',
+  search: 'https://api.spotify.com/v1'
 };
