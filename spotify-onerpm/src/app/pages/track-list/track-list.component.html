@@ -1,0 +1,22 @@
+@if (tracks().length > 0) {
+<div class="tracks-grid">
+  @for (track of tracks(); track track.id) {
+  <div class="track-card">
+    <div class="album-thumb">
+      <img ngSrc="{{ track.albumThumb }}" alt="Thumb do Álbum: {{ track.title }}" width="64" height="64" priority />
+    </div>
+    <div class="track-info">
+      <h2>{{ track.title }}</h2>
+      <p><strong>Artistas:</strong> {{ track.artists | truncate }}</p>
+      <p><strong>Lançamento:</strong> {{ track.releaseDate | date: "dd/MM/yyyy" }}</p>
+      <p><strong>Duração:</strong> {{ track.duration }}</p>
+      @if(track.availableInBrazil){ <span class="available"> Disponível no Brasil </span> }
+      <audio controls><source src="/assets/audio/{{ track.isrc }}.mp3" type="audio/mpeg" /></audio>
+      <a class="spotify-link" [href]="track.spotifyUrl" target="_blank">Abrir no Spotify</a>
+    </div>
+  </div>
+  }
+</div>
+} @else {
+<div class="no-tracks-found"><p>Nenhuma faixa encontrada para os ISRCs fornecidos.</p></div>
+}
