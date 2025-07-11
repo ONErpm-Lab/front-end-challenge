@@ -1,5 +1,5 @@
 <div class="container-grid">
-  @for (movie of paginateData; track movie.id; let i = $index;) {
+  @for (movie of paginateData; track i; let i = $index;) {
   <mat-card appearance="outlined">
     <div class="card-item">
       <img mat-card-sm-image [src]="urlImage + '/' + movie.poster_path"/>

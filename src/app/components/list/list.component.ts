@@ -7,7 +7,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-list',
@@ -17,7 +18,7 @@ import { environment } from '../../environments/environment';
 })
 export class ListComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  urlImage = `${environment.urlImage}`
+  urlImage = `${environment}`
   movies = [
   {
     poster_path: "movie.poster_path",
@@ -70,13 +71,14 @@ export class ListComponent {
 
   constructor(
     private router: Router,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.tokenService.getAccessToken().subscribe({
       next: (res) => {
-        this.tokenService.saveToken(res);
+        this.authService.saveToken(res);
       },
       error: (err) => {
         console.log('>>>>>>>>>>> ERROR', err);
