@@ -1,0 +1,20 @@
+<div class="missing-tracks" *ngIf="!isLoading() && !hasError()">
+  <div class="missing-tracks__header">
+    <h1>Ops, parece que algumas músicas estão faltando:</h1>
+  </div>
+  <div class="missing-tracks__list" >
+    <app-missing-track-card
+      *ngFor="let track of missingTracks() "
+      [track]="track"
+    ></app-missing-track-card>
+  </div>
+</div>
+
+<div class="missing-tracks__loading" *ngIf="isLoading()">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div class="missing-tracks__error" *ngIf="!isLoading() && hasError()">
+  <h1>Ops, parece que algo deu errado</h1>
+  <p>Por favor, tente novamente mais tarde ou entre em contato com o suporte.</p>
+</div>
