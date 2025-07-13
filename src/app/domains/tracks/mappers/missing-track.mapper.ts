@@ -11,10 +11,11 @@ export const missingTrackMapper = (
     albumImage: track.track?.album?.images?.[0]?.url || null,
     artist: track.track?.artists?.[0]?.name || null,
     albumReleaseDate:
+    track.track?.album?.release_date ? 
       DateTime.fromFormat(
         track.track?.album?.release_date || '',
         'yyyy-MM-dd'
-      ).toFormat('dd/MM/yyyy') || null,
+      ).toFormat('dd/MM/yyyy') : null,
     isrc: track.isrc || null,
     duration: formatDuration(track.track?.duration_ms || 0),
     isAvailableInBrazil: track.track?.available_markets?.includes('BR') || false,

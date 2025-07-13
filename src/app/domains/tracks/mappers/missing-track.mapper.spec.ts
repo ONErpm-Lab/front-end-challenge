@@ -2,7 +2,7 @@ import { missingTrackMapper } from './missing-track.mapper';
 import { IMultipleSpotifySearchResponse } from '../../spotify/types/spotify.types';
 
 describe('missingTrackMapper', () => {
-  it('deve mapear corretamente um track válido', () => {
+  it('should map correctly a track with all fields', () => {
     const input: IMultipleSpotifySearchResponse = [
       {
         isrc: 'ISRC123',
@@ -39,7 +39,7 @@ describe('missingTrackMapper', () => {
     );
   });
 
-  it('deve mapear corretamente um track nulo', () => {
+  it('should map correctly a track with all fields', () => {
     const input: IMultipleSpotifySearchResponse = [
       {
         isrc: 'ISRC456',
