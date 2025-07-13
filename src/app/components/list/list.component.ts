@@ -31,22 +31,18 @@ export class ListComponent implements OnDestroy {
   missingIsrcs: string[] = [];
   currentPlayingId: string | null = null;
   currentAudio: HTMLAudioElement | null = null;
-  isrcs = [
-    'USAT21703861', 
-    'USUG12000001', 
-    'GBUM71505078', 
-    'USRC17607839',
-    'US7VG1846811',
-    'US7QQ1846811',
-    'BRC310600002',
-    'BR1SP1200071',
-    'BR1SP1200070',
-    'BR1SP1500002',
-    'BXKZM1900338',
-    'BXKZM1900345',
-    'QZNJX2081700',
-    'QZNJX2078148'
-  ];
+isrcs = [
+  'US7VG1846811',
+  'US7QQ1846811',
+  'BRC310600002',
+  'BR1SP1200071',
+  'BR1SP1200070',
+  'BR1SP1500002',
+  'BXKZM1900338',
+  'BXKZM1900345',
+  'QZNJX2081700',
+  'QZNJX2078148'
+];
 
   constructor(
     private router: Router,
@@ -165,19 +161,6 @@ export class ListComponent implements OnDestroy {
     if (track?.external_urls?.spotify) {
       window.open(track.external_urls.spotify, '_blank');
     }
-  }
-
-  availableRangeInBrazil(track: any): boolean {
-    return track?.is_playable === true;
-  }
-
-  getBrazilAvailabilityStatus(track: any): { available: boolean, text: string, icon: string } {
-    const available = this.availableRangeInBrazil(track);
-    return {
-      available,
-      text: available ? 'Disponível no Brasil' : 'Não disponível no Brasil',
-      icon: available ? 'check_circle' : 'cancel'
-    };
   }
 
   ngOnDestroy(): void {
