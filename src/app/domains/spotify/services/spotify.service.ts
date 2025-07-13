@@ -19,11 +19,11 @@ export class SpotifyService {
 
     const body = new URLSearchParams();
     body.set('grant_type', 'client_credentials');
-    body.set('client_id', environment.spotifyClientId);
-    body.set('client_secret', environment.spotifyClientSecret);
+    body.set('client_id', environment.spotify.clientId);
+    body.set('client_secret', environment.spotify.clientSecret);
 
     return this.http
-      .post<any>('https://accounts.spotify.com/api/token', body.toString(), {
+      .post<any>(environment.spotify.endpoints.token, body.toString(), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -40,7 +40,7 @@ export class SpotifyService {
   search(query: string, type: string, limit: number): Observable<ISpotifySearchResponse> {
     return this.getToken().pipe(
       switchMap((token) =>
-        this.http.get<ISpotifySearchResponse>('https://api.spotify.com/v1/search', {
+        this.http.get<ISpotifySearchResponse>(environment.spotify.endpoints.search, {
           headers: {
             'Authorization': `Bearer ${token}`
           },
