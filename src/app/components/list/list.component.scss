@@ -40,6 +40,14 @@ mat-paginator {
   padding: 20px;
 }
 
+/* Centralização quando há 3 ou menos cards */
+.tracks-container.few-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .track-card {
   width: 100%;
   max-width: 300px; 

@@ -8,7 +8,7 @@
   <h3>ISRCs não encontrados</h3>
   <p>[ {{ missingIsrcs.join(", ") }} ]</p>
 </div>
-<div class="tracks-container">
+<div class="tracks-container" [ngClass]="{ 'few-items': paginateData.length <= 3 }">
 
   <mat-card *ngFor="let track of paginateData" class="track-card">
     <mat-card-header>
@@ -19,8 +19,7 @@
         </div>
         <div
           class="brazil-availability"
-          [class.available]="track.is_playable"
-          [class.unavailable]="!track.is_playable">
+          [ngClass]="{ 'available': track.is_playable, 'unavailable': !track.is_playable }">
           <mat-icon>{{ track.is_playable ? 'check_circle' : 'cancel' }}</mat-icon>
           <span>🇧🇷 {{ track.is_playable ? 'Disponível no Brasil' : 'Não disponível no Brasil' }}</span>
         </div>
