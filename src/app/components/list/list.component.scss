@@ -1,3 +1,22 @@
+.warning {
+    background-color: #ffe6e6;
+    padding: 16px;
+    color: red;
+    display: flex; 
+    gap: 16px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
+    height: auto;
+    max-width: 1200px;
+    margin: 30px auto 0;
+    h3, p {
+      margin: 0;
+    }
+}
+
 .spinner-container {
     display: flex;
     justify-content: center;
@@ -20,7 +39,7 @@ mat-paginator {
   padding: 20px;
 }
 
-.track-card, .warning {
+.track-card {
   width: 100%;
   max-width: 300px; 
   height: 500px; 
@@ -38,16 +57,6 @@ mat-paginator {
   width: 100%; 
 }
 
-.warning {
-  background-color: #ffe6e6; 
-  padding: 16px; 
-  color: red; 
-  display: flex;
-  align-items: center; 
-  justify-content: center; 
-  text-align: center;
-  font-size: 14px;
-}
 
 mat-card-header, mat-card-content, mat-card-actions {
   padding: 12px; 
@@ -100,6 +109,7 @@ mat-card-actions {
   font-size: 12px;
   flex-direction: column;
   text-align: center;
+  width: 100%;
   
   mat-icon {
     font-size: 16px;

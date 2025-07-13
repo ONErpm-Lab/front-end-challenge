@@ -8,8 +8,8 @@ import { environment } from "../../../environments/environment";
 })
 export class TokenService {
 private tokenUrl = `${environment.accountsUrl}/token`;
-  private clientId = ''; // Replace with yours Client ID
-  private clientSecret = ''; // Replace with yours Client Secret
+  private clientId = '57c21d30e79c44d39415a4fc0a157afa'; // Replace with yours Client ID
+  private clientSecret = 'eb21c7b523af4c47bfa94835e84527c5'; // Replace with yours Client Secret
 
   constructor(private http: HttpClient) {}
 

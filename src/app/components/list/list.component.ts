@@ -31,10 +31,6 @@ export class ListComponent implements OnDestroy {
   missingIsrcs: string[] = [];
   currentPlayingId: string | null = null;
   currentAudio: HTMLAudioElement | null = null;
-  tracksWithPreview = 0;
-  tracksWithoutPreview = 0;
-  tracksAvailableInBrazil = 0;
-  tracksUnavailableInBrazil = 0;
   isrcs = [
     'USAT21703861', 
     'USUG12000001', 
@@ -65,27 +61,7 @@ export class ListComponent implements OnDestroy {
       switchMap(() => this.spotfyService.getTracksByIsrcs([...this.isrcs])) // Cria uma cópia para evitar mutação
     ).subscribe({
       next: (tracks) => {
-        console.log('Tracks retornadas:', tracks);
-        this.tracks = tracks.filter(track => !!track);
-        console.log('Tracks filtradas:', this.tracks);
-        
-        this.tracksWithPreview = this.tracks.filter(track => track.preview_url).length;
-        this.tracksWithoutPreview = this.tracks.filter(track => !track.preview_url).length;
-        
-        this.tracksAvailableInBrazil = this.tracks.filter(track => this.availableRangeInBrazil(track)).length;
-        this.tracksUnavailableInBrazil = this.tracks.filter(track => !this.availableRangeInBrazil(track)).length;
-        
-        console.log(`Total de tracks: ${this.tracks.length}`);
-        console.log(`Com preview: ${this.tracksWithPreview}`);
-        console.log(`Sem preview: ${this.tracksWithoutPreview}`);
-        console.log(`Disponíveis no Brasil: ${this.tracksAvailableInBrazil}`);
-        console.log(`Indisponíveis no Brasil: ${this.tracksUnavailableInBrazil}`);
-        
-        // Log para verificar preview_url
-        this.tracks.forEach((track, index) => {
-          console.log(`Track ${index}:`, track.name, 'Preview URL:', track.preview_url || 'Não disponível');
-        });
-        
+        this.tracks = tracks;
         this.missingIsrcs = this.isrcs.filter((_, i) => !tracks[i]);
         this.totalItems = this.tracks.length;
         this.updatePaginatedData();

@@ -4,10 +4,11 @@
 </div>
 
 }
+<div *ngIf="missingIsrcs.length" class="warning">
+  <h3>ISRCs não encontrados</h3>
+  <p>[ {{ missingIsrcs.join(", ") }} ]</p>
+</div>
 <div class="tracks-container">
-  <div *ngIf="missingIsrcs.length" class="warning">
-    <p>ISRCs não encontrados: {{ missingIsrcs.join(", ") }}</p>
-  </div>
 
   <mat-card *ngFor="let track of paginateData" class="track-card">
     <mat-card-header>
@@ -19,48 +20,40 @@
         <div
           class="brazil-availability"
           [class.available]="getBrazilAvailabilityStatus(track).available"
-          [class.unavailable]="!getBrazilAvailabilityStatus(track).available"
-        >
+          [class.unavailable]="!getBrazilAvailabilityStatus(track).available">
           <mat-icon>{{ getBrazilAvailabilityStatus(track).icon }}</mat-icon>
           <span>🇧🇷 {{ getBrazilAvailabilityStatus(track).text }}</span>
         </div>
       </div>
     </mat-card-header>
-    <img
-      mat-card-image
-      [src]="track.album.images[0]?.url || urlImage"
-      alt="{{ track.name }}"
-    />
+    
+    <img mat-card-image [src]="track.album.images[0]?.url || urlImage" alt="{{ track.name }}"/>
+    
     <mat-card-content>
       <p>Álbum: {{ track.album.name || "Desconhecido" }}</p>
-      <p>Data de lançamento: {{ track.album.release_date | date }}</p>
+      <p>Data de lançamento: {{ track.album.release_date | date: 'dd-MM-yyyy' }}</p>
       <p>Artistas: {{ getArtistsNames(track.artists) }}</p>
       <p>Duração: {{ formatDuration(track.duration_ms) }}</p>
     </mat-card-content>
+
     <mat-card-actions>
-      <button mat-button (click)="navigateDetails(track.id)">Detalhes</button>
       <div class="audio-controls" *ngIf="track.preview_url">
-        <button
-          mat-icon-button
-          (click)="toggleAudio(track)"
-          [attr.aria-label]="isPlaying(track.id) ? 'Pausar' : 'Reproduzir'"
-        >
-          <mat-icon>{{
-            isPlaying(track.id) ? "pause" : "play_arrow"
-          }}</mat-icon>
+        <button mat-icon-button (click)="toggleAudio(track)" [attr.aria-label]="isPlaying(track.id) ? 'Pausar' : 'Reproduzir'">
+          <mat-icon>{{isPlaying(track.id) ? "pause" : "play_arrow"}}</mat-icon>
         </button>
+       
         <audio
           #audioElement
           [src]="track.preview_url"
           (ended)="onAudioEnded(track.id)"
           (loadstart)="onAudioLoadStart(track.id)"
-          (error)="onAudioError(track.id)"
-        ></audio>
+          (error)="onAudioError(track.id)">
+        </audio>
       </div>
+
       <div *ngIf="!track.preview_url" class="no-preview">
         <mat-icon>music_off</mat-icon>
         <span>Prévia não disponível</span>
-        <small>Esta música não possui prévia de 30s no Spotify</small>
         <button mat-button (click)="openSpotify(track)" class="spotify-link">
           <mat-icon>open_in_new</mat-icon>
           Ouvir completa no Spotify

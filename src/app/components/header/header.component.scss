@@ -8,7 +8,7 @@
         align-items: center;
         justify-content: flex-start;
         height: 100%;
-        max-width: 1200px;
+        max-width: 1600px;
         margin: 0 auto;
         gap: 20px;
         padding: 0 20px;
@@ -23,19 +23,11 @@
         }
         
         img {
-            width: 40px;
-            height: 40px;
-            filter: brightness(0) saturate(100%) invert(60%) sepia(92%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
         }
-
-        img.simple-green {
-            filter: hue-rotate(120deg) saturate(200%) brightness(1.2);
-        }
-
-        img.basic-green {
-            filter: sepia(100%) hue-rotate(90deg) saturate(200%);
-        }
-        
+       
         h3 {
             color: white;
             margin: 0;
