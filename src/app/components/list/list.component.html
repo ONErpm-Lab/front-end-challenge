@@ -19,10 +19,10 @@
         </div>
         <div
           class="brazil-availability"
-          [class.available]="getBrazilAvailabilityStatus(track).available"
-          [class.unavailable]="!getBrazilAvailabilityStatus(track).available">
-          <mat-icon>{{ getBrazilAvailabilityStatus(track).icon }}</mat-icon>
-          <span>🇧🇷 {{ getBrazilAvailabilityStatus(track).text }}</span>
+          [class.available]="track.is_playable"
+          [class.unavailable]="!track.is_playable">
+          <mat-icon>{{ track.is_playable ? 'check_circle' : 'cancel' }}</mat-icon>
+          <span>🇧🇷 {{ track.is_playable ? 'Disponível no Brasil' : 'Não disponível no Brasil' }}</span>
         </div>
       </div>
     </mat-card-header>
@@ -54,7 +54,9 @@
       <div *ngIf="!track.preview_url" class="no-preview">
         <mat-icon>music_off</mat-icon>
         <span>Prévia não disponível</span>
-        <button mat-button (click)="openSpotify(track)" class="spotify-link">
+      </div>
+      <div class="spotify-link">
+        <button mat-button (click)="openSpotify(track)">
           <mat-icon>open_in_new</mat-icon>
           Ouvir completa no Spotify
         </button>
