@@ -1,0 +1,48 @@
+.header {
+    width: 100%;
+    height: 70px;
+    background-color: #000; // Header preto conforme solicitado
+
+    .nav {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; // Imagem do lado esquerdo
+        height: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 20px;
+        padding: 0 20px;
+        
+        span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: transparent; // Remove fundo branco
+        }
+        
+        img {
+            width: 40px;
+            height: 40px;
+            filter: brightness(0) saturate(100%) invert(60%) sepia(92%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%);
+            // Este filtro converte para a cor #1ed760
+        }
+
+        // Alternativa mais simples - use esta se a de cima não funcionar
+        img.simple-green {
+            filter: hue-rotate(120deg) saturate(200%) brightness(1.2);
+        }
+
+        // Ou esta alternativa ainda mais simples
+        img.basic-green {
+            filter: sepia(100%) hue-rotate(90deg) saturate(200%);
+        }
+        
+        h3 {
+            color: white;
+            margin: 0;
+            font-weight: 500;
+        }
+    }
+}
