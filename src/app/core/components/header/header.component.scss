@@ -1,0 +1,48 @@
+header {
+  background-color: var(--dark-color);
+  padding: 1rem 1rem;
+  border-bottom: 1px solid var(--gray-200);
+  box-shadow: var(--box-shadow);
+
+  @media (min-width: 1024px) {
+    padding: 1rem 8rem;
+  }
+
+  @media ( min-width: 1440px) {
+    padding: 1rem 16rem;
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--white-color);
+    font-size: 1.5rem;
+    font-weight: var(--font-semibold);
+    font-family: 'TikTok Sans', sans-serif;
+  }
+  
+  nav {
+    display: flex;
+    margin-top: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
+    ul {
+      display: flex;
+      gap: 1.5rem;
+      
+      li {
+        a {
+          text-decoration: none;
+          color: var(--white-color);
+          font-weight: var(--font-medium);
+          font-family: 'TikTok Sans', sans-serif;
+          transition: var(--transition);
+          
+          &:hover {
+            color: var(--gray-300);
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
