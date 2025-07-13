@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../core/auth/auth.service';
+import { NotificationService } from '../../services/notification/notification.service';
 import { SpotfyService } from '../../services/spotfy/spotfy.service';
 import { TokenService } from '../../services/token/token.service';
 
@@ -31,44 +32,37 @@ export class ListComponent implements OnDestroy {
   missingIsrcs: string[] = [];
   currentPlayingId: string | null = null;
   currentAudio: HTMLAudioElement | null = null;
-isrcs = [
-  'US7VG1846811',
-  'US7QQ1846811',
-  'BRC310600002',
-  'BR1SP1200071',
-  'BR1SP1200070',
-  'BR1SP1500002',
-  'BXKZM1900338',
-  'BXKZM1900345',
-  'QZNJX2081700',
-  'QZNJX2078148'
-];
+  isrcs = [
+    'US7VG1846811',
+    'US7QQ1846811',
+    'BRC310600002',
+    'BR1SP1200071',
+    'BR1SP1200070',
+    'BR1SP1500002',
+    'BXKZM1900338',
+    'BXKZM1900345',
+    'QZNJX2081700',
+    'QZNJX2078148'
+  ];
+  activePaginator = false;
+  private lastPagination = 0;
+
 
   constructor(
     private router: Router,
     private tokenService: TokenService,
     private authService: AuthService,
-    private spotfyService: SpotfyService
+    private spotfyService: SpotfyService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
-    this.tokenService.getAccessToken().pipe(
-      tap((token) => this.authService.saveToken(token)),
-      switchMap(() => this.spotfyService.getTracksByIsrcs([...this.isrcs])) // Cria uma cópia para evitar mutação
-    ).subscribe({
-      next: (tracks) => {
-        this.tracks = tracks;
-        this.missingIsrcs = this.isrcs.filter((_, i) => !tracks[i]);
-        this.totalItems = this.tracks.length;
-        this.updatePaginatedData();
-      },
-      error: (err) => {
-        console.error('>>>>>>>>>>> Erro ao buscar faixas:', err);
-      }
-    });
+    this.listeningNotificationEvent();
+    this.getTracks();
   }
 
   onPageChange(event: PageEvent): void {
+    this.lastPagination = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.updatePaginatedData();
@@ -165,5 +159,48 @@ isrcs = [
 
   ngOnDestroy(): void {
     this.pauseAudio();
+  }
+
+  private getTracks(): void {
+      this.tokenService.getAccessToken().pipe(
+      tap((token) => this.authService.saveToken(token)),
+      switchMap(() => this.spotfyService.getTracksByIsrcs([...this.isrcs])) // Cria uma cópia para evitar mutação
+    ).subscribe({
+      next: (tracks) => {
+        this.tracks = tracks;
+        this.missingIsrcs = this.isrcs.filter((_, i) => !tracks[i]);
+        this.totalItems = this.tracks.length;
+        this.updatePaginatedData();
+      },
+      error: (err) => {
+        console.error('>>>>>>>>>>> Erro ao buscar faixas:', err);
+      }
+    });
+  }
+
+    listeningNotificationEvent(): void {
+    this.notificationService.getNotification().subscribe((res: boolean) => {
+      console.log('Notification received, updating track list...', res);
+      if (res) {
+        this.activePaginator = true;
+        this.lastPaginationIsCall();
+        return;
+      }
+      this.activePaginator = false;
+      this.pageSize = this.tracks.length;
+      this.updatePaginatedData();
+
+    });
+  }
+
+  private lastPaginationIsCall(): void {
+    if (this.lastPagination !== 0) {
+      this.pageSize = this.lastPagination;
+      this.updatePaginatedData();
+      return;
+    }
+    this.pageSize = 5;
+    this.lastPagination = 5;
+    this.updatePaginatedData()
   }
 }

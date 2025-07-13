@@ -65,12 +65,14 @@
   </mat-card>
 </div>
 
-<mat-paginator
+@if (activePaginator) {
+  <mat-paginator
   [length]="totalItems"
   [pageSize]="pageSize"
   [pageIndex]="pageIndex"
   [pageSizeOptions]="[3, 5, 10]"
   (page)="onPageChange($event)"
   showFirstLastButtons
->
+  >
 </mat-paginator>
+}

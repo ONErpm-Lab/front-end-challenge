@@ -9,7 +9,8 @@
             <mat-slide-toggle
             class="example-margin"
             [checked]="checked"
-            [disabled]="disabled">
+            [disabled]="disabled"
+            (change)="onToggleChange($event)">
         </mat-slide-toggle>
     </div>
     </div>
