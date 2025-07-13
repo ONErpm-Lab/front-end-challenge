@@ -1,0 +1,75 @@
+<div class="track-card" data-testid="track-card">
+  <div class="track-image" data-testid="track-image">
+    <img
+      *ngIf="track?.albumImage"
+      [src]="track?.albumImage"
+      alt="Imagem do Álbum: {{ track?.name }}"
+      priority
+      data-testid="track-album-image"
+    />
+    <div *ngIf="!track?.albumImage" class="track-image__empty" data-testid="track-image-empty">
+      <span>Sem imagem</span>
+    </div>
+  </div>
+  <div class="track-content" data-testid="track-content">
+    <div class="track-content__container" *ngIf="track?.hasTrack">
+      <div>
+        <div class="test">
+          <h2 class="track-content__title" data-testid="track-title">
+            <strong>{{ track?.name }}</strong>
+          </h2>
+        </div>
+        <p class="track-content__description">
+          <span class="track-content__description-label">ISRC: </span> 
+          <span class="track-content__description-value" data-testid="track-isrc">{{ track?.isrc }}</span>
+        </p>
+        <p class="track-content__description">
+          <span class="track-content__description-label">Artista: </span> 
+          <span class="track-content__description-value" data-testid="track-artist">{{ track?.artist }}</span>
+        </p>
+        <p class="track-content__description">
+          <span class="track-content__description-label">Lançamento: </span> 
+          <span class="track-content__description-value" data-testid="track-release">{{ track?.albumReleaseDate }}</span>
+        </p>
+        <p class="track-content__description">
+          <span class="track-content__description-label">Duração: </span> 
+          <span class="track-content__description-value" data-testid="track-duration">{{ track?.duration }}</span>
+        </p>
+        <p
+          class="track-content__description"
+          *ngIf="track?.isAvailableInBrazil"
+        >
+          <strong class="track-content__description-label" data-testid="track-available">Disponível no Brasil</strong>
+        </p>
+        <audio
+          *ngIf="track?.previewUrl"
+          [src]="track?.previewUrl"
+          controls
+          data-testid="track-audio"
+        ></audio>
+      </div>
+      <button
+        class="track-content__button"
+        *ngIf="track?.spotifyUrl"
+        (click)="openSpotify(track?.spotifyUrl!)"
+        data-testid="track-spotify-button"
+      >
+        <span class="track-content__button-text">Ouvir no Spotify</span>
+        <img
+          src="assets/spotify.webp"
+          alt="Spotify logo"
+          width="20"
+          height="20"
+        />
+      </button>
+ 
+    </div>
+    <div *ngIf="!track?.hasTrack">
+      <h2 class="track-content__title" data-testid="track-not-found-title">Música não encontrada</h2>
+      <p class="track-content__description-not-found" data-testid="track-not-found-desc">
+        A música com o ISRC <b>{{ track?.isrc }}</b> não foi encontrada no
+        Spotify. Por favor, verifique se o ISRC está correto.
+      </p>
+    </div>
+  </div>
+</div>
