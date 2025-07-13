@@ -1,59 +1,138 @@
-# OnerpmAssessment
+# Front-end Challenge - Spotify Missing Tracks
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.0.
+Este projeto é uma aplicação Angular que busca músicas ausentes no Spotify usando ISRC (International Standard Recording Code). A arquitetura segue os princípios do Domain-Driven Design (DDD) para organizar o código de forma clara e escalável.
 
-## Development server
+## 🏗️ Arquitetura
 
-To start a local development server, run:
+### Estrutura de Pastas
 
-```bash
-ng serve
+```
+src/
+├── app/
+│   ├── core/                           # 🎯 Core Domain
+│   │   ├── components/                 # Componentes 
+│   │   │   └── layout/
+│   │   ├── utils/                      # Utilitários globais
+│   │   │   └── duration.ts
+│   │   └── guards/                     # Guards de rota
+│   │
+│   ├── domains/                        # 🏢 Domínios de Negócio
+│   │   ├── spotify/                    # Domínio Spotify
+│   │   │   ├── services/
+│   │   │   │   └── spotify.service.ts  # Serviço de API Spotify
+│   │   │   └── types/
+│   │   │       └── spotify.types.ts    # Tipos do Spotify
+│   │   │
+│   │   └── tracks/                     # Domínio de Músicas
+│   │       ├── components/             # Componentes do domínio
+│   │       │   └── missing-track-card/
+│   │       ├── mappers/                # Mapeadores de dados
+│   │       │   └── missing-track.mapper.ts
+│   │       ├── pages/                  # Páginas do domínio
+│   │       │   └── missing-tracks/
+│   │       ├── routes/                 # Rotas do domínio
+│   │       │   └── tracks.routes.ts
+│   │       ├── services/               # Serviços do domínio
+│   │       │   └── missing-tracks.service.ts
+│   │       └── types/                  # Tipos do domínio
+│   │           └── tracks.types.ts
+│   │
+│   ├── shared/                         # 🔄 Shared
+│   │   ├── components/                 # Componentes compartilhados
+│   │   ├── directives/                 # Diretivas compartilhadas
+│   │   └── pipes/                      # Pipes compartilhados
+│   │
+│   ├── app.component.ts                # Componente raiz
+│   ├── app.config.ts                   # Configuração da aplicação
+│   ├── app.routes.ts                   # Rotas principais
+│   └── main.ts                         # Ponto de entrada
+│
+├── assets/                             # 📁 Recursos estáticos
+├── environments/                       # 🌍 Configurações de ambiente
+└── styles.scss                         # Estilos globais
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 📋 Estrutura Detalhada por Camada
 
-## Code scaffolding
+### 🎯 Core Domain
+**Responsabilidade**: Funcionalidades essenciais e compartilhadas da aplicação
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Components**: Componentes base reutilizáveis (LoadingSpinner, etc.)
+- **Utils**: Funções utilitárias globais (formatação de duração, etc.)
+- **Guards**: Proteção de rotas e autenticação
+
+### 🏢 Domain Layer
+**Responsabilidade**: Lógica de negócio específica de cada domínio
+
+#### 🎵 Tracks Domain
+- **Services**: `MissingTracksService` - Gerencia busca de músicas ausentes
+- **Mappers**: `MissingTrackMapper` - Converte dados da API para o modelo da aplicação
+- **Types**: Interfaces e tipos específicos do domínio de músicas
+- **Components**: Componentes específicos do domínio (MissingTrackCard)
+- **Pages**: Páginas do domínio (MissingTracksPage)
+- **Routes**: Configuração de rotas do domínio
+
+#### 🎧 Spotify Domain
+- **Services**: `SpotifyService` - Integração com API do Spotify
+- **Types**: Interfaces e tipos da API do Spotify
+
+### 🔄 Shared
+**Responsabilidade**: Código compartilhado entre múltiplos domínios
+
+- **Components**: Componentes reutilizáveis entre domínios
+- **Directives**: Diretivas customizadas
+- **Pipes**: Transformadores de dados
+
+## 🚀 Benefícios da Arquitetura DDD
+
+### ✅ **Separação de Responsabilidades**
+- Cada domínio tem sua própria lógica de negócio
+- Fácil manutenção e evolução independente
+
+### ✅ **Escalabilidade**
+- Novos domínios podem ser adicionados sem afetar os existentes
+- Estrutura clara para crescimento do projeto
+
+### ✅ **Testabilidade**
+- Cada camada pode ser testada independentemente
+- Mocks e stubs bem definidos
+
+### ✅ **Reutilização**
+- Componentes e serviços podem ser reutilizados entre domínios
+- Utilitários centralizados no Core
+
+### ✅ **Manutenibilidade**
+- Código organizado e fácil de navegar
+- Mudanças isoladas por domínio
+
+## 🔧 Tecnologias Utilizadas
+
+- **Angular 17+** - Framework principal
+- **RxJS** - Programação reativa
+- **Luxon** - Manipulação de datas
+- **Angular Signals** - Estado reativo
+- **Jasmine/Karma** - Testes unitários
+
+## 📦 Instalação e Execução
 
 ```bash
-ng generate component component-name
+# Instalar dependências
+npm install
+
+# Executar em modo de desenvolvimento
+npm start
+
+# Executar testes
+npm test
+
+# Build para produção
+npm run build
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 📝 Convenções de Nomenclatura
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **Domínios**: PascalCase (ex: `Tracks`, `Spotify`)
+- **Serviços**: PascalCase + Service (ex: `MissingTracksService`)
+- **Mappers**: camelCase + Mapper (ex: `missingTrackMapper`)
+- **Tipos**: PascalCase com prefixo I (ex: `IMissingTrackCardProps`)
+- **Componentes**: PascalCase (ex: `MissingTrackCard`)
