@@ -12,11 +12,6 @@ export const routes: Routes = [
       import('./components/list/list.component').then((l) => l.ListComponent),
   },
   {
-    path: 'detail',
-    loadComponent: () =>
-      import('./components/detail/detail.component').then((d) => d.DetailComponent),
-  },
-  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full',
