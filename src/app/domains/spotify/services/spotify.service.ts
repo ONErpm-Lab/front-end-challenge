@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { map, Observable, of, switchMap, tap } from 'rxjs';
+import { map, Observable, of, switchMap, tap, shareReplay, BehaviorSubject } from 'rxjs';
 import { ISpotifySearchResponse } from '../types/spotify.types';
 import { environment } from '../../../../environments/environment';
 
@@ -9,12 +9,28 @@ import { environment } from '../../../../environments/environment';
 })
 export class SpotifyService {
   constructor(private http: HttpClient) {}
+  
   hasToken = signal(false);
   token = signal('');
+  private tokenExpirationTime = signal<number>(0);
+  private tokenRequest$: Observable<string> | null = null;
+  private readonly TOKEN_EXPIRATION_BUFFER = 5 * 60 * 1000; // 5 minutos de buffer
 
-  getToken() {
-    if (this.hasToken()) {
+  private isTokenExpired(): boolean {
+    return Date.now() >= this.tokenExpirationTime();
+  }
+
+  private isTokenExpiringSoon(): boolean {
+    return Date.now() >= (this.tokenExpirationTime() - this.TOKEN_EXPIRATION_BUFFER);
+  }
+
+  getToken(): Observable<string> {
+    if (this.hasToken() && !this.isTokenExpired() && !this.isTokenExpiringSoon()) {
       return of(this.token());
+    }
+
+    if (this.tokenRequest$) {
+      return this.tokenRequest$;
     }
 
     const body = new URLSearchParams();
@@ -22,7 +38,7 @@ export class SpotifyService {
     body.set('client_id', environment.spotify.clientId);
     body.set('client_secret', environment.spotify.clientSecret);
 
-    return this.http
+    this.tokenRequest$ = this.http
       .post<any>(environment.spotify.endpoints.token, body.toString(), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -32,9 +48,17 @@ export class SpotifyService {
         tap((res) => {
           this.hasToken.set(true);
           this.token.set(res.access_token);
+          const expiresIn = res.expires_in || 3600;
+          this.tokenExpirationTime.set(Date.now() + (expiresIn * 1000));
         }),
-        map((res) => res.access_token)
+        map((res) => res.access_token),
+        shareReplay(1), 
+        tap(() => {
+          this.tokenRequest$ = null;
+        })
       );
+
+    return this.tokenRequest$;
   }
 
   search(query: string, type: string, limit: number): Observable<ISpotifySearchResponse> {
@@ -52,5 +76,12 @@ export class SpotifyService {
         })
       )
     );
+  }
+
+  clearTokenCache(): void {
+    this.hasToken.set(false);
+    this.token.set('');
+    this.tokenExpirationTime.set(0);
+    this.tokenRequest$ = null;
   }
 }
