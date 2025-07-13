@@ -1,8 +1,16 @@
 <div class="header">
     <div class="nav">
-        <span>
+        <div class="logo">
             <img src="assets/img/logo.png" alt="Spotify logo">
-        </span>
-        <h3>Suas músicas em um só lugar!</h3>
+            <h3>Suas músicas em um só lugar!</h3>
+        </div>
+        <div class="toggle">
+            <span>Usar paginação</span>
+            <mat-slide-toggle
+            class="example-margin"
+            [checked]="checked"
+            [disabled]="disabled">
+        </mat-slide-toggle>
+    </div>
     </div>
 </div>

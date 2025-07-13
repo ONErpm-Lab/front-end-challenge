@@ -1,37 +1,50 @@
 .header {
-    width: 100%;
-    height: 70px;
-    background-color: #000;
+  width: 100%;
+  height: 70px;
+  background-color: #000;
 
-    .nav {
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    gap: 20px;
+    padding: 0 20px;
+    border: 1px solid #fff;
+    width: 100%;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+    }
+
+    h3 {
+      color: white;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .toggle {
         display: flex;
         align-items: center;
-        justify-content: flex-start;
-        height: 100%;
-        max-width: 1600px;
-        margin: 0 auto;
-        gap: 20px;
-        padding: 0 20px;
-        
-        span {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background-color: transparent;
-        }
-        
-        img {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-        }
-       
-        h3 {
-            color: white;
-            margin: 0;
-            font-weight: 500;
-        }
+        gap: 10px;
     }
+
+    span {
+        color: #fff;
+    }
+
+    mat-slide-toggle {
+        color: #fff;
+    }
+  }
 }
