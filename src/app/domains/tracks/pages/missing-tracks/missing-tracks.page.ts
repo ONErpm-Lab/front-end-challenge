@@ -3,8 +3,9 @@ import { MissingTracksService } from '../../services/missing-tracks.service';
 import { CommonModule } from '@angular/common';
 import { missingTrackMapper } from '../../mappers/missing-track.mapper';
 import { IMissingTrackCardProps } from '../../types/tracks.types';
-import { LoadingSpinnerComponent } from '../../../../core/components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner.component';
 import { MissingTrackCardComponent } from '../../components/missing-track-card/missing-track-card.component';
+
 @Component({
   selector: 'app-missing-tracks-page',
   standalone: true,
@@ -16,6 +17,7 @@ export class MissingTracksPage implements OnInit {
   missingTracks = signal<IMissingTrackCardProps[]>([]);
   isLoading = signal<boolean>(true);
   hasError = signal<boolean>(false);
+
   constructor(private missingTracksService: MissingTracksService) {}
 
   ngOnInit(): void {

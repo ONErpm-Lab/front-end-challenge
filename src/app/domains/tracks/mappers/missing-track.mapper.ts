@@ -1,4 +1,4 @@
-import { formatDuration } from '../../../core/utils/duration';
+import { formatDuration } from '../../../shared/utils/duration';
 import { IMultipleSpotifySearchResponse } from '../../spotify/types/spotify.types';
 import { IMissingTrackCardProps } from '../types/tracks.types';
 import { DateTime } from 'luxon';
