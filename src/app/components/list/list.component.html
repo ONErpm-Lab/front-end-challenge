@@ -26,7 +26,13 @@
       <mat-card-content>
         <p>Álbum: {{ track.album.name || "Desconhecido" }}</p>
         <p>Data de lançamento: {{ track.album.release_date | date: 'dd-MM-yyyy' }}</p>
-        <p>Artistas: {{ getArtistsNames(track.artists) }}</p>
+        <p class="artists-info" 
+           [matTooltip]="getArtistsTooltip(track.artists)"
+           matTooltipPosition="above"
+           [matTooltipClass]="'custom-tooltip'">
+          Artistas: {{ getTruncatedArtists(track.artists) }}
+          <mat-icon *ngIf="track.artists.length > 2" class="info-icon">info</mat-icon>
+        </p>
         <p>Duração: {{ formatDuration(track.duration_ms) }}</p>
       </mat-card-content>
 
@@ -48,7 +54,6 @@
             Ouvir completa no Spotify
           </button>
         </div>
-        <button mat-button (click)="navigateDetails(track.id)"></button>
       </mat-card-actions>
     </mat-card>
   </div>

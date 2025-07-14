@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -20,7 +21,7 @@ import { TrackUtilsService } from '../../services/track-utils/track-utils.servic
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [MatButtonModule, MatCardModule, MatPaginatorModule, MatListModule, MatIconModule, MatProgressSpinnerModule, CommonModule],
+  imports: [MatButtonModule, MatCardModule, MatPaginatorModule, MatListModule, MatIconModule, MatProgressSpinnerModule, MatTooltipModule, CommonModule],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
@@ -157,5 +158,17 @@ export class ListComponent implements OnInit, OnDestroy {
     const pageSize = this.lastPagination !== 0 ? this.lastPagination : 5;
     this.lastPagination = pageSize;
     this.paginationService.setPageSize(pageSize, this.tracks);
+  }
+
+    // Para a opção 1 (Tooltip)
+  getTruncatedArtists(artists: any[]): string {
+    if (artists.length <= 2) {
+      return this.trackUtilsService.getArtistsNames(artists);
+    }
+    return `${artists.slice(0, 2).map(artist => artist.name).join(', ')}`;
+  }
+
+  getArtistsTooltip(artists: any[]): string {
+    return artists.map((artist, index) => `${index + 1}. ${artist.name}`).join('\n');
   }
 }
