@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,12 +7,15 @@ import { MatListModule } from '@angular/material/list';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
-import { switchMap, tap } from 'rxjs';
+import { Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../core/auth/auth.service';
+import { AudioPlayerService } from '../../services/audio/audio-player.service';
 import { NotificationService } from '../../services/notification/notification.service';
+import { PaginationService, PaginationState } from '../../services/pagination/pagination.service';
 import { SpotfyService } from '../../services/spotfy/spotfy.service';
 import { TokenService } from '../../services/token/token.service';
+import { TrackUtilsService } from '../../services/track-utils/track-utils.service';
 
 @Component({
   selector: 'app-list',
@@ -21,18 +24,25 @@ import { TokenService } from '../../services/token/token.service';
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
-export class ListComponent implements OnDestroy {
+export class ListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  
+  private destroy$ = new Subject<void>();
+  
   urlImage = environment.search || 'https://via.placeholder.com/300';
   tracks: any[] = [];
-  paginateData: any[] = [];
-  totalItems = 0;
-  pageSize = 10;
-  pageIndex = 0;
   missingIsrcs: string[] = [];
+  activePaginator = false;
+  paginationState!: PaginationState;
   currentPlayingId: string | null = null;
-  currentAudio: HTMLAudioElement | null = null;
-  isrcs = [
+  
+  // Adicione esta propriedade getter para o template
+  get paginateData(): any[] {
+    return this.paginationState?.paginatedData || [];
+  }
+  
+  private lastPagination = 0;
+  private readonly isrcs = [
     'US7VG1846811',
     'US7QQ1846811',
     'BRC310600002',
@@ -44,34 +54,47 @@ export class ListComponent implements OnDestroy {
     'QZNJX2081700',
     'QZNJX2078148'
   ];
-  activePaginator = false;
-  private lastPagination = 0;
-
 
   constructor(
     private router: Router,
     private tokenService: TokenService,
     private authService: AuthService,
     private spotfyService: SpotfyService,
-    private notificationService: NotificationService
-  ) {}
+    private notificationService: NotificationService,
+    private audioPlayerService: AudioPlayerService,
+    private trackUtilsService: TrackUtilsService,
+    private paginationService: PaginationService
+  ) {
+    this.setupSubscriptions();
+  }
 
   ngOnInit(): void {
-    this.listeningNotificationEvent();
     this.getTracks();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.audioPlayerService.destroy();
+  }
+
+  private setupSubscriptions(): void {
+    this.paginationService.paginationState$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(state => this.paginationState = state);
+
+    this.audioPlayerService.currentPlayingId$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(id => this.currentPlayingId = id);
+
+    this.notificationService.getNotification()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(this.handleNotification.bind(this));
   }
 
   onPageChange(event: PageEvent): void {
     this.lastPagination = event.pageSize;
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.updatePaginatedData();
-  }
-
-  updatePaginatedData(): void {
-    const start = this.pageIndex * this.pageSize;
-    const end = start + this.pageSize;
-    this.paginateData = this.tracks.slice(start, end);
+    this.paginationService.updatePagination(event.pageIndex, event.pageSize, this.tracks);
   }
 
   navigateDetails(id: string): void {
@@ -79,98 +102,39 @@ export class ListComponent implements OnDestroy {
   }
 
   toggleAudio(track: any): void {
-    if (this.isPlaying(track.id)) {
-      this.pauseAudio();
-    } else {
-      this.playAudio(track);
-    }
-  }
-
-  playAudio(track: any): void {
-    this.pauseAudio();
-    
-    if (track.preview_url) {
-      this.currentAudio = new Audio(track.preview_url);
-      this.currentPlayingId = track.id;
-      
-      this.currentAudio.addEventListener('ended', () => {
-        this.onAudioEnded(track.id);
-      });
-      
-      this.currentAudio.play().catch(error => {
-        console.error('Erro ao reproduzir áudio:', error);
-        this.onAudioError(track.id);
-      });
-    }
-  }
-
-  pauseAudio(): void {
-    if (this.currentAudio) {
-      this.currentAudio.pause();
-      this.currentAudio = null;
-      this.currentPlayingId = null;
-    }
+    this.audioPlayerService.togglePlay(track);
   }
 
   isPlaying(trackId: string): boolean {
-    return this.currentPlayingId === trackId && !!this.currentAudio && !this.currentAudio.paused;
-  }
-
-  onAudioEnded(trackId: string): void {
-    if (this.currentPlayingId === trackId) {
-      this.currentPlayingId = null;
-      this.currentAudio = null;
-    }
-  }
-
-  onAudioLoadStart(trackId: string): void {
-    console.log('Carregando áudio para:', trackId);
-  }
-
-  onAudioError(trackId: string): void {
-    console.error('Erro ao carregar áudio para:', trackId);
-    if (this.currentPlayingId === trackId) {
-      this.currentPlayingId = null;
-      this.currentAudio = null;
-    }
+    return this.audioPlayerService.isPlaying(trackId);
   }
 
   formatDuration(durationMs: number): string {
-    const minutes = Math.floor(durationMs / 60000);
-    const seconds = Math.floor((durationMs % 60000) / 1000);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    return this.trackUtilsService.formatDuration(durationMs);
   }
 
   getArtistsNames(artists: any[]): string {
-    return artists.map(artist => artist.name).join(', ');
+    return this.trackUtilsService.getArtistsNames(artists);
   }
 
   hasValidPreview(track: any): boolean {
-    const hasPreview = track && track.preview_url && track.preview_url !== null && track.preview_url !== '';
-    console.log(`Track ${track?.name} has valid preview:`, hasPreview, 'URL:', track?.preview_url);
-    return hasPreview;
+    return this.trackUtilsService.hasValidPreview(track);
   }
 
   openSpotify(track: any): void {
-    if (track?.external_urls?.spotify) {
-      window.open(track.external_urls.spotify, '_blank');
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.pauseAudio();
+    this.trackUtilsService.openSpotify(track);
   }
 
   private getTracks(): void {
-      this.tokenService.getAccessToken().pipe(
+    this.tokenService.getAccessToken().pipe(
       tap((token) => this.authService.saveToken(token)),
-      switchMap(() => this.spotfyService.getTracksByIsrcs([...this.isrcs]))
+      switchMap(() => this.spotfyService.getTracksByIsrcs([...this.isrcs])),
+      takeUntil(this.destroy$)
     ).subscribe({
       next: (tracks) => {
         this.tracks = tracks;
         this.missingIsrcs = this.isrcs.filter((_, i) => !tracks[i]);
-        this.totalItems = this.tracks.length;
-        this.updatePaginatedData();
+        this.paginationService.updatePagination(0, 10, this.tracks);
       },
       error: (err) => {
         console.error('>>>>>>>>>>> Erro ao buscar faixas:', err);
@@ -178,29 +142,20 @@ export class ListComponent implements OnDestroy {
     });
   }
 
-    listeningNotificationEvent(): void {
-    this.notificationService.getNotification().subscribe((res: boolean) => {
-      console.log('Notification received, updating track list...', res);
-      if (res) {
-        this.activePaginator = true;
-        this.lastPaginationIsCall();
-        return;
-      }
+  private handleNotification(res: boolean): void {
+    console.log('Notification received, updating track list...', res);
+    if (res) {
+      this.activePaginator = true;
+      this.handleLastPagination();
+    } else {
       this.activePaginator = false;
-      this.pageSize = this.tracks.length;
-      this.updatePaginatedData();
-
-    });
+      this.paginationService.setPageSize(this.tracks.length, this.tracks);
+    }
   }
 
-  private lastPaginationIsCall(): void {
-    if (this.lastPagination !== 0) {
-      this.pageSize = this.lastPagination;
-      this.updatePaginatedData();
-      return;
-    }
-    this.pageSize = 5;
-    this.lastPagination = 5;
-    this.updatePaginatedData()
+  private handleLastPagination(): void {
+    const pageSize = this.lastPagination !== 0 ? this.lastPagination : 5;
+    this.lastPagination = pageSize;
+    this.paginationService.setPageSize(pageSize, this.tracks);
   }
 }
