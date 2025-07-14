@@ -164,7 +164,7 @@ export class ListComponent implements OnDestroy {
   private getTracks(): void {
       this.tokenService.getAccessToken().pipe(
       tap((token) => this.authService.saveToken(token)),
-      switchMap(() => this.spotfyService.getTracksByIsrcs([...this.isrcs])) // Cria uma cópia para evitar mutação
+      switchMap(() => this.spotfyService.getTracksByIsrcs([...this.isrcs]))
     ).subscribe({
       next: (tracks) => {
         this.tracks = tracks;

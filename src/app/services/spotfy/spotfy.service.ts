@@ -22,7 +22,6 @@ export class SpotfyService {
   getTracksByIsrcs(isrcs: string[]): Observable<any[]> {
     return from(isrcs).pipe(
       concatMap((isrc) => this.getTrackByIsrcWithDelay(isrc)),
-      // Coleta todos os resultados em um array
       bufferCount(isrcs.length),
       map((tracks) => tracks.filter((track) => track !== null))
     );
