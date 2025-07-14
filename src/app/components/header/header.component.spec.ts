@@ -30,7 +30,8 @@ fdescribe('HeaderComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
+    expect(component).not.toBeNull();
   });
 
   it('should initialize with default values', () => {
