@@ -308,3 +308,65 @@ mat-card-actions {
   }
 }
 
+::ng-deep mat-paginator {
+  @media (max-width: 600px) {
+    .mat-mdc-paginator-container {
+      padding: 8px 4px;
+      gap: 8px;
+    }
+    
+    .mat-mdc-paginator-range-label {
+      font-size: 12px;
+    }
+    
+    .mat-mdc-paginator-page-size .mat-mdc-form-field {
+      width: 60px;
+    }
+  }
+  
+  @media (max-width: 497px) {
+    .mat-mdc-paginator-container {
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px 8px;
+    }
+    
+    .mat-mdc-paginator-range-actions {
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+    
+    .mat-mdc-paginator-range-label {
+      order: 1;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    
+    .mat-mdc-paginator-navigation-actions {
+      order: 2;
+      justify-content: center;
+    }
+    
+    .mat-mdc-paginator-page-size {
+      order: 3;
+      justify-content: center;
+      font-size: 12px;
+      
+      .mat-mdc-paginator-page-size-label {
+        margin-right: 8px;
+      }
+      
+      .mat-mdc-form-field {
+        width: 55px;
+      }
+    }
+    
+    .mat-mdc-paginator-navigation-first,
+    .mat-mdc-paginator-navigation-last {
+      display: none;
+    }
+  }
+}
+
