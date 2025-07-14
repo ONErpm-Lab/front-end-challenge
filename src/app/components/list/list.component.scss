@@ -20,10 +20,17 @@
 
 .spinner-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 50vh;
     width: 100%;
+    gap: 16px;
+
+    p {
+      color: #fff;
+      font-size: 1.5em;
+    }
   }
 
 .tracks-container,
