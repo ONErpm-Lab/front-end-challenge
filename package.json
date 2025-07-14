@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --code-coverage",
+    "test": "ng test --code-coverage --watch=false --browsers=ChromeHeadless",
     "test:watch": "ng test --watch",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",

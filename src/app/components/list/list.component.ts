@@ -98,10 +98,6 @@ export class ListComponent implements OnInit, OnDestroy {
     this.paginationService.updatePagination(event.pageIndex, event.pageSize, this.tracks);
   }
 
-  navigateDetails(id: string): void {
-    this.router.navigate(['/details', id]);
-  }
-
   toggleAudio(track: any): void {
     this.audioPlayerService.togglePlay(track);
   }
