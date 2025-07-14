@@ -17,7 +17,6 @@ export class TrackUtilsService {
 
   hasValidPreview(track: any): boolean {
     const hasPreview = track && track.preview_url && track.preview_url !== null && track.preview_url !== '';
-    console.log(`Track ${track?.name} has valid preview:`, hasPreview, 'URL:', track?.preview_url);
     return hasPreview;
   }
 

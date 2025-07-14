@@ -82,6 +82,47 @@ mat-paginator {
   gap: 20px;
   align-items: stretch;
   padding: 20px;
+
+
+.artists-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  
+  .info-icon {
+    -webkit-user-select: none;
+    user-select: none;
+    background-repeat: no-repeat;
+    display: inline-block;
+    fill: currentColor;
+    height: 24px;
+    width: 24px;
+    overflow: hidden;
+    margin-top: -3px;
+    position: absolute;
+    margin-left: 5px;
+    font-size: 18px;
+    color: #666;
+    right: 50px;
+    top: 3px;
+    
+    &:hover {
+      color: #1db954;
+    }
+  }
+}
+
+::ng-deep .custom-tooltip {
+  background-color: #333 !important;
+  color: white !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  white-space: pre-line !important;
+  max-width: 300px !important;
+  padding: 8px 12px !important;
+  border-radius: 4px !important;
+}
 }
 
 /* Centralização quando há 3 ou menos cards */
@@ -89,7 +130,7 @@ mat-paginator {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .track-card {
@@ -195,8 +236,6 @@ mat-card-actions {
     font-size: 10px;
     margin-top: 2px;
   }
-
-
 }
 
 .header-content {
