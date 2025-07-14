@@ -43,7 +43,7 @@ Caso a integração com o fornecedor dos dados não esteja disponível, um alert
 ## Requisitos
 
 * Faça um fork deste repositório e abra um PR quando estiver finalizado.
-* O frontend deve ser no  deve ser feito em Angular 10 ou superior.
+* O frontend deve ser no  deve ser feito em Angular versão LTS.
 * A página deve ser responsiva para atender todos os tipos de dispositivos.
 * Use a API do Spotify: [https://developer.spotify.com/](https://developer.spotify.com/) para coletar os dados das faixas.
 
