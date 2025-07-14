@@ -174,6 +174,25 @@ describe('ListComponent', () => {
     expect(mockAudio.play).toHaveBeenCalled();
   });
 
+  it('should handle audio play error', async () => {
+    const mockAudio = {
+      play: jasmine.createSpy('play').and.returnValue(Promise.reject(new Error('Play failed'))),
+      addEventListener: jasmine.createSpy('addEventListener'),
+      pause: jasmine.createSpy('pause')
+    };
+    spyOn(window, 'Audio').and.returnValue(mockAudio as any);
+    spyOn(console, 'error');
+    spyOn(component, 'onAudioError');
+    
+    component.playAudio(mockTracks[0]);
+    
+    // Aguardar a promise ser rejeitada
+    await expectAsync(mockAudio.play()).toBeRejected();
+    
+    expect(console.error).toHaveBeenCalledWith('Erro ao reproduzir áudio:', jasmine.any(Error));
+    expect(component.onAudioError).toHaveBeenCalledWith('1');
+  });
+
   it('should pause audio', () => {
     const mockAudio = {
       pause: jasmine.createSpy('pause'),
