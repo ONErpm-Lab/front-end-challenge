@@ -1,0 +1,76 @@
+@if (paginateData && paginateData.length > 0) {
+  <div *ngIf="missingIsrcs.length" class="warning">
+    <h3>ISRCs não encontrados</h3>
+    <p>[ {{ missingIsrcs.join(", ") }} ]</p>
+  </div>
+  
+  <div class="tracks-container" [ngClass]="{ 'few-items': paginateData.length <= 3 }">
+    <mat-card *ngFor="let track of paginateData" class="track-card">
+      <mat-card-header>
+        <div class="header-content">
+          <div class="track-info">
+            <mat-card-title>{{ track.name }}</mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+          </div>
+          <div
+            class="brazil-availability"
+            [ngClass]="{ 'available': track.is_playable, 'unavailable': !track.is_playable }">
+            <mat-icon>{{ track.is_playable ? 'check_circle' : 'cancel' }}</mat-icon>
+            <span>🇧🇷 {{ track.is_playable ? 'Disponível no Brasil' : 'Não disponível no Brasil' }}</span>
+          </div>
+        </div>
+      </mat-card-header>
+      
+      <img mat-card-image [src]="track.album.images[0]?.url || urlImage" alt="{{ track.name }}"/>
+      
+      <mat-card-content>
+        <p>Álbum: {{ track.album.name || "Desconhecido" }}</p>
+        <p>Data de lançamento: {{ track.album.release_date | date: 'dd-MM-yyyy' }}</p>
+        <p class="artists-info" 
+           [matTooltip]="getArtistsTooltip(track.artists)"
+           matTooltipPosition="above"
+           [matTooltipClass]="'custom-tooltip'">
+          Artistas: {{ getTruncatedArtists(track.artists) }}
+          <mat-icon *ngIf="track.artists.length > 2" class="info-icon">info</mat-icon>
+        </p>
+        <p>Duração: {{ formatDuration(track.duration_ms) }}</p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <div class="audio-controls" *ngIf="hasValidPreview(track)">
+          <button mat-icon-button (click)="toggleAudio(track)" [attr.aria-label]="isPlaying(track.id) ? 'Pausar' : 'Reproduzir'">
+            <mat-icon>{{isPlaying(track.id) ? "pause" : "play_arrow"}}</mat-icon>
+          </button>
+        </div>
+
+        <div *ngIf="!hasValidPreview(track)" class="no-preview">
+          <mat-icon>music_off</mat-icon>
+          <span>Prévia não disponível</span>
+        </div>
+        
+        <div class="spotify-link">
+          <button mat-button (click)="openSpotify(track)">
+            <mat-icon>open_in_new</mat-icon>
+            Ouvir completa no Spotify
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  @if (activePaginator) {
+    <mat-paginator
+      [length]="paginationState.totalItems || 0"
+      [pageSize]="paginationState.pageSize || 10"
+      [pageIndex]="paginationState.pageIndex || 0"
+      [pageSizeOptions]="[3, 5, 10]"
+      (page)="onPageChange($event)"
+      showFirstLastButtons>
+    </mat-paginator>
+  }
+} @else {
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+    <p class="loading-text">Carregando faixas<span class="loading-dots"></span></p>
+  </div>
+}

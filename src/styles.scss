@@ -1,0 +1,39 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #353434;}
+
+/* Customização do mat-slide-toggle */
+.mat-mdc-slide-toggle {
+  --mdc-switch-selected-track-color: #2ebd59;
+  --mdc-switch-selected-hover-track-color: #2ebd59;
+  --mdc-switch-selected-focus-track-color: #2ebd59;
+  --mdc-switch-selected-pressed-track-color: #2ebd59;
+}
+
+/* Fallback para versões mais antigas */
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: rgba(46, 189, 89, 0.5);
+}
+
+/* Para o Material Design 3 (MDC) - apenas o fundo */
+.mdc-switch__track::after {
+  background-color: #2ebd59 !important;
+}
+
+/* Customização do mat-spinner */
+.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle,
+.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
+  stroke: #2ebd59 !important;
+}
+
+/* Fallback para versões mais antigas do Material */
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #2ebd59 !important;
+}
+
+/* Para garantir que funcione em todos os casos */
+mat-spinner svg circle {
+  stroke: #2ebd59 !important;
+}

@@ -1,0 +1,9 @@
+{
+  "typescript.preferences.useAliasesForRenames": false,
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "files.associations": {
+    "*.spec.ts": "typescript"
+  },
+  "typescript.preferences.includePackageJsonAutoImports": "on"
+}
