@@ -20,3 +20,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 .mdc-switch__track::after {
   background-color: #2ebd59 !important;
 }
+
+/* Customização do mat-spinner */
+.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle,
+.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
+  stroke: #2ebd59 !important;
+}
+
+/* Fallback para versões mais antigas do Material */
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #2ebd59 !important;
+}
+
+/* Para garantir que funcione em todos os casos */
+mat-spinner svg circle {
+  stroke: #2ebd59 !important;
+}
