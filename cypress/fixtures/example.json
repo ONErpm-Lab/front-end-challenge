@@ -1,0 +1,7 @@
+{
+  "sampleData": {
+    "id": 1,
+    "name": "Test User",
+    "email": "testuser@example.com"
+  }
+}
