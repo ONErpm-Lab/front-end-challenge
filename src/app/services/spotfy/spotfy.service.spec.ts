@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { SpotfyService } from './spotfy.service';
 
-fdescribe('SpotfyService', () => {
+describe('SpotfyService', () => {
   let service: SpotfyService;
   let httpMock: HttpTestingController;
 

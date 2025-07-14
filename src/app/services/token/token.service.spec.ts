@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { environment } from '../../../environments/environment';
 import { TokenService } from './token.service';
 
-fdescribe('TokenService', () => {
+describe('TokenService', () => {
   let service: TokenService;
   let httpMock: HttpTestingController;
 
