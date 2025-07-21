@@ -71,20 +71,15 @@ export class SpotifyService {
           const item = res.tracks.items[0];
           if (!item) return null;
 
-          const durationMs = item.duration_ms;
-          const minutes = Math.floor(durationMs / 60000);
-          const seconds = Math.floor((durationMs % 60000) / 1000);
-          const duration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
           return {
             title: item.name,
             artists: item.artists.map((a: any) => a.name),
-            albumImage: item.album.images[0]?.url,
+            albumImage: item.album.images[0]?.url ?? '',
             releaseDate: item.album.release_date,
-            duration,
+            durationMs: item.duration_ms,
             previewUrl: item.preview_url,
-            spotifyUrl: item.external_urls.spotify,
-            availableInBrazil: item.available_markets.includes('BR'),
+            externalUrl: item.external_urls.spotify,
+            availableMarkets: item.available_markets,
           } as Track;
         }),
         catchError((err) => {

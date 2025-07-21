@@ -1,0 +1,60 @@
+.track-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #181818;
+  color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+  padding: 16px;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  .album-thumb {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+
+  .track-info {
+    .title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .artists,
+    .release-date,
+    .duration,
+    .availability {
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    .availability {
+      .available {
+        color: #1db954;
+      }
+    }
+
+    .spotify-link {
+      margin-top: 8px;
+      display: inline-block;
+      color: #1db954;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .audio-preview {
+      width: 100%;
+      margin-top: 8px;
+    }
+  }
+}

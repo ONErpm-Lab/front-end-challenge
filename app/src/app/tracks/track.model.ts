@@ -3,8 +3,8 @@ export interface Track {
   artists: string[];
   albumImage: string;
   releaseDate: string;
-  duration: string;
+  durationMs: number;
   previewUrl: string | null;
-  spotifyUrl: string;
-  availableInBrazil: boolean;
+  externalUrl: string;
+  availableMarkets: string[];
 }

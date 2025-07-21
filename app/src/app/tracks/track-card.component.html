@@ -1,0 +1,36 @@
+<div class="track-card">
+  <img
+    class="album-thumb"
+    [src]="track.albumImage"
+    [alt]="track.title + ' cover'"
+  />
+
+  <div class="track-info">
+    <h2 class="title">{{ track.title }}</h2>
+    <p class="artists">{{ track.artists.join(', ') }}</p>
+    <p class="release-date">Lançamento: {{ track.releaseDate | date }}</p>
+    <p class="duration">Duração: {{ formattedDuration }}</p>
+
+    <audio
+      class="audio-preview"
+      *ngIf="track.previewUrl"
+      [src]="track.previewUrl"
+      controls
+    ></audio>
+
+    <p class="availability">
+      Disponível no Brasil:
+      <span [class.available]="track.availableMarkets.includes('BR')">✔️</span>
+      <span *ngIf="!track.availableMarkets.includes('BR')">❌</span>
+    </p>
+
+    <a
+      class="spotify-link"
+      [href]="track.externalUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Ver no Spotify
+    </a>
+  </div>
+</div>

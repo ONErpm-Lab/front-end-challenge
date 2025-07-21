@@ -1,14 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SpotifyService } from '../core/services/spotify.service';
 import { Track } from './track.model';
-
-/**
- * Type guard para remover faixas nulas do array
- */
-function isValidTrack(track: Track | null): track is Track {
-  return track !== null;
-}
 
 @Component({
   standalone: true,
@@ -18,8 +11,7 @@ function isValidTrack(track: Track | null): track is Track {
   styleUrls: ['./tracks.component.scss'],
 })
 export class TracksComponent implements OnInit {
-  // Lista fornecida no desafio
-  private readonly isrcList: string[] = [
+  isrcList: string[] = [
     'US7VG1846811',
     'US7QQ1846811',
     'BRC310600002',
@@ -32,19 +24,19 @@ export class TracksComponent implements OnInit {
     'QZNJX2078148',
   ];
 
-  // Estado da aplicação
   tracks: Track[] = [];
   error = false;
 
-  // Injeção moderna
-  private spotifyService = inject(SpotifyService);
+  constructor(private spotifyService: SpotifyService) {}
 
   ngOnInit(): void {
     this.spotifyService.fetchTracksByISRCList(this.isrcList).subscribe({
-      next: (result) => {
-        this.tracks = result
-          .filter((track): track is Track => track !== null)
-          .sort((a, b) => a.title.localeCompare(b.title));
+      next: (result: (Track | null)[]) => {
+        // Filtramos os nulls antes de usar no array final
+        const validTracks = result.filter((t): t is Track => t !== null);
+        this.tracks = validTracks.sort((a, b) =>
+          a.title.localeCompare(b.title)
+        );
       },
       error: () => {
         this.error = true;
