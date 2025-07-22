@@ -1,0 +1,134 @@
+.track-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 2rem 1rem;
+}
+
+.track-card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: var(--color-white);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .card-content {
+    width: 100%;
+  }
+
+  // Imagem do álbum
+  .thumb-wrapper {
+    width: 100%;
+
+    .album-thumb {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+  }
+
+  // Informações da faixa
+  .track-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    padding-inline: 0.5rem;
+
+    .box-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 0 0.5rem 0;
+      margin-bottom: 0.5rem;
+      border-bottom: solid 1px var(--color-muted);
+      .title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--color-dark);
+        margin: 0;
+      }
+    }
+
+    .artists {
+      font-size: var(--font-size-sm);
+      color: var(--color-primary);
+    }
+    .release-date,
+    .duration,
+    .availability,
+    .no-preview {
+      font-size: 0.9rem;
+      color: var(--color-dark);
+    }
+
+    .duration {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      line-height: 0.5rem;
+    }
+
+    .no-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: var(--color-muted);
+      gap: 4px;
+    }
+
+    .audio-preview {
+      margin-top: 0.5rem;
+      width: 100%;
+      max-width: 250px;
+      margin-inline: auto;
+    }
+
+    .spotify-link {
+      margin-top: 0.75rem;
+      display: inline-block;
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      padding: 0.6rem 1rem;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: #fc7725;
+      }
+    }
+
+    .status {
+      font-weight: bold;
+
+      &.available {
+        color: var(--color-success); // destaque alternativo
+      }
+
+      &.unavailable {
+        color: var(--color-danger);
+      }
+    }
+  }
+}
