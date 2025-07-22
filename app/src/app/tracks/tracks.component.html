@@ -1,4 +1,4 @@
-<section *ngIf="!error && tracks.length" class="track-list">
+<section *ngIf="tracks.length" class="track-list">
   <app-track-card
     *ngFor="let track of tracks"
     [track]="track"

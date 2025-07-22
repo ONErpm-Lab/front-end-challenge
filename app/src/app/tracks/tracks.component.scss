@@ -1,7 +1,8 @@
 .track-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }

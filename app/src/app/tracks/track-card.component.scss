@@ -1,69 +1,97 @@
 .track-card {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  background-color: #181818;
-  color: #fff;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease-in-out;
-  padding: 16px;
 
-  &:hover {
-    transform: translateY(-4px);
+  .card-content {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: 600px) {
+      flex-direction: row;
+      gap: 1rem;
+    }
   }
 
-  .album-thumb {
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin-bottom: 12px;
+  .thumb-wrapper {
+    flex-shrink: 0;
+
+    .album-thumb {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+
+      @media (min-width: 600px) {
+        width: 120px;
+        height: 120px;
+      }
+    }
   }
 
-  .track-info {
+  .track-details {
+    flex-grow: 1;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    @media (min-width: 600px) {
+      margin-top: 0;
+    }
+
     .title {
       font-size: 1.2rem;
-      font-weight: bold;
-      margin-bottom: 4px;
+      font-weight: 600;
     }
 
     .artists,
     .release-date,
     .duration,
-    .availability {
+    .availability,
+    .no-preview {
       font-size: 0.9rem;
-      margin-bottom: 6px;
+      color: #444;
     }
 
-    .availability {
-      .available {
-        color: #1db954;
-      }
+    .audio-preview {
+      margin-top: 0.5rem;
+      width: 100%;
+      max-width: 300px;
     }
 
     .spotify-link {
-      margin-top: 8px;
-      display: inline-block;
+      margin-top: 0.5rem;
       color: #1db954;
       text-decoration: none;
+      font-weight: 500;
 
       &:hover {
         text-decoration: underline;
       }
     }
 
-    .audio-preview {
-      width: 100%;
-      margin-top: 8px;
+    .status.available {
+      color: green;
+    }
+
+    .status:not(.available) {
+      color: red;
     }
   }
-}
 
-.track-card.not-found {
-  border: 2px dashed #b91c1c;
-  background-color: #fef2f2;
-  padding: 1rem;
-  text-align: center;
-  color: #b91c1c;
-  font-weight: bold;
+  &.not-found {
+    background-color: #ffe6e6;
+    border: 1px solid #e57373;
+    text-align: center;
+    color: #c62828;
+    font-weight: bold;
+  }
 }
