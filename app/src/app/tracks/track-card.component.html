@@ -1,9 +1,11 @@
-<div class="track-card">
-  <img
-    class="album-thumb"
-    [src]="track.albumImage"
-    [alt]="track.title + ' cover'"
-  />
+<!-- Card para ISRC não encontrado -->
+<div class="track-card not-found" *ngIf="track.notFound">
+  <p class="error-message">{{ track.title }}</p>
+</div>
+
+<!-- Card com dados válidos -->
+<div class="track-card" *ngIf="!track.notFound">
+  <img class="album-thumb" [src]="track.albumImage" [alt]="track.title + ' cover'" />
 
   <div class="track-info">
     <h2 class="title">{{ track.title }}</h2>
@@ -11,25 +13,21 @@
     <p class="release-date">Lançamento: {{ track.releaseDate | date }}</p>
     <p class="duration">Duração: {{ formattedDuration }}</p>
 
-    <audio
-      class="audio-preview"
-      *ngIf="track.previewUrl"
-      [src]="track.previewUrl"
-      controls
-    ></audio>
+    <ng-container *ngIf="track.previewUrl; else noPreview">
+      <audio class="audio-preview" [src]="track.previewUrl" controls></audio>
+    </ng-container>
+    <ng-template #noPreview>
+      <p class="no-preview">🎧 Prévia indisponível no Spotify</p>
+    </ng-template>
+
 
     <p class="availability">
       Disponível no Brasil:
-      <span [class.available]="track.availableMarkets.includes('BR')">✔️</span>
-      <span *ngIf="!track.availableMarkets.includes('BR')">❌</span>
+      <span [class.available]="track.availableInBrazil">✔️</span>
+      <span *ngIf="!track.availableInBrazil">❌</span>
     </p>
 
-    <a
-      class="spotify-link"
-      [href]="track.externalUrl"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <a class="spotify-link" [href]="track.externalUrl" target="_blank" rel="noopener noreferrer">
       Ver no Spotify
     </a>
   </div>

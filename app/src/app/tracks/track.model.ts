@@ -6,5 +6,6 @@ export interface Track {
   durationMs: number;
   previewUrl: string | null;
   externalUrl: string;
-  availableMarkets: string[];
+  availableInBrazil: boolean;
+  notFound?: boolean;
 }

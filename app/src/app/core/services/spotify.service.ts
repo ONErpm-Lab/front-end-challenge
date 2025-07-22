@@ -42,7 +42,25 @@ export class SpotifyService {
     return this.authenticate().pipe(
       switchMap((token) => {
         this.accessToken = token;
-        const requests = isrcList.map((isrc) => this.fetchTrackByISRC(isrc));
+        const requests = isrcList.map((isrc) =>
+          this.fetchTrackByISRC(isrc).pipe(
+            map(
+              (track) =>
+                track ??
+                ({
+                  title: `ISRC não encontrado: ${isrc}`,
+                  artists: [],
+                  albumImage: '',
+                  releaseDate: '',
+                  durationMs: 0,
+                  previewUrl: null,
+                  externalUrl: '',
+                  availableInBrazil: false,
+                  notFound: true,
+                } as Track)
+            )
+          )
+        );
         return forkJoin(requests);
       }),
       catchError((error) => {
@@ -69,7 +87,11 @@ export class SpotifyService {
       .pipe(
         map((res) => {
           const item = res.tracks.items[0];
-          if (!item) return null;
+          if (!item)
+            return {
+              notFound: true,
+              title: `ISRC não encontrado: ${isrc}`,
+            } as Track;
 
           return {
             title: item.name,
@@ -79,12 +101,16 @@ export class SpotifyService {
             durationMs: item.duration_ms,
             previewUrl: item.preview_url,
             externalUrl: item.external_urls.spotify,
-            availableMarkets: item.available_markets,
+            availableInBrazil: item.available_markets?.includes('BR') ?? false,
+            notFound: false,
           } as Track;
         }),
         catchError((err) => {
           console.warn(`Erro ao buscar ISRC ${isrc}:`, err);
-          return of(null);
+          return of({
+            notFound: true,
+            title: `ISRC não encontrado: ${isrc}`,
+          } as Track);
         })
       );
   }

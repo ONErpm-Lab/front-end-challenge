@@ -58,3 +58,12 @@
     }
   }
 }
+
+.track-card.not-found {
+  border: 2px dashed #b91c1c;
+  background-color: #fef2f2;
+  padding: 1rem;
+  text-align: center;
+  color: #b91c1c;
+  font-weight: bold;
+}

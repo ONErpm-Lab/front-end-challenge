@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SpotifyService } from '../core/services/spotify.service';
 import { Track } from './track.model';
+import { TrackCardComponent } from './track-card.component';
 
 @Component({
   standalone: true,
   selector: 'app-tracks',
-  imports: [CommonModule],
+  imports: [CommonModule, TrackCardComponent],
   templateUrl: './tracks.component.html',
   styleUrls: ['./tracks.component.scss'],
 })

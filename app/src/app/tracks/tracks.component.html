@@ -1,9 +1,6 @@
-<div *ngIf="error" class="error">
-  Ocorreu um erro ao buscar as faixas. Tente novamente mais tarde.
-</div>
-
-<ul *ngIf="!error && tracks.length">
-  <li *ngFor="let track of tracks">
-    <strong>{{ track.title }}</strong> – {{ track.artists.join(', ') }}
-  </li>
-</ul>
+<section *ngIf="!error && tracks.length" class="track-list">
+  <app-track-card
+    *ngFor="let track of tracks"
+    [track]="track"
+  ></app-track-card>
+</section>
