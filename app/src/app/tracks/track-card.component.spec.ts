@@ -1,23 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TrackCardComponent } from './track-card.component';
 
 describe('TrackCardComponent', () => {
-  let component: TrackCardComponent;
-  let fixture: ComponentFixture<TrackCardComponent>;
+  it('should format duration in mm:ss', () => {
+    const component = new TrackCardComponent();
+    component.track = {
+      durationMs: 185000,
+      albumImage: '',
+      artists: [],
+      availableInBrazil: true,
+      externalUrl: '',
+      notFound: false,
+      previewUrl: null,
+      releaseDate: '',
+      title: '',
+    };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TrackCardComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(TrackCardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component.formattedDuration).toBe('3:05');
   });
 });

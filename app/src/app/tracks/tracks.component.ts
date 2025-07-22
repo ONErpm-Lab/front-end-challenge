@@ -1,5 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 import { SpotifyService } from '../core/services/spotify.service';
 import { Track } from './track.model';
 import { TrackCardComponent } from './track-card.component';
@@ -11,9 +12,9 @@ import { TrackCardComponent } from './track-card.component';
   templateUrl: './tracks.component.html',
   styleUrls: ['./tracks.component.scss'],
 })
-export class TracksComponent implements OnInit {
-  // Lista fixa de ISRCs fornecidos
-  isrcList: string[] = [
+export class TracksComponent implements OnInit, OnDestroy {
+  // Lista fixa de ISRCs fornecidos para consulta
+  readonly isrcList: string[] = [
     'US7VG1846811',
     'US7QQ1846811',
     'BRC310600002',
@@ -26,25 +27,31 @@ export class TracksComponent implements OnInit {
     'QZNJX2078148',
   ];
 
-  // Resultado das faixas
+  // Lista de faixas retornadas da API
   tracks: Track[] = [];
 
-  // Injeta SpotifyService via função inject() (sem constructor)
-  private spotifyService = inject(SpotifyService);
+  // Serviço do Spotify injetado via função inject (boas práticas Angular 15+)
+  private readonly spotifyService = inject(SpotifyService);
+
+  // Subject para controlar ciclo de vida de observables (evita vazamento de memória)
+  private readonly destroy$ = new Subject<void>();
 
   /**
-   * Inicializa o componente e dispara busca por faixas
+   * Lifecycle hook que inicia a busca pelas faixas ao carregar o componente
    */
   ngOnInit(): void {
     this.spotifyService
       .fetchTracksByISRCList(this.isrcList)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((tracks) => {
         this.tracks = this.sortTracks(tracks);
       });
   }
 
   /**
-   * Ordena faixas por título alfabético e empurra 'notFound' para o final.
+   * Ordena as faixas por título (ordem alfabética) e move as não encontradas para o fim da lista
+   * @param tracks Lista de faixas retornadas da API
+   * @returns Lista ordenada de faixas válidas
    */
   private sortTracks(tracks: (Track | null)[]): Track[] {
     return tracks
@@ -54,5 +61,14 @@ export class TracksComponent implements OnInit {
         if (!a.notFound && b.notFound) return -1;
         return a.title.localeCompare(b.title);
       });
+  }
+
+  /**
+   * Lifecycle hook que é chamado ao destruir o componente
+   * Utilizado para encerrar subscriptions abertas com takeUntil
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

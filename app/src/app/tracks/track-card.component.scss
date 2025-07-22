@@ -2,24 +2,21 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  margin-bottom: 1.5rem;
   padding: 1rem;
-  background: #fff;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  background-color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 
-  .card-content {
-    display: flex;
-    flex-direction: column;
-
-    @media (min-width: 600px) {
-      flex-direction: row;
-      gap: 1rem;
-    }
+  @media (min-width: 600px) {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5rem;
   }
 
+  // Imagem do álbum
   .thumb-wrapper {
     flex-shrink: 0;
 
@@ -27,7 +24,7 @@
       width: 100px;
       height: 100px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 6px;
 
       @media (min-width: 600px) {
         width: 120px;
@@ -36,20 +33,17 @@
     }
   }
 
+  // Informações da faixa
   .track-details {
-    flex-grow: 1;
-    margin-top: 1rem;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-
-    @media (min-width: 600px) {
-      margin-top: 0;
-    }
+    gap: 0.5rem;
 
     .title {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 600;
+      color: var(--color-black);
     }
 
     .artists,
@@ -57,41 +51,53 @@
     .duration,
     .availability,
     .no-preview {
-      font-size: 0.9rem;
-      color: #444;
+      font-size: 0.95rem;
+      color: var(--color-dark);
     }
 
     .audio-preview {
       margin-top: 0.5rem;
       width: 100%;
-      max-width: 300px;
+      max-width: 350px;
     }
 
     .spotify-link {
-      margin-top: 0.5rem;
-      color: #1db954;
+      margin-top: 0.75rem;
+      display: inline-block;
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
       text-decoration: none;
       font-weight: 500;
+      width: fit-content;
+      transition: background-color 0.2s ease-in-out;
 
       &:hover {
-        text-decoration: underline;
+        background-color: var(--color-primary-dark);
       }
     }
 
-    .status.available {
-      color: green;
-    }
+    .status {
+      font-weight: bold;
 
-    .status:not(.available) {
-      color: red;
+      &.available {
+        color: var(--color-success);
+      }
+
+      &.unavailable {
+        color: var(--color-danger);
+      }
     }
   }
 
+  // Card para ISRC não encontrado
   &.not-found {
-    background-color: #ffe6e6;
-    border: 1px solid #e57373;
+    background-color: #fff3f3;
+    border: 1px dashed var(--color-danger);
     text-align: center;
-    color: #c62828;
-    font-weight: bold;
+    color: var(--color-danger);
+    font-weight: 500;
+    padding: 2rem;
   }
 }

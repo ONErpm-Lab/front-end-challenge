@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Track } from './track.model';
 
@@ -12,6 +12,7 @@ import { Track } from './track.model';
   imports: [CommonModule],
   templateUrl: './track-card.component.html',
   styleUrls: ['./track-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrackCardComponent {
   /**
