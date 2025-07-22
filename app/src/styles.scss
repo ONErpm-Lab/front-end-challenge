@@ -1,19 +1,57 @@
 :root {
-  --color-primary: #E50914;
-  --color-black: #000000;
-  --color-dark: #1E1E1E;
+  --color-primary: #f46104;
+  --color-orange: #ffa733;
+  --color-dark: #121212;
+  --color-light: #f5f5f5;
   --color-white: #ffffff;
-  --color-muted: #cccccc;
+  --color-muted: #999999;
   --color-success: #2e7d32;
   --color-danger: #c62828;
-  --color-warning: #f9a825;
-  --font-main: 'Montserrat', sans-serif;
+  --color-gray-dark: #333333;
+  --font-main: "Montserrat", sans-serif;
+  --font-size-sm: 0.875rem; // ~14px
+  --font-size-base: 1rem; // 16px
+  --font-size-md: 1.125rem; // 18px
+  --font-size-lg: 1.25rem; // 20px
+  --font-size-xl: 1.5rem; // 24px
 }
 
 body {
   margin: 0;
   padding: 0;
   font-family: var(--font-main);
-  background-color: var(--color-black);
+  font-size: var(--font-size-base); // fonte base
+  background-color: var(--color-light);
   color: var(--color-white);
+  line-height: 1.6;
+
+  p {
+    margin: 0 0 0.5em 0;
+    font-size: inherit; // usa a base do body
+  }
+
+  span,
+  li,
+  label {
+    font-size: inherit;
+  }
+
+  .icon-sm {
+    font-size: 16px;
+  }
+
+  .icon-md {
+    font-size: 24px;
+  }
+
+  .icon-lg {
+    font-size: 36px;
+  }
+
+  .align-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+  }
 }

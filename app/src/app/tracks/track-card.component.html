@@ -1,51 +1,53 @@
-<!-- Card para ISRC não encontrado -->
-<div class="track-card not-found" *ngIf="track.notFound">
-  <p class="error-message">{{ track.title }}</p>
-</div>
-
 <!-- Card com dados válidos -->
 <div class="track-card" *ngIf="!track.notFound">
   <div class="card-content">
     <!-- Thumb do álbum -->
     <div class="thumb-wrapper">
-      <img
-        class="album-thumb"
-        [src]="track.albumImage"
-        [alt]="track.title + ' cover'"
-      />
+      <img class="album-thumb" [src]="track.albumImage" [alt]="track.title + ' cover'" />
     </div>
 
     <!-- Informações da faixa -->
     <div class="track-details">
-      <h2 class="title">{{ track.title }}</h2>
+      <p class="release-date"><small>Lançamento: {{ track.releaseDate | date:'dd/MM/yyyy' }}</small></p>
+      <div class="box-title">
+        <h2 class="title">{{ track.title }}</h2>
+        <span class="duration">
+          <span class="material-icons icon-sm">
+            access_time
+          </span>
+          {{ formattedDuration }}
+        </span>
+      </div>
+
       <p class="artists">{{ track.artists.join(', ') }}</p>
-      <p class="release-date">📅 {{ track.releaseDate | date:'dd/MM/yyyy' }}</p>
-      <p class="duration">⏱️ {{ formattedDuration }}</p>
+
+      <!-- Disponibilidade -->
+      <p class="availability align-center">
+        Disponível no Brasil:
+        <span class="status" [class.available]="track.availableInBrazil" [class.unavailable]="!track.availableInBrazil">
+          <span class="material-icons">
+            {{ track.availableInBrazil ? 'where_to_vote' : 'dangerous' }}
+          </span>
+        </span>
+      </p>
+
 
       <!-- Player de áudio -->
       <ng-container *ngIf="track.previewUrl; else noPreview">
         <audio class="audio-preview" [src]="track.previewUrl" controls></audio>
       </ng-container>
       <ng-template #noPreview>
-        <p class="no-preview">🎧 Prévia indisponível no Spotify</p>
+        <p class="no-preview">
+          <span class="material-icons icon-sm">
+            do_disturb_on
+          </span>
+          Prévia do áudio indisponível
+        </p>
       </ng-template>
 
-      <!-- Disponibilidade -->
-      <p class="availability">
-        🌎 Disponível no Brasil:
-        <span class="status" [class.available]="track.availableInBrazil">
-          {{ track.availableInBrazil ? '✔️' : '❌' }}
-        </span>
-      </p>
-
       <!-- Link para Spotify -->
-      <a
-        class="spotify-link"
-        [href]="track.externalUrl"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        🔗 Ver no Spotify
+      <a class="spotify-link" [href]="track.externalUrl" target="_blank" rel="noopener noreferrer">
+        Ver no Spotify
       </a>
     </div>
   </div>

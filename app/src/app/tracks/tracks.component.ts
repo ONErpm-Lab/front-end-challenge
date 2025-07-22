@@ -29,6 +29,8 @@ export class TracksComponent implements OnInit, OnDestroy {
 
   // Lista de faixas retornadas da API
   tracks: Track[] = [];
+  availableTracks: Track[] = [];
+  unavailableTracks: Track[] = [];
 
   // Serviço do Spotify injetado via função inject (boas práticas Angular 15+)
   private readonly spotifyService = inject(SpotifyService);
@@ -44,7 +46,10 @@ export class TracksComponent implements OnInit, OnDestroy {
       .fetchTracksByISRCList(this.isrcList)
       .pipe(takeUntil(this.destroy$))
       .subscribe((tracks) => {
-        this.tracks = this.sortTracks(tracks);
+        const sorted = this.sortTracks(tracks);
+        this.tracks = sorted;
+        this.availableTracks = sorted.filter((t) => !t.notFound);
+        this.unavailableTracks = sorted.filter((t) => t.notFound);
       });
   }
 

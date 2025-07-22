@@ -1,6 +1,30 @@
-<section *ngIf="tracks.length" class="track-list">
-  <app-track-card
-    *ngFor="let track of tracks"
-    [track]="track"
-  ></app-track-card>
+<!-- Alerta de indisponíveis -->
+<section class="container">
+  <div class="header-bar">
+    <img src="assets/images/header-logo-dark.png" alt="Logo OneRPM" class="header-logo" />
+    <h1 class="header-title">Frontend Challenge</h1>
+  </div>
+
+
+
+  <div *ngIf="unavailableTracks.length > 0" class="alert-unavailable">
+    <p class="align-center" style="justify-content: start;">
+      <span class="material-icons">
+        report_problem
+      </span>
+      Algumas faixas estão temporariamente indisponíveis no momento devido à instabilidade na integração com o
+      fornecedor de dados (Spotify).
+    </p>
+    <ul>
+      <li *ngFor="let track of unavailableTracks">{{ track.title }}</li>
+    </ul>
+  </div>
+
+  <!-- Lista de faixas disponíveis -->
+  <div class="track-list">
+    <app-track-card *ngFor="let track of availableTracks" [track]="track" />
+  </div>
 </section>
+<footer class="align-center text-primary">
+  Feito por: <a href="https://cesardelgadillo.com.br" target="_blank">Cesar Delgadillo</a>
+</footer>
