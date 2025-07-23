@@ -3,6 +3,6 @@ export const environment = {
   host_api: 'http://localhost:4200',
   searchUrl: 'https://api.spotify.com/v1/search',
   tokenUrl: 'https://accounts.spotify.com/api/token',
-  client_id: 'SEU_CLIENT_ID',
-  client_secret: 'SEU_CLIENT_SECRET',
+  client_id: '8ffff737e6a6480b906fb812b92ef0ca',
+  client_secret: '1c263a8098054d1dba7b27488f68331d',
 };
