@@ -15,7 +15,7 @@ const filesToUpdate = [
   "./environments/environment.dev.ts",
 ];
 
-// Função para substituir ou adicionar as propriedades clientId e clientSecret
+// Função para substituir ou adicionar as propriedades client_id e client_secret
 function updateProperty(content, key, value) {
   const regex = new RegExp(`(${key}:\\s*)'[^']*'`, "m");
   if (regex.test(content)) {
