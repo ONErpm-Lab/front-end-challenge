@@ -2,3 +2,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-gradient {
+  background: linear-gradient(
+    180deg,
+    rgba(23, 23, 23, 1) 0%,
+    rgba(0, 0, 0, 1) 14%,
+    rgba(0, 0, 0, 1) 86%,
+    rgba(23, 23, 23, 1) 100%
+  );
+}
