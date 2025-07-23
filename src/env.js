@@ -5,9 +5,7 @@ const path = require("path");
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET) {
-  console.error(
-    "⚠️ Variáveis CLIENT_ID ou CLIENT_SECRET não definidas no .env"
-  );
+  console.error("Variáveis CLIENT_ID ou CLIENT_SECRET não definidas no .env");
   process.exit(1);
 }
 
@@ -44,5 +42,5 @@ filesToUpdate.forEach((relativePath) => {
   content = updateProperty(content, "client_secret", process.env.CLIENT_SECRET);
 
   fs.writeFileSync(targetPath, content, "utf-8");
-  console.log(`✅ Arquivo ${relativePath} atualizado com as variáveis do .env`);
+  console.log(`Arquivo ${relativePath} atualizado com as variáveis do .env`);
 });
