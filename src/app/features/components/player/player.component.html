@@ -4,7 +4,7 @@
   <!-- Informações da música -->
   <div class="flex items-center gap-4">
     <img
-      [src]="currentTrack?.album?.images?.[0]?.url || '/assets/images/default-cover.png'"
+      [src]="currentTrack?.album?.images?.[0]?.url || './assets/images/default-cover.png'"
       [alt]="currentTrack?.name || 'Capa do álbum'"
       class="w-12 h-12 rounded-full ring-1 ring-zinc-800"
     />
