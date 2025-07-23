@@ -21,7 +21,8 @@
     <div class="flex items-center gap-4 mb-2">
       <button
         class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-100 transition-colors shadow-md"
-        (click)="openSpotify()"
+        (click)="tooglePlay()"
+        [title]="currentTrack?.preview_url ? 'Play/Pause' : 'Abrir no Spotify'"
       >
         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
           <path
@@ -32,11 +33,15 @@
         </svg>
       </button>
     </div>
+
     <!-- Barra de progresso -->
     <div class="w-full flex items-center gap-2 text-xs">
-      <span>{{ formatTime(currentTime) }}</span>
+      <span>{{ formatTime(currentTime * 1000) }}</span>
       <div class="flex-1 h-1.5 bg-gray-600/50 rounded-full">
-        <div class="h-full bg-white rounded-full"></div>
+        <div
+          class="h-full bg-white rounded-full transition-all duration-300"
+          [style.width.%]="(currentTime / 30) * 100"
+        ></div>
       </div>
       <span>{{ formatTime(duration) }}</span>
     </div>
