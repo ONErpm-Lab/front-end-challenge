@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "prestart": "node src/env.js",
     "start": "ng serve",
     "start:dev": "ng serve --configuration development",
+    "prebuild": "node src/env.js",
     "build": "ng build",
     "deploy": "ng deploy --base-href=/front-end-challenge/",
     "watch": "ng build --watch --configuration development",
@@ -31,6 +33,7 @@
     "@types/jasmine": "~5.1.0",
     "angular-cli-ghpages": "^2.0.3",
     "autoprefixer": "^10.4.21",
+    "dotenv": "^17.2.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
