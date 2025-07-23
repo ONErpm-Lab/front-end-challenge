@@ -1,0 +1,58 @@
+<div
+  class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl bg-black/90 text-white py-4 px-6 flex items-center justify-between rounded-full backdrop-blur-sm border border-zinc-800/50 shadow-lg shadow-purple-500/10 bg-gradient"
+>
+  <!-- Informações da música -->
+  <div class="flex items-center gap-4">
+    <img
+      [src]="currentTrack?.album?.images?.[0]?.url || '/assets/images/default-cover.png'"
+      [alt]="currentTrack?.name || 'Capa do álbum'"
+      class="w-12 h-12 rounded-full ring-1 ring-zinc-800"
+    />
+    <div>
+      <h3 class="text-sm font-semibold">{{ currentTrack?.name }}</h3>
+      <p class="text-xs text-gray-400">
+        {{ getArtistsNames(currentTrack?.artists || []) }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Controles de reprodução -->
+  <div class="flex flex-col items-center flex-1 max-w-2xl mx-8">
+    <div class="flex items-center gap-4 mb-2">
+      <button
+        class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-100 transition-colors shadow-md"
+        (click)="openSpotify()"
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            [attr.d]="
+              isPlaying ? 'M6 19h4V5H6v14zm8-14v14h4V5h-4z' : 'M8 5v14l11-7z'
+            "
+          />
+        </svg>
+      </button>
+    </div>
+    <!-- Barra de progresso -->
+    <div class="w-full flex items-center gap-2 text-xs">
+      <span>{{ formatTime(currentTime) }}</span>
+      <div class="flex-1 h-1.5 bg-gray-600/50 rounded-full">
+        <div class="h-full bg-white rounded-full"></div>
+      </div>
+      <span>{{ formatTime(duration) }}</span>
+    </div>
+  </div>
+
+  <!-- Controle de volume -->
+  <div class="flex items-center gap-2">
+    <button class="text-gray-400 hover:text-white transition-colors">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path
+          d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"
+        />
+      </svg>
+    </button>
+    <div class="w-24 h-1.5 bg-gray-600/50 rounded-full">
+      <div class="h-full bg-white rounded-full" style="width: 70%"></div>
+    </div>
+  </div>
+</div>
