@@ -6,6 +6,7 @@
     "start": "ng serve",
     "start:dev": "ng serve --configuration development",
     "build": "ng build",
+    "deploy": "ng deploy --base-href=/front-end-challenge/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -28,6 +29,7 @@
     "@angular/cli": "^17.3.17",
     "@angular/compiler-cli": "^17.3.0",
     "@types/jasmine": "~5.1.0",
+    "angular-cli-ghpages": "^2.0.3",
     "autoprefixer": "^10.4.21",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
