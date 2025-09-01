@@ -28,6 +28,10 @@ export class TrackCardComponent {
   readonly isPlaying = signal(false);
   readonly isImageLoaded = signal(false);
   readonly hasError = signal(false);
+  readonly isMuted = signal(false);
+  readonly currentTime = signal(0);
+  readonly duration = signal(0);
+  readonly volume = signal(100);
 
   // Utilitários para o template
   readonly formatDuration = formatDuration;
@@ -92,6 +96,7 @@ export class TrackCardComponent {
         .play()
         .then(() => {
           this.isPlaying.set(true);
+          this.startTimeUpdate();
         })
         .catch(() => {
           this.hasError.set(true);
@@ -99,6 +104,63 @@ export class TrackCardComponent {
     } else {
       audio.pause();
       this.isPlaying.set(false);
+      this.stopTimeUpdate();
+    }
+  }
+
+  /**
+   * Inicia a atualização do tempo
+   */
+  private startTimeUpdate(): void {
+    if (!this.audioElement) return;
+
+    const audio = this.audioElement.nativeElement;
+
+    // Configurar volume inicial
+    audio.volume = this.volume() / 100;
+
+    // Atualizar duração quando disponível
+    if (audio.duration && !isNaN(audio.duration)) {
+      this.duration.set(audio.duration);
+    }
+
+    // Event listener para atualização de tempo
+    audio.addEventListener('timeupdate', this.updateTime.bind(this));
+    audio.addEventListener('loadedmetadata', this.onMetadataLoaded.bind(this));
+  }
+
+  /**
+   * Para a atualização do tempo
+   */
+  private stopTimeUpdate(): void {
+    if (!this.audioElement) return;
+
+    const audio = this.audioElement.nativeElement;
+    audio.removeEventListener('timeupdate', this.updateTime.bind(this));
+    audio.removeEventListener('loadedmetadata', this.onMetadataLoaded.bind(this));
+  }
+
+  /**
+   * Atualiza o tempo atual
+   */
+  private updateTime(): void {
+    if (!this.audioElement) return;
+
+    const audio = this.audioElement.nativeElement;
+    if (!isNaN(audio.currentTime)) {
+      this.currentTime.set(audio.currentTime);
+    }
+  }
+
+  /**
+   * Callback quando os metadados do áudio são carregados
+   */
+  private onMetadataLoaded(): void {
+    if (!this.audioElement) return;
+
+    const audio = this.audioElement.nativeElement;
+    if (audio.duration && !isNaN(audio.duration)) {
+      this.duration.set(audio.duration);
     }
   }
 
@@ -121,5 +183,79 @@ export class TrackCardComponent {
    */
   onAudioEnded(): void {
     this.isPlaying.set(false);
+  }
+
+  /**
+   * Obtém a porcentagem de progresso do áudio
+   */
+  getProgressPercentage(): number {
+    if (this.duration() === 0) return 0;
+    return (this.currentTime() / this.duration()) * 100;
+  }
+
+  /**
+   * Formata o tempo em segundos para mm:ss
+   */
+  formatTime(seconds: number): string {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  /**
+   * Obtém o tempo atual do áudio
+   */
+  getCurrentTime(): number {
+    return this.currentTime();
+  }
+
+  /**
+   * Obtém a duração total do áudio
+   */
+  getDuration(): number {
+    return this.duration();
+  }
+
+  /**
+   * Obtém o volume atual
+   */
+  getVolume(): number {
+    return this.volume();
+  }
+
+  /**
+   * Alterna o mute do áudio
+   */
+  toggleMute(): void {
+    if (!this.audioElement) return;
+
+    const audio = this.audioElement.nativeElement;
+    if (this.isMuted()) {
+      audio.muted = false;
+      this.isMuted.set(false);
+    } else {
+      audio.muted = true;
+      this.isMuted.set(true);
+    }
+  }
+
+  /**
+   * Handler para mudança de volume
+   */
+  onVolumeChange(event: Event): void {
+    if (!this.audioElement) return;
+
+    const target = event.target as HTMLInputElement;
+    const newVolume = parseInt(target.value);
+
+    this.volume.set(newVolume);
+    this.audioElement.nativeElement.volume = newVolume / 100;
+
+    // Se o volume for 0, considerar como muted
+    if (newVolume === 0) {
+      this.isMuted.set(true);
+    } else if (this.isMuted()) {
+      this.isMuted.set(false);
+    }
   }
 }

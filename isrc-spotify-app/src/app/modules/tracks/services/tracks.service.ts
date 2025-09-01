@@ -51,7 +51,7 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
   /**
    * Busca track específica por ISRC
    */
-  private searchTrackByISRC(isrc: string): Observable<ITrack | null> {
+  searchTrackByISRC(isrc: string): Observable<ITrack | null> {
     const url = `${environment.SPOTIFY_API_URL}/search`;
     const params = {
       q: `isrc:${isrc}`,
@@ -132,5 +132,46 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
         )
       )
     );
+  }
+
+  /**
+   * Busca tracks por termo de busca (ISRC, nome, artista, álbum)
+   */
+  searchTracksByTerm(searchTerm: string): Observable<Array<ITrack>> {
+    if (!searchTerm.trim()) {
+      return this.data$;
+    }
+
+    const term = searchTerm.trim().toLowerCase();
+
+    // Se parece ser um ISRC (formato específico), busca na API
+    if (this.isISRCFormat(term)) {
+      return this.searchTrackByISRC(term).pipe(map((track) => (track ? [track] : [])));
+    }
+
+    // Caso contrário, filtra localmente
+    return this.data$.pipe(
+      map((tracks) =>
+        tracks.filter(
+          (track) =>
+            track.isrc.toLowerCase().includes(term) ||
+            track.name.toLowerCase().includes(term) ||
+            track.artists.some((artist) => artist.name.toLowerCase().includes(term)) ||
+            track.album.name.toLowerCase().includes(term)
+        )
+      )
+    );
+  }
+
+  /**
+   * Verifica se o termo de busca tem formato de ISRC
+   */
+  private isISRCFormat(term: string): boolean {
+    // Formato ISRC mais flexível: 2 letras + 3 alfanuméricos + 2 alfanuméricos + 5 números
+    // Mas também aceita variações comuns
+    const isrcPattern = /^[A-Z]{2}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{5}$/i;
+    const alternativePattern = /^[A-Z]{2}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4,6}$/i;
+
+    return isrcPattern.test(term) || alternativePattern.test(term);
   }
 }
