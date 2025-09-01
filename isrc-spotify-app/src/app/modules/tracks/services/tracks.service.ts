@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin, of } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
+import { map, catchError, tap, switchMap } from 'rxjs/operators';
 import { ITrack } from '../models';
 import { sortByTitlePTBR } from '../../../core';
 import { environment } from '../../../../environments/environment';
@@ -33,17 +33,22 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
   loadAllTracks(): Observable<Array<ITrack>> {
     this.setLoading(true);
 
-    // Busca todas as tracks em paralelo (token já deve estar disponível)
-    const tracks$ = Object.values(ISRCCodes).map((isrc) => this.searchTrackByISRC(isrc));
+    // Primeiro gera o token, depois busca as tracks
+    return this.authService.getToken().pipe(
+      switchMap(() => {
+        // Busca todas as tracks em paralelo
+        const tracks$ = Object.values(ISRCCodes).map((isrc) => this.searchTrackByISRC(isrc));
 
-    return forkJoin(tracks$).pipe(
-      map((tracks) => tracks.filter((track) => track !== null) as ITrack[]),
-      map((tracks) => sortByTitlePTBR(tracks)),
-      tap((tracks) => this.setData(tracks)),
-      catchError((error) => {
-        const errorMessage = error.message || 'Erro ao carregar tracks. Verifique sua conexão.';
-        this.setError(errorMessage);
-        return of([]);
+        return forkJoin(tracks$).pipe(
+          map((tracks) => tracks.filter((track) => track !== null) as ITrack[]),
+          map((tracks) => sortByTitlePTBR(tracks)),
+          tap((tracks) => this.setData(tracks)),
+          catchError((error) => {
+            const errorMessage = error.message || 'Erro ao carregar tracks. Verifique sua conexão.';
+            this.setError(errorMessage);
+            return of([]);
+          })
+        );
       })
     );
   }
@@ -56,16 +61,22 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
     const params = {
       q: `isrc:${isrc}`,
       type: 'track',
+      include_external: 'audio',
     };
 
-    return this.http.get<any>(url, { params }).pipe(
-      map((response) => {
-        if (response.tracks?.items?.length > 0) {
-          return this.mapSpotifyTrackToTrack(response.tracks.items[0], isrc);
-        }
-        return null;
-      }),
-      catchError(() => of(null))
+    // Primeiro gera o token, depois faz a busca
+    return this.authService.getToken().pipe(
+      switchMap(() => {
+        return this.http.get<any>(url, { params }).pipe(
+          map((response) => {
+            if (response.tracks?.items?.length > 0) {
+              return this.mapSpotifyTrackToTrack(response.tracks.items[0], isrc);
+            }
+            return null;
+          }),
+          catchError(() => of(null))
+        );
+      })
     );
   }
 
@@ -73,7 +84,10 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
    * Mapeia a resposta do Spotify para nosso modelo
    */
   private mapSpotifyTrackToTrack(spotifyTrack: ISpotifyTrack, isrc: string): ITrack {
-    return {
+    console.log('🔍 Mapeando track:', spotifyTrack.name, 'ISRC:', isrc);
+    console.log('🔍 Preview URL:', spotifyTrack.preview_url);
+
+    const track = {
       id: spotifyTrack.id,
       name: spotifyTrack.name,
       artists: spotifyTrack.artists.map((artist) => ({
@@ -95,6 +109,9 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
       available_markets: spotifyTrack.available_markets,
       isrc: isrc,
     };
+
+    console.log('🔍 Track mapeada:', track);
+    return track;
   }
 
   /**

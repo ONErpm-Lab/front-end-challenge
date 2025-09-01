@@ -81,6 +81,7 @@
   </div>
 
   <!-- Player de Áudio -->
+  <!-- Debug: preview_url = {{ track.preview_url }} -->
   @if (track.preview_url) {
   <div class="track-card__player">
     <div class="audio-controls">
@@ -135,6 +136,14 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  } @else {
+  <div class="no-preview-player">
+    <div class="no-preview-icon">🔇</div>
+    <div class="no-preview-text">
+      <span class="no-preview-title">Prévia não disponível</span>
+      <span class="no-preview-subtitle">Esta faixa não possui prévia de áudio</span>
     </div>
   </div>
   }
