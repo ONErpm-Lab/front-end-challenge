@@ -1,0 +1,42 @@
+<div
+  class="track-card"
+  [class.available-br]="isAvailableInBR()"
+  [class.unavailable-br]="!isAvailableInBR()"
+>
+  <!-- Thumbnail do álbum -->
+  <div class="track-thumbnail">
+    <img [src]="getThumbnailUrl()" [alt]="track.album.name" class="album-image" />
+    <div
+      class="availability-badge"
+      [class.available]="isAvailableInBR()"
+      [class.unavailable]="!isAvailableInBR()"
+    >
+      {{ isAvailableInBR() ? 'Disponível no BR' : 'Indisponível no BR' }}
+    </div>
+  </div>
+
+  <!-- Informações da track -->
+  <div class="track-info">
+    <h3 class="track-title" [title]="track.name">{{ track.name }}</h3>
+    <p class="track-artists" [title]="getArtistNames()">{{ getArtistNames() }}</p>
+
+    <div class="track-meta">
+      <span class="release-date">{{ formatReleaseDate() }}</span>
+      <span class="duration">{{ formatDuration(track.duration_ms) }}</span>
+    </div>
+
+    <!-- Player de áudio -->
+    <div class="audio-player" *ngIf="track.preview_url">
+      <audio #audio [src]="track.preview_url" preload="none"></audio>
+      <button class="play-button" (click)="toggleAudio()" type="button">
+        <span class="play-icon">▶</span>
+      </button>
+    </div>
+
+    <!-- Link para o Spotify -->
+    <button class="spotify-button" (click)="openSpotify()" type="button">
+      <span class="spotify-icon">🎵</span>
+      Ouvir no Spotify
+    </button>
+  </div>
+</div>

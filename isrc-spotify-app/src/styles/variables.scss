@@ -1,0 +1,115 @@
+// =============================================================================
+// DESIGN SYSTEM - CSS Variables
+// =============================================================================
+
+:root {
+  // ===== COLORS =====
+  --color-primary: #1db954;
+  --color-primary-hover: #1ed760;
+  --color-error: #ff6b6b;
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-info: #17a2b8;
+
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #666;
+  --color-text-muted: #888;
+  --color-text-inverse: #ffffff;
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  --color-border: transparent;
+  --color-border-light: var(--color-gray-200);
+  --color-border-medium: var(--color-gray-300);
+
+  // ===== BORDER RADIUS =====
+  --border-radius-none: 0;
+  --border-radius-sm: 0.25rem; // 4px
+  --border-radius-md: 0.5rem; // 8px
+  --border-radius-lg: 0.75rem; // 12px
+  --border-radius-xl: 1rem; // 16px
+  --border-radius-2xl: 1.5rem; // 24px
+  --border-radius-full: 50%;
+
+  // ===== SHADOWS =====
+  --shadow-none: none;
+  --shadow-sm: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 0.5rem 1.875rem rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 0.75rem 2.5rem rgba(0, 0, 0, 0.2);
+  --shadow-2xl: 0 1rem 3.125rem rgba(0, 0, 0, 0.25);
+
+  // ===== SPACING =====
+  --spacing-0: 0;
+  --spacing-xs: 0.25rem; // 4px
+  --spacing-sm: 0.5rem; // 8px
+  --spacing-md: 0.75rem; // 12px
+  --spacing-lg: 1rem; // 16px
+  --spacing-xl: 1.25rem; // 20px
+  --spacing-2xl: 1.5rem; // 24px
+  --spacing-3xl: 2rem; // 32px
+  --spacing-4xl: 2.5rem; // 40px
+  --spacing-5xl: 3rem; // 48px
+
+  // ===== FONT SIZES =====
+  --font-size-xs: 0.75rem; // 12px
+  --font-size-sm: 0.875rem; // 14px
+  --font-size-base: 1rem; // 16px
+  --font-size-lg: 1.125rem; // 18px
+  --font-size-xl: 1.25rem; // 20px
+  --font-size-2xl: 1.5rem; // 24px
+  --font-size-3xl: 1.875rem; // 30px
+  --font-size-4xl: 2.25rem; // 36px
+  --font-size-5xl: 3rem; // 48px
+
+  // ===== FONT WEIGHTS =====
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  // ===== LINE HEIGHTS =====
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  // ===== TRANSITIONS =====
+  --transition-none: none;
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --transition-slower: 0.75s ease;
+
+  // ===== Z-INDEX =====
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+
+  // ===== BREAKPOINTS =====
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 30rem; // 480px
+  --breakpoint-md: 48rem; // 768px
+  --breakpoint-lg: 64rem; // 1024px
+  --breakpoint-xl: 80rem; // 1280px
+  --breakpoint-2xl: 96rem; // 1536px
+}

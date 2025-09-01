@@ -1,0 +1,48 @@
+<div class="tracks-page">
+  <!-- Header da página -->
+  <header class="page-header">
+    <h1 class="page-title">ISRC → Spotify</h1>
+    <p class="page-subtitle">Consulta de faixas musicais por código ISRC</p>
+  </header>
+
+  <!-- Estados da aplicação -->
+  <ng-container *ngIf="loading$ | async; else content">
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Carregando tracks...</p>
+    </div>
+  </ng-container>
+
+  <ng-template #content>
+    <!-- Estado de erro -->
+    <div *ngIf="error$ | async as error" class="error-state">
+      <div class="error-icon">⚠️</div>
+      <h3>Erro ao carregar tracks</h3>
+      <p>{{ error }}</p>
+      <button class="retry-button" (click)="reloadTracks()">
+        Tentar novamente
+      </button>
+    </div>
+
+    <!-- Grid de tracks -->
+    <div *ngIf="(tracks$ | async)?.length; else emptyState" class="tracks-grid">
+      <app-track-card
+        *ngFor="let track of tracks$ | async; trackBy: trackByISRC"
+        [track]="track"
+        class="track-card-item"
+      ></app-track-card>
+    </div>
+
+    <!-- Estado vazio -->
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <div class="empty-icon">🎵</div>
+        <h3>Nenhuma track encontrada</h3>
+        <p>Não foi possível carregar as tracks. Verifique sua conexão e tente novamente.</p>
+        <button class="retry-button" (click)="reloadTracks()">
+          Tentar novamente
+        </button>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>
