@@ -20,11 +20,11 @@ export class TracksPageComponent implements OnInit {
   readonly error$ = this.tracksService.error$;
 
   ngOnInit(): void {
-    this.tracksService.loadAllTracks();
+    this.tracksService.loadAllTracks().subscribe();
   }
 
   reloadTracks(): void {
-    this.tracksService.reloadTracks();
+    this.tracksService.reloadTracks().subscribe();
   }
 
   clearError(): void {

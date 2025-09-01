@@ -18,8 +18,6 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
 
   constructor() {
     super();
-    // Gera token na inicialização
-    this.authService.generateToken().subscribe();
   }
 
   /**
@@ -35,7 +33,7 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
   loadAllTracks(): Observable<Array<ITrack>> {
     this.setLoading(true);
 
-    // Busca todas as tracks em paralelo
+    // Busca todas as tracks em paralelo (token já deve estar disponível)
     const tracks$ = Object.values(ISRCCodes).map((isrc) => this.searchTrackByISRC(isrc));
 
     return forkJoin(tracks$).pipe(
@@ -43,7 +41,7 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
       map((tracks) => sortByTitlePTBR(tracks)),
       tap((tracks) => this.setData(tracks)),
       catchError((error) => {
-        const errorMessage = error.message || 'Erro ao carregar tracks';
+        const errorMessage = error.message || 'Erro ao carregar tracks. Verifique sua conexão.';
         this.setError(errorMessage);
         return of([]);
       })

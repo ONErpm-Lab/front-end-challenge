@@ -39,7 +39,10 @@ export const httpInterceptor: HttpInterceptorFn = (
         })
       );
     } else {
-      console.log('🔗 HTTP Interceptor: Token não encontrado para API Spotify');
+      console.warn(
+        '⚠️ HTTP Interceptor: Token não encontrado para API Spotify. A requisição pode falhar.'
+      );
+      // Continua com a requisição mesmo sem token para que o erro seja tratado pelo serviço
     }
   }
 
