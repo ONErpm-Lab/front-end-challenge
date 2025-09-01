@@ -55,16 +55,16 @@
   }
 
   &__dropdown {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
+    position: fixed;
+    top: calc(var(--header-height, 80px) + 8px);
+    right: 20px;
     min-width: 160px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
+    z-index: 999999;
     animation: dropdownFadeIn 0.2s ease;
     overflow: hidden;
 
@@ -128,7 +128,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 9998;
+    z-index: 999998;
     background: transparent;
   }
 }
