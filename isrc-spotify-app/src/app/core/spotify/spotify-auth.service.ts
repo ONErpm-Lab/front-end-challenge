@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, tap, switchMap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ISpotifyTokenResponse } from '../models';
@@ -15,7 +15,6 @@ export class SpotifyAuthService {
   private readonly loadingSubject = new BehaviorSubject<boolean>(false);
   private readonly errorSubject = new BehaviorSubject<string | null>(null);
 
-  // Observables públicos
   readonly token$ = this.tokenSubject.asObservable();
   readonly loading$ = this.loadingSubject.asObservable();
   readonly error$ = this.errorSubject.asObservable();
@@ -43,6 +42,8 @@ export class SpotifyAuthService {
       })
       .pipe(
         tap((response) => {
+          sessionStorage.setItem('spotifyToken', response.access_token);
+
           this.tokenSubject.next(response.access_token);
           this.loadingSubject.next(false);
 
@@ -62,9 +63,43 @@ export class SpotifyAuthService {
   }
 
   /**
-   * Limpa o estado de erro
+   * Obtém o token atual ou gera um novo se necessário
+   */
+  getToken(): Observable<string> {
+    const currentToken = this.tokenSubject.value;
+
+    if (currentToken) {
+      return of(currentToken);
+    }
+
+    return this.generateToken();
+  }
+
+  /**
+   * Limpa o token atual
+   */
+  clearToken(): void {
+    this.tokenSubject.next(null);
+  }
+
+  /**
+   * Limpa o erro
    */
   clearError(): void {
     this.errorSubject.next(null);
+  }
+
+  /**
+   * Verifica se há um token válido
+   */
+  hasValidToken(): boolean {
+    return !!this.tokenSubject.value;
+  }
+
+  /**
+   * Obtém o token atual em cache (sem fazer nova requisição)
+   */
+  getCurrentToken(): string | null {
+    return this.tokenSubject.value;
   }
 }
