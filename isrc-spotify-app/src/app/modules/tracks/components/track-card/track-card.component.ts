@@ -1,19 +1,25 @@
-import { Component, Input, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ViewChild, ElementRef, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ITrack } from '../../models';
 import { formatDuration } from '../../../../core';
 
 @Component({
   selector: 'app-track-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgxSkeletonLoaderModule],
   templateUrl: './track-card.component.html',
   styleUrls: ['./track-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrackCardComponent {
   @Input({ required: true }) track!: ITrack;
-  @ViewChild('audio', { static: true }) audioElement!: ElementRef<HTMLAudioElement>;
+  @ViewChild('audio', { static: false }) audioElement?: ElementRef<HTMLAudioElement>;
+
+  // Estados do componente
+  readonly isPlaying = signal(false);
+  readonly isImageLoaded = signal(false);
+  readonly hasError = signal(false);
 
   // Utilitários para o template
   readonly formatDuration = formatDuration;
@@ -69,10 +75,40 @@ export class TrackCardComponent {
    * Controle de áudio
    */
   toggleAudio(): void {
-    if (this.audioElement.nativeElement.paused) {
-      this.audioElement.nativeElement.play();
+    if (!this.audioElement || !this.track.preview_url) return;
+
+    const audio = this.audioElement.nativeElement;
+    
+    if (audio.paused) {
+      audio.play().then(() => {
+        this.isPlaying.set(true);
+      }).catch(() => {
+        this.hasError.set(true);
+      });
     } else {
-      this.audioElement.nativeElement.pause();
+      audio.pause();
+      this.isPlaying.set(false);
     }
+  }
+
+  /**
+   * Callback quando a imagem carrega
+   */
+  onImageLoad(): void {
+    this.isImageLoaded.set(true);
+  }
+
+  /**
+   * Callback quando a imagem falha
+   */
+  onImageError(): void {
+    this.hasError.set(true);
+  }
+
+  /**
+   * Callback quando o áudio termina
+   */
+  onAudioEnded(): void {
+    this.isPlaying.set(false);
   }
 }

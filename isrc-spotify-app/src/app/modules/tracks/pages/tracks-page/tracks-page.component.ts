@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { TrackCardComponent } from '../../components/track-card/track-card.component';
 import { TracksService } from '../../services/tracks.service';
 import { ITrack } from '../../models';
@@ -9,7 +10,7 @@ import { ISRCCodes } from '../../../../core';
 @Component({
   selector: 'app-tracks-page',
   standalone: true,
-  imports: [CommonModule, TrackCardComponent, LayoutComponent],
+  imports: [CommonModule, NgxSkeletonLoaderModule, TrackCardComponent, LayoutComponent],
   templateUrl: './tracks-page.component.html',
   styleUrls: ['./tracks-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

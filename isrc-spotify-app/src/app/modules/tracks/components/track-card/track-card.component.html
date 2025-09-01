@@ -1,44 +1,103 @@
-<div
-  class="track-card"
-  [class.available-br]="isAvailableInBR()"
-  [class.unavailable-br]="!isAvailableInBR()"
->
-  <!-- Thumbnail do álbum -->
-  <div class="track-thumbnail">
-    <img [src]="getThumbnailUrl()" [alt]="track.album.name" class="album-image" />
-    <div
-      class="availability-badge"
-      [class.available]="isAvailableInBR()"
-      [class.unavailable]="!isAvailableInBR()"
-    >
-      {{ isAvailableInBR() ? 'Disponível no BR' : 'Indisponível no BR' }}
+<div class="track-card" [class.available-br]="isAvailableInBR()">
+  <!-- Header do Card -->
+  <div class="track-card__header">
+    <div class="availability-badge" [class.available]="isAvailableInBR()">
+      @if (isAvailableInBR()) {
+      <span class="badge-icon">🇧🇷</span>
+      <span>Disponível no Brasil</span>
+      } @else {
+      <span class="badge-icon">🚫</span>
+      <span>Indisponível no Brasil</span>
+      }
     </div>
   </div>
 
-  <!-- Informações da track -->
-  <div class="track-info">
+  <!-- Capa do Álbum -->
+  <div class="track-card__artwork">
+    <div class="artwork-container">
+      @if (!isImageLoaded() && !hasError()) {
+      <ngx-skeleton-loader
+        count="1"
+        appearance="square"
+        [theme]="{
+          'border-radius': '12px',
+          width: '400px',
+          height: '200px'
+        }"
+      >
+      </ngx-skeleton-loader>
+      } @if (!hasError()) {
+      <img
+        [src]="getThumbnailUrl()"
+        [alt]="track.album.name"
+        class="artwork-image"
+        [class.loaded]="isImageLoaded()"
+        (load)="onImageLoad()"
+        (error)="onImageError()"
+      />
+      } @else {
+      <div class="artwork-placeholder">
+        <div class="placeholder-icon">🎵</div>
+        <span>Sem imagem</span>
+      </div>
+      }
+
+      <!-- Play Button Overlay -->
+      @if (track.preview_url && isImageLoaded()) {
+      <div class="play-overlay" (click)="toggleAudio()">
+        <div class="play-button" [class.playing]="isPlaying()">
+          @if (isPlaying()) {
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+          </svg>
+          } @else {
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+          }
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Informações da Track -->
+  <div class="track-card__info">
     <h3 class="track-title" [title]="track.name">{{ track.name }}</h3>
     <p class="track-artists" [title]="getArtistNames()">{{ getArtistNames() }}</p>
 
     <div class="track-meta">
-      <span class="release-date">{{ formatReleaseDate() }}</span>
-      <span class="duration">{{ formatDuration(track.duration_ms) }}</span>
+      <div class="meta-item">
+        <span class="meta-label">Lançamento:</span>
+        <span class="meta-value">{{ formatReleaseDate() }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Duração:</span>
+        <span class="meta-value">{{ formatDuration(track.duration_ms) }}</span>
+      </div>
     </div>
+  </div>
 
-    <!-- Player de áudio -->
-    @if (track.preview_url) {
-    <div class="audio-player">
-      <audio #audio [src]="track.preview_url" preload="none"></audio>
-      <button class="play-button" (click)="toggleAudio()" type="button">
-        <span class="play-icon">▶</span>
-      </button>
-    </div>
-    }
-
-    <!-- Link para o Spotify -->
-    <button class="spotify-button" (click)="openSpotify()" type="button">
-      <span class="spotify-icon">🎵</span>
+  <!-- Actions -->
+  <div class="track-card__actions">
+    <button class="btn btn-primary" (click)="openSpotify()" type="button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.84-.179-.959-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.361 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"
+        />
+      </svg>
       Ouvir no Spotify
     </button>
+
+    @if (!track.preview_url) {
+    <div class="no-preview">
+      <span>Prévia não disponível</span>
+    </div>
+    }
   </div>
+
+  <!-- Audio Element -->
+  @if (track.preview_url) {
+  <audio #audio [src]="track.preview_url" preload="none" (ended)="onAudioEnded()"></audio>
+  }
 </div>
