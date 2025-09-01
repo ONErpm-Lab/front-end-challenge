@@ -1,76 +1,104 @@
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
-import { map, catchError, tap, startWith } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable, forkJoin, of } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
 import { ITrack } from '../models';
-import { SpotifyGatewayFactory, sortByTitlePTBR } from '../../../core';
-
-export interface ITracksState {
-  tracks: Array<ITrack>;
-  loading: boolean;
-  error: string | null;
-}
+import { sortByTitlePTBR } from '../../../core';
+import { environment } from '../../../../environments/environment';
+import { SpotifyAuthService } from '../../../core/spotify/spotify-auth.service';
+import { ISRCCodes, ISpotifyTrack } from '../../../core/models';
+import { BaseExtractService } from '../../../core/services/base-extract.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TracksService {
-  private readonly spotifyFactory = inject(SpotifyGatewayFactory);
+export class TracksService extends BaseExtractService<Array<ITrack>> {
+  private readonly http = inject(HttpClient);
+  private readonly authService = inject(SpotifyAuthService);
 
-  private readonly stateSubject = new BehaviorSubject<ITracksState>({
-    tracks: [],
-    loading: false,
-    error: null,
-  });
+  constructor() {
+    super();
+    // Gera token na inicialização
+    this.authService.generateToken().subscribe();
+  }
 
-  // ISRCs fixos do desafio
-  private readonly isrcCodes: Array<string> = [
-    'US7VG1846811',
-    'US7QQ1846811',
-    'BRC310600002',
-    'BR1SP1200071',
-    'BR1SP1200070',
-    'BR1SP1500002',
-    'BXKZM1900338',
-    'BXKZM1900345',
-    'QZNJX2081700',
-    'QZNJX2078148',
-  ];
-
-  // Observables públicos
-  readonly tracks$ = this.stateSubject.pipe(map((state) => state.tracks));
-  readonly loading$ = this.stateSubject.pipe(map((state) => state.loading));
-  readonly error$ = this.stateSubject.pipe(map((state) => state.error));
-
-  // Estado completo
-  readonly state$ = this.stateSubject.asObservable();
+  /**
+   * Implementação do método abstrato
+   */
+  protected getInitialData(): Array<ITrack> {
+    return [];
+  }
 
   /**
    * Carrega todas as tracks por ISRC
    */
   loadAllTracks(): Observable<Array<ITrack>> {
-    this.updateState({ loading: true, error: null });
+    this.setLoading(true);
 
-    const gateway = this.spotifyFactory.getGateway();
+    // Busca todas as tracks em paralelo
+    const tracks$ = Object.values(ISRCCodes).map((isrc) => this.searchTrackByISRC(isrc));
 
-    return gateway.searchTracksByISRCsObservable(this.isrcCodes).pipe(
-      tap((tracks) => {
-        const sortedTracks = sortByTitlePTBR(tracks);
-        this.updateState({
-          tracks: sortedTracks,
-          loading: false,
-          error: null,
-        });
-      }),
+    return forkJoin(tracks$).pipe(
+      map((tracks) => tracks.filter((track) => track !== null) as ITrack[]),
+      map((tracks) => sortByTitlePTBR(tracks)),
+      tap((tracks) => this.setData(tracks)),
       catchError((error) => {
         const errorMessage = error.message || 'Erro ao carregar tracks';
-        this.updateState({
-          tracks: [],
-          loading: false,
-          error: errorMessage,
-        });
+        this.setError(errorMessage);
         return of([]);
       })
     );
+  }
+
+  /**
+   * Busca track específica por ISRC
+   */
+  private searchTrackByISRC(isrc: string): Observable<ITrack | null> {
+    const url = `${environment.SPOTIFY_API_URL}/search`;
+    const params = {
+      q: `isrc:${isrc}`,
+      type: 'track',
+      market: environment.MARKET,
+      limit: '1',
+    };
+
+    return this.http.get<any>(url, { params }).pipe(
+      map((response) => {
+        if (response.tracks?.items?.length > 0) {
+          return this.mapSpotifyTrackToTrack(response.tracks.items[0], isrc);
+        }
+        return null;
+      }),
+      catchError(() => of(null))
+    );
+  }
+
+  /**
+   * Mapeia a resposta do Spotify para nosso modelo
+   */
+  private mapSpotifyTrackToTrack(spotifyTrack: ISpotifyTrack, isrc: string): ITrack {
+    return {
+      id: spotifyTrack.id,
+      name: spotifyTrack.name,
+      artists: spotifyTrack.artists.map((artist) => ({
+        id: artist.id,
+        name: artist.name,
+        external_urls: artist.external_urls,
+      })),
+      album: {
+        id: spotifyTrack.album.id,
+        name: spotifyTrack.album.name,
+        images: spotifyTrack.album.images,
+        release_date: spotifyTrack.album.release_date,
+        release_date_precision: spotifyTrack.album.release_date_precision,
+        external_urls: spotifyTrack.album.external_urls,
+      },
+      duration_ms: spotifyTrack.duration_ms,
+      preview_url: spotifyTrack.preview_url,
+      external_urls: spotifyTrack.external_urls,
+      available_markets: spotifyTrack.available_markets,
+      isrc: isrc,
+    };
   }
 
   /**
@@ -81,18 +109,10 @@ export class TracksService {
   }
 
   /**
-   * Busca track específica por ISRC
-   */
-  getTrackByISRC(isrc: string): Observable<ITrack | null> {
-    const gateway = this.spotifyFactory.getGateway();
-    return gateway.searchTrackByISRCObservable(isrc);
-  }
-
-  /**
    * Filtra tracks por disponibilidade no Brasil
    */
   getTracksByAvailability(availableInBR: boolean): Observable<Array<ITrack>> {
-    return this.tracks$.pipe(
+    return this.data$.pipe(
       map((tracks) =>
         tracks.filter((track) =>
           availableInBR
@@ -107,7 +127,7 @@ export class TracksService {
    * Filtra tracks por artista
    */
   getTracksByArtist(artistName: string): Observable<Array<ITrack>> {
-    return this.tracks$.pipe(
+    return this.data$.pipe(
       map((tracks) =>
         tracks.filter((track) =>
           track.artists.some((artist) =>
@@ -116,20 +136,5 @@ export class TracksService {
         )
       )
     );
-  }
-
-  /**
-   * Limpa o estado de erro
-   */
-  clearError(): void {
-    this.updateState({ error: null });
-  }
-
-  /**
-   * Atualiza o estado interno
-   */
-  private updateState(partial: Partial<ITracksState>): void {
-    const currentState = this.stateSubject.value;
-    this.stateSubject.next({ ...currentState, ...partial });
   }
 }

@@ -15,7 +15,7 @@ import { ITrack } from '../../models';
 export class TracksPageComponent implements OnInit {
   private readonly tracksService = inject(TracksService);
 
-  readonly tracks$ = this.tracksService.tracks$;
+  readonly tracks$ = this.tracksService.data$;
   readonly loading$ = this.tracksService.loading$;
   readonly error$ = this.tracksService.error$;
 

@@ -1,54 +1,42 @@
-import {
-  HttpInterceptorFn,
-  HttpRequest,
-  HttpHandlerFn,
-  HttpEvent,
-  HttpErrorResponse,
-} from '@angular/common/http';
-import { inject } from '@angular/core';
+import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 export const httpInterceptor: HttpInterceptorFn = (
-  request: HttpRequest<unknown>,
+  req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
-  // Adiciona token de autorização se for uma requisição para a API do Spotify
-  if (request.url.includes('api.spotify.com') && environment.SPOTIFY_TOKEN) {
-    request = request.clone({
-      setHeaders: {
-        Authorization: `Bearer ${environment.SPOTIFY_TOKEN}`,
-      },
-    });
+  // Não intercepta requisições para o token
+  if (req.url === environment.SPOTIFY_TOKEN_URL) {
+    return next(req);
   }
 
-  return next(request).pipe(
+  // Adiciona token para requisições da API do Spotify
+  if (req.url.includes('api.spotify.com')) {
+    const token = sessionStorage.getItem('spotifyToken');
+
+    if (token) {
+      const authReq = req.clone({
+        headers: req.headers.set('Authorization', `Bearer ${token}`),
+      });
+      return next(authReq).pipe(
+        catchError((error: HttpErrorResponse) => {
+          // Intercepta erros HTTP
+          if (error.status === 401) {
+            // Token expirado, limpa o storage
+            sessionStorage.removeItem('spotifyToken');
+          }
+          return throwError(() => error);
+        })
+      );
+    }
+  }
+
+  return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      let errorMessage = 'Erro desconhecido';
-
-      if (error.error instanceof ErrorEvent) {
-        // Erro do cliente
-        errorMessage = `Erro: ${error.error.message}`;
-      } else {
-        // Erro do servidor
-        switch (error.status) {
-          case 401:
-            errorMessage = 'Token do Spotify inválido ou expirado';
-            break;
-          case 429:
-            errorMessage = 'Limite de requisições excedido. Tente novamente em alguns minutos';
-            break;
-          case 500:
-            errorMessage = 'Erro interno do servidor do Spotify';
-            break;
-          default:
-            errorMessage = `Erro ${error.status}: ${error.message}`;
-        }
-      }
-
-      console.error('Erro HTTP:', error);
-      return throwError(() => new Error(errorMessage));
+      // Intercepta erros para todas as outras requisições
+      return throwError(() => error);
     })
   );
 };

@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { httpInterceptor, SpotifyGatewayFactory } from './core';
+import { httpInterceptor } from './core';
 
 import { routes } from './app.routes';
 
@@ -15,9 +15,5 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([httpInterceptor])),
-    {
-      provide: SpotifyGatewayFactory,
-      useClass: SpotifyGatewayFactory,
-    },
   ],
 };
