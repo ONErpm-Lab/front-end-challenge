@@ -1,0 +1,52 @@
+{
+  "header": {
+    "title": "MUSIC IS POWER",
+    "subtitle": "Descubra faixas musicais através do código ISRC",
+    "poweredBy": "Powered by"
+  },
+  "tracks": {
+    "loading": {
+      "title": "Carregando suas músicas...",
+      "subtitle": "Buscando faixas pelos códigos ISRC na base do Spotify"
+    },
+    "error": {
+      "title": "Erro ao carregar tracks",
+      "retryButton": "Tentar novamente"
+    },
+    "empty": {
+      "icon": "🎵",
+      "title": "Nenhuma track encontrada",
+      "subtitle": "Não foi possível encontrar nenhuma das tracks pelos códigos ISRC fornecidos.",
+      "retryButton": "Tentar novamente"
+    },
+    "notFound": {
+      "title": "{{count}} ISRC{{plural}} não encontrado{{plural}}:"
+    }
+  },
+  "trackCard": {
+    "availability": {
+      "available": "Disponível no Brasil",
+      "unavailable": "Indisponível no Brasil"
+    },
+    "meta": {
+      "release": "Lançamento:",
+      "duration": "Duração:"
+    },
+    "player": {
+      "playing": "Tocando prévia...",
+      "clickToPlay": "Clique para ouvir prévia",
+      "noPreview": "Prévia não disponível"
+    },
+    "actions": {
+      "spotifyButton": "Ouvir no Spotify"
+    },
+    "placeholders": {
+      "noImage": "Sem imagem"
+    }
+  },
+  "languages": {
+    "pt": "Português",
+    "en": "English",
+    "es": "Español"
+  }
+}

@@ -4,8 +4,8 @@
     @if (loading$ | async) {
     <div class="loading-state">
       <div class="loading-header">
-        <h2>Carregando suas músicas...</h2>
-        <p>Buscando faixas pelos códigos ISRC na base do Spotify</p>
+        <h2>{{ 'tracks.loading.title' | translate }}</h2>
+        <p>{{ 'tracks.loading.subtitle' | translate }}</p>
       </div>
       <div class="skeleton-grid">
         @for (item of [1,2,3,4,5,6]; track item) {
@@ -29,9 +29,11 @@
     @if (error$ | async; as error) {
     <div class="error-state">
       <div class="error-icon">⚠️</div>
-      <h3>Erro ao carregar tracks</h3>
+      <h3>{{ 'tracks.error.title' | translate }}</h3>
       <p>{{ error }}</p>
-      <button class="retry-button" (click)="reloadTracks()">Tentar novamente</button>
+      <button class="retry-button" (click)="reloadTracks()">
+        {{ 'tracks.error.retryButton' | translate }}
+      </button>
     </div>
     } @else {
     <!-- Grid de tracks -->
@@ -47,9 +49,14 @@
       @if (getNotFoundISRCs(tracks); as notFoundISRCs) { @if (notFoundISRCs.length > 0) {
       <div class="not-found-section">
         <h3 class="not-found-title">
-          {{ notFoundISRCs.length }} ISRC{{ notFoundISRCs.length > 1 ? 's' : '' }} não encontrado{{
-            notFoundISRCs.length > 1 ? 's' : ''
-          }}:
+          {{
+            'tracks.notFound.title'
+              | translate
+                : {
+                    count: notFoundISRCs.length,
+                    plural: notFoundISRCs.length > 1 ? 's' : ''
+                  }
+          }}
         </h3>
         <div class="not-found-list">
           @for (isrc of notFoundISRCs; track isrc) {
@@ -65,9 +72,11 @@
     <!-- Estado vazio -->
     <div class="empty-state">
       <div class="empty-icon">🎵</div>
-      <h3>Nenhuma track encontrada</h3>
-      <p>Não foi possível encontrar nenhuma das tracks pelos códigos ISRC fornecidos.</p>
-      <button class="retry-button" (click)="reloadTracks()">Tentar novamente</button>
+      <h3>{{ 'tracks.empty.title' | translate }}</h3>
+      <p>{{ 'tracks.empty.subtitle' | translate }}</p>
+      <button class="retry-button" (click)="reloadTracks()">
+        {{ 'tracks.empty.retryButton' | translate }}
+      </button>
     </div>
     } } } }
   </div>

@@ -11,12 +11,15 @@
           </svg>
         </div>
         <div class="header__text">
-          <h1 class="header__title">MUSIC IS POWER</h1>
-          <p class="header__subtitle">Descubra faixas musicais através do código ISRC</p>
+          <h1 class="header__title">{{ 'header.title' | translate }}</h1>
+          <p class="header__subtitle">{{ 'header.subtitle' | translate }}</p>
         </div>
       </div>
       <div class="header__actions">
-        <div class="header__powered">Powered by <strong>Spotify API</strong></div>
+        <app-language-selector></app-language-selector>
+        <div class="header__powered">
+          {{ 'header.poweredBy' | translate }} <strong>Spotify API</strong>
+        </div>
       </div>
     </div>
   </div>

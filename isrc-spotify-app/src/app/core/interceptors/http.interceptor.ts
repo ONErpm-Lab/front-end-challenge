@@ -17,6 +17,12 @@ export const httpInterceptor: HttpInterceptorFn = (
     return next(req);
   }
 
+  // Não intercepta requisições para arquivos i18n
+  if (req.url.includes('/assets/i18n/')) {
+    console.log('🔗 HTTP Interceptor: Requisição para arquivo i18n, não interceptando');
+    return next(req);
+  }
+
   // Adiciona token para requisições da API do Spotify
   if (req.url.includes('api.spotify.com')) {
     const token = sessionStorage.getItem('spotifyToken');

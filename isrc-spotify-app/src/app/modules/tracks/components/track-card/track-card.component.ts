@@ -10,11 +10,12 @@ import { CommonModule } from '@angular/common';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ITrack } from '../../models';
 import { formatDuration } from '../../../../core';
+import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 
 @Component({
   selector: 'app-track-card',
   standalone: true,
-  imports: [CommonModule, NgxSkeletonLoaderModule],
+  imports: [CommonModule, NgxSkeletonLoaderModule, TranslatePipe],
   templateUrl: './track-card.component.html',
   styleUrls: ['./track-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

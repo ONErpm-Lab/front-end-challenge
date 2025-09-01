@@ -1,0 +1,56 @@
+<div class="language-selector" (click)="$event.stopPropagation()">
+  <!-- Botão principal -->
+  <button
+    class="language-selector__trigger"
+    (click)="toggleDropdown()"
+    [class.active]="isOpen()"
+    type="button"
+    aria-label="Selecionar idioma"
+  >
+    <div class="language-info">
+      <span class="flag">{{ getCurrentLanguageInfo().flag }}</span>
+      <span class="code">{{ getCurrentLanguageInfo().code.toUpperCase() }}</span>
+    </div>
+    <svg
+      class="chevron"
+      [class.rotated]="isOpen()"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M7 10l5 5 5-5z" />
+    </svg>
+  </button>
+
+  <!-- Dropdown -->
+  @if (isOpen()) {
+  <div class="language-selector__dropdown">
+    <div class="dropdown-content">
+      @for (language of supportedLanguages; track language) {
+      <button
+        class="language-option"
+        [class.active]="isCurrentLanguage(language)"
+        (click)="selectLanguage(language)"
+        type="button"
+      >
+        <div class="language-info">
+          <span class="flag">{{ getLanguageInfo(language).flag }}</span>
+          <span class="name">{{ getLanguageInfo(language).name }}</span>
+        </div>
+        @if (isCurrentLanguage(language)) {
+        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+        </svg>
+        }
+      </button>
+      }
+    </div>
+  </div>
+  }
+
+  <!-- Backdrop para fechar ao clicar fora -->
+  @if (isOpen()) {
+  <div class="language-selector__backdrop" (click)="closeDropdown()"></div>
+  }
+</div>

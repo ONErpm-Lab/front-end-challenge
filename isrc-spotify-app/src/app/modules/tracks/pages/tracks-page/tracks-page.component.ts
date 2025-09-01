@@ -6,11 +6,18 @@ import { TracksService } from '../../services/tracks.service';
 import { ITrack } from '../../models';
 import { LayoutComponent } from '../../../../components/layout/layout.component';
 import { ISRCCodes } from '../../../../core';
+import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 
 @Component({
   selector: 'app-tracks-page',
   standalone: true,
-  imports: [CommonModule, NgxSkeletonLoaderModule, TrackCardComponent, LayoutComponent],
+  imports: [
+    CommonModule,
+    NgxSkeletonLoaderModule,
+    TrackCardComponent,
+    LayoutComponent,
+    TranslatePipe,
+  ],
   templateUrl: './tracks-page.component.html',
   styleUrls: ['./tracks-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

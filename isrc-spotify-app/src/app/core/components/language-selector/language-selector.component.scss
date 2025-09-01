@@ -1,0 +1,189 @@
+.language-selector {
+  position: relative;
+  display: inline-block;
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .language-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .flag {
+        font-size: 16px;
+      }
+
+      .code {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    .chevron {
+      transition: transform 0.2s ease;
+      opacity: 0.8;
+
+      &.rotated {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 160px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    animation: dropdownFadeIn 0.2s ease;
+    overflow: hidden;
+
+    .dropdown-content {
+      padding: 4px;
+    }
+
+    .language-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 12px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: #333;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.05);
+        transform: translateX(2px);
+      }
+
+      &.active {
+        background: rgba(29, 185, 84, 0.1);
+        color: #1db954;
+        font-weight: 600;
+
+        &:hover {
+          background: rgba(29, 185, 84, 0.15);
+        }
+      }
+
+      .language-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .flag {
+          font-size: 18px;
+        }
+
+        .name {
+          font-size: 14px;
+        }
+      }
+
+      .check-icon {
+        color: #1db954;
+        opacity: 0.8;
+      }
+    }
+  }
+
+  &__backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    background: transparent;
+  }
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .language-selector {
+    &__trigger {
+      padding: 6px 10px;
+      font-size: 13px;
+
+      .language-info {
+        gap: 4px;
+
+        .flag {
+          font-size: 14px;
+        }
+
+        .code {
+          font-size: 11px;
+        }
+      }
+    }
+
+    &__dropdown {
+      min-width: 140px;
+      right: -10px;
+
+      .language-option {
+        padding: 10px;
+        font-size: 13px;
+
+        .language-info {
+          gap: 8px;
+
+          .flag {
+            font-size: 16px;
+          }
+
+          .name {
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+}

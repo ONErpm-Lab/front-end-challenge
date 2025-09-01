@@ -1,0 +1,52 @@
+{
+  "header": {
+    "title": "MUSIC IS POWER",
+    "subtitle": "Discover music tracks through ISRC codes",
+    "poweredBy": "Powered by"
+  },
+  "tracks": {
+    "loading": {
+      "title": "Loading your music...",
+      "subtitle": "Searching tracks by ISRC codes in Spotify database"
+    },
+    "error": {
+      "title": "Error loading tracks",
+      "retryButton": "Try again"
+    },
+    "empty": {
+      "icon": "🎵",
+      "title": "No tracks found",
+      "subtitle": "Could not find any tracks with the provided ISRC codes.",
+      "retryButton": "Try again"
+    },
+    "notFound": {
+      "title": "{{count}} ISRC{{plural}} not found:"
+    }
+  },
+  "trackCard": {
+    "availability": {
+      "available": "Available in Brazil",
+      "unavailable": "Unavailable in Brazil"
+    },
+    "meta": {
+      "release": "Release:",
+      "duration": "Duration:"
+    },
+    "player": {
+      "playing": "Playing preview...",
+      "clickToPlay": "Click to listen preview",
+      "noPreview": "Preview not available"
+    },
+    "actions": {
+      "spotifyButton": "Listen on Spotify"
+    },
+    "placeholders": {
+      "noImage": "No image"
+    }
+  },
+  "languages": {
+    "pt": "Português",
+    "en": "English",
+    "es": "Español"
+  }
+}
