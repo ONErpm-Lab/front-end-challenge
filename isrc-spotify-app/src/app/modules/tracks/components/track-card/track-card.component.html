@@ -15,32 +15,29 @@
   <!-- Capa do Álbum -->
   <div class="track-card__artwork">
     <div class="artwork-container">
-      @if (!isImageLoaded() && !hasError()) {
+      @if (track.album.images && track.album.images.length > 0) { @if (!isImageLoaded() &&
+      !hasError()) {
       <ngx-skeleton-loader
         count="1"
         appearance="square"
         [theme]="{
           'border-radius': '12px',
-          width: '400px',
-          height: '200px'
+          width: '100%',
+          height: '200px',
+          'aspect-ratio': '1'
         }"
       >
       </ngx-skeleton-loader>
-      } @if (!hasError()) {
+      }
+
       <img
-        [src]="getThumbnailUrl()"
-        [alt]="track.album.name"
+        [src]="track.album.images[0].url"
+        [alt]="track.name"
         class="artwork-image"
         [class.loaded]="isImageLoaded()"
         (load)="onImageLoad()"
         (error)="onImageError()"
       />
-      } @else {
-      <div class="artwork-placeholder">
-        <div class="placeholder-icon">🎵</div>
-        <span>Sem imagem</span>
-      </div>
-      }
 
       <!-- Play Button Overlay -->
       @if (track.preview_url && isImageLoaded()) {
@@ -56,6 +53,11 @@
           </svg>
           }
         </div>
+      </div>
+      } } @else {
+      <div class="artwork-placeholder">
+        <div class="placeholder-icon">🎵</div>
+        <span>Sem imagem</span>
       </div>
       }
     </div>
@@ -78,6 +80,30 @@
     </div>
   </div>
 
+  <!-- Player de Áudio -->
+  @if (track.preview_url) {
+  <div class="track-card__player">
+    <div class="audio-controls">
+      <button class="play-btn" (click)="toggleAudio()" [class.playing]="isPlaying()">
+        @if (isPlaying()) {
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+        </svg>
+        } @else {
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+        }
+      </button>
+      <div class="audio-info">
+        <span class="audio-label">
+          @if (isPlaying()) { Tocando prévia... } @else { Clique para ouvir prévia }
+        </span>
+      </div>
+    </div>
+  </div>
+  }
+
   <!-- Actions -->
   <div class="track-card__actions">
     <button class="btn btn-primary" (click)="openSpotify()" type="button">
@@ -91,6 +117,11 @@
 
     @if (!track.preview_url) {
     <div class="no-preview">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+        />
+      </svg>
       <span>Prévia não disponível</span>
     </div>
     }

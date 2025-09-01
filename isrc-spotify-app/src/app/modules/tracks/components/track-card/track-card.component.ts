@@ -1,4 +1,11 @@
-import { Component, Input, ChangeDetectionStrategy, ViewChild, ElementRef, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  ViewChild,
+  ElementRef,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ITrack } from '../../models';
@@ -28,14 +35,14 @@ export class TrackCardComponent {
    * Verifica se a track está disponível no Brasil
    */
   isAvailableInBR(): boolean {
-    return this.track.available_markets.includes('BR');
+    return this.track.available_markets?.includes('BR') || false;
   }
 
   /**
-   * Obtém a URL da thumbnail (preferência para a segunda imagem)
+   * Obtém a URL da thumbnail (primeira imagem disponível)
    */
   getThumbnailUrl(): string {
-    return this.track.album.images[1]?.url || this.track.album.images[0]?.url || '';
+    return this.track.album.images[0]?.url || '';
   }
 
   /**
@@ -78,13 +85,16 @@ export class TrackCardComponent {
     if (!this.audioElement || !this.track.preview_url) return;
 
     const audio = this.audioElement.nativeElement;
-    
+
     if (audio.paused) {
-      audio.play().then(() => {
-        this.isPlaying.set(true);
-      }).catch(() => {
-        this.hasError.set(true);
-      });
+      audio
+        .play()
+        .then(() => {
+          this.isPlaying.set(true);
+        })
+        .catch(() => {
+          this.hasError.set(true);
+        });
     } else {
       audio.pause();
       this.isPlaying.set(false);

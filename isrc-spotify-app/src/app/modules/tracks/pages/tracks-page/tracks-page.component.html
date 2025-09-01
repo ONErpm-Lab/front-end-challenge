@@ -1,28 +1,29 @@
 <app-layout>
   <div class="tracks-page">
     <!-- Estados da aplicação -->
-        @if (loading$ | async) {
-      <div class="loading-state">
-        <div class="loading-header">
-          <h2>Carregando suas músicas...</h2>
-          <p>Buscando faixas pelos códigos ISRC na base do Spotify</p>
-        </div>
-        <div class="skeleton-grid">
-          @for (item of [1,2,3,4,5,6]; track item) {
-            <div class="skeleton-card">
-              <ngx-skeleton-loader 
-                count="1" 
-                appearance="circle"
-                [theme]="{
-                  'border-radius': '16px',
-                  'height': '320px',
-                  'margin-bottom': '0'
-                }">
-              </ngx-skeleton-loader>
-            </div>
-          }
-        </div>
+    @if (loading$ | async) {
+    <div class="loading-state">
+      <div class="loading-header">
+        <h2>Carregando suas músicas...</h2>
+        <p>Buscando faixas pelos códigos ISRC na base do Spotify</p>
       </div>
+      <div class="skeleton-grid">
+        @for (item of [1,2,3,4,5,6]; track item) {
+        <div class="skeleton-card">
+          <ngx-skeleton-loader
+            count="1"
+            appearance="square"
+            [theme]="{
+              'border-radius': '16px',
+              height: '400px',
+              'margin-bottom': '0'
+            }"
+          >
+          </ngx-skeleton-loader>
+        </div>
+        }
+      </div>
+    </div>
     } @else {
     <!-- Estado de erro -->
     @if (error$ | async; as error) {

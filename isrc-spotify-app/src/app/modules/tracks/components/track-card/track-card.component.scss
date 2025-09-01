@@ -8,17 +8,17 @@
   position: relative;
   max-width: 320px;
   width: 100%;
-  
+
   &:hover {
     transform: translateY(-8px);
     box-shadow: var(--shadow-xl);
-    
+
     .play-overlay {
       opacity: 1;
       visibility: visible;
     }
   }
-  
+
   &.available-br {
     border-top: 4px solid var(--onerpm-orange);
   }
@@ -38,19 +38,19 @@
   border-radius: 20px;
   font-size: 0.75rem;
   font-weight: 500;
-  
+
   &.available {
     background: rgba(76, 175, 80, 0.1);
-    color: #4CAF50;
+    color: #4caf50;
     border: 1px solid rgba(76, 175, 80, 0.2);
   }
-  
+
   &:not(.available) {
     background: rgba(244, 67, 54, 0.1);
-    color: #F44336;
+    color: #f44336;
     border: 1px solid rgba(244, 67, 54, 0.2);
   }
-  
+
   .badge-icon {
     font-size: 0.8rem;
   }
@@ -76,7 +76,7 @@
   object-fit: cover;
   opacity: 0;
   transition: opacity var(--transition-normal);
-  
+
   &.loaded {
     opacity: 1;
   }
@@ -91,13 +91,13 @@
   height: 100%;
   background: var(--onerpm-gray-light);
   color: var(--onerpm-gray-medium);
-  
+
   .placeholder-icon {
     font-size: 2rem;
     margin-bottom: 0.5rem;
     opacity: 0.5;
   }
-  
+
   span {
     font-size: 0.8rem;
     opacity: 0.7;
@@ -118,10 +118,10 @@
   visibility: hidden;
   transition: all var(--transition-fast);
   cursor: pointer;
-  
+
   &:hover {
     background: rgba(0, 0, 0, 0.7);
-    
+
     .play-button {
       transform: scale(1.1);
     }
@@ -139,15 +139,15 @@
   color: var(--onerpm-white);
   box-shadow: var(--shadow-orange);
   transition: all var(--transition-fast);
-  
+
   &.playing {
     animation: pulse 2s infinite;
   }
-  
+
   svg {
     margin-left: 2px; // Ajuste visual para o ícone de play
   }
-  
+
   &.playing svg {
     margin-left: 0;
   }
@@ -203,28 +203,85 @@
   justify-content: space-between;
   align-items: center;
   font-size: 0.8rem;
-  
+
   .meta-label {
     color: var(--onerpm-gray-medium);
     font-weight: 500;
   }
-  
+
   .meta-value {
     color: var(--onerpm-black);
     font-weight: 600;
   }
 }
 
+.track-card__player {
+  padding: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(255, 69, 0, 0.02);
+}
+
+.audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.play-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: var(--gradient-orange);
+  color: var(--onerpm-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-orange);
+  flex-shrink: 0;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 69, 0, 0.4);
+  }
+
+  &.playing {
+    animation: pulse 2s infinite;
+  }
+
+  svg {
+    margin-left: 1px; // Ajuste visual para o ícone de play
+  }
+
+  &.playing svg {
+    margin-left: 0;
+  }
+}
+
+.audio-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.audio-label {
+  font-size: 0.85rem;
+  color: var(--onerpm-gray-dark);
+  font-weight: 500;
+  display: block;
+}
+
 .track-card__actions {
   padding: 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
-  
+
   .btn {
     width: 100%;
     justify-content: center;
     font-size: 0.85rem;
     padding: 0.75rem;
-    
+
     svg {
       width: 16px;
       height: 16px;
@@ -236,11 +293,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   padding: 0.75rem;
   background: rgba(0, 0, 0, 0.05);
   border-radius: 8px;
   margin-top: 0.5rem;
-  
+
+  svg {
+    opacity: 0.6;
+    color: var(--onerpm-gray-medium);
+  }
+
   span {
     font-size: 0.8rem;
     color: var(--onerpm-gray-medium);
@@ -253,15 +316,15 @@
   .track-card {
     max-width: 280px;
   }
-  
+
   .track-title {
     font-size: 1rem;
   }
-  
+
   .track-artists {
     font-size: 0.85rem;
   }
-  
+
   .play-button {
     width: 50px;
     height: 50px;
@@ -272,23 +335,23 @@
   .track-card {
     max-width: 100%;
   }
-  
+
   .track-card__header {
     padding: 0.75rem 0.75rem 0;
   }
-  
+
   .track-card__artwork {
     padding: 0 0.75rem;
   }
-  
+
   .track-card__info {
     padding: 0 0.75rem 0.75rem;
   }
-  
+
   .track-card__actions {
     padding: 0.75rem;
   }
-  
+
   .availability-badge {
     font-size: 0.7rem;
     padding: 0.2rem 0.6rem;
