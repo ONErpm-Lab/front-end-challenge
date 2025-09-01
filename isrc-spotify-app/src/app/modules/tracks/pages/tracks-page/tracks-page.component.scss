@@ -1,7 +1,11 @@
 .tracks-page {
-  min-height: 100vh;
-  padding: var(--spacing-2xl);
-  background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-white) 100%);
+  width: 100%;
+}
+
+.tracks-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
 .page-header {
@@ -133,6 +137,42 @@
     justify-self: center;
     width: 100%;
     max-width: 24rem;
+  }
+}
+
+// Seção de ISRCs não encontrados
+.not-found-section {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-top: 2rem;
+  
+  .not-found-title {
+    color: #856404;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+  }
+  
+  .not-found-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .not-found-item {
+    background: #fff;
+    border: 1px solid #ffeaa7;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    
+    .isrc-code {
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+      color: #856404;
+      font-size: 0.9rem;
+    }
   }
 }
 

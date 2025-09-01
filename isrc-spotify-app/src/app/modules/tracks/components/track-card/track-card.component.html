@@ -26,12 +26,14 @@
     </div>
 
     <!-- Player de áudio -->
-    <div class="audio-player" *ngIf="track.preview_url">
+    @if (track.preview_url) {
+    <div class="audio-player">
       <audio #audio [src]="track.preview_url" preload="none"></audio>
       <button class="play-button" (click)="toggleAudio()" type="button">
         <span class="play-icon">▶</span>
       </button>
     </div>
+    }
 
     <!-- Link para o Spotify -->
     <button class="spotify-button" (click)="openSpotify()" type="button">
