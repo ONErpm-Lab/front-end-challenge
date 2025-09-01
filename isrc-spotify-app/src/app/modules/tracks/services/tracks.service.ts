@@ -56,8 +56,6 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
     const params = {
       q: `isrc:${isrc}`,
       type: 'track',
-      market: environment.MARKET,
-      limit: '1',
     };
 
     return this.http.get<any>(url, { params }).pipe(
