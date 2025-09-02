@@ -66,6 +66,8 @@ function handleSpotifyError(
 ): Observable<HttpEvent<unknown>> {
   console.log('🔗 HTTP Interceptor: Tratando erro Spotify:', error.status);
 
+  console.log(error.status);
+
   switch (error.status) {
     case 401:
       console.log('🔗 HTTP Interceptor: Token expirado (401), limpando storage e tentando renovar');

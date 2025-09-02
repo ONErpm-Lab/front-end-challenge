@@ -44,7 +44,23 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
           map((tracks) => sortByTitlePTBR(tracks)),
           tap((tracks) => this.setData(tracks)),
           catchError((error) => {
-            const errorMessage = error.message || 'Erro ao carregar tracks. Verifique sua conexão.';
+            let errorMessage = 'Erro ao carregar tracks. Verifique sua conexão.';
+
+            // Detecta erros específicos de credenciais do Spotify
+            if (
+              error.error === 'invalid_client' ||
+              error.error === 'Invalid client' ||
+              error.message?.includes('invalid_client') ||
+              error.message?.includes('Invalid client')
+            ) {
+              errorMessage =
+                'Credenciais do Spotify inválidas. Verifique seu Client ID e Client Secret no arquivo environment.ts';
+            } else if (error.status === 401) {
+              errorMessage = 'Erro de autenticação com o Spotify. Verifique suas credenciais.';
+            } else if (error.status === 403) {
+              errorMessage = 'Acesso negado ao Spotify. Verifique as permissões do seu app.';
+            }
+
             this.setError(errorMessage);
             return of([]);
           })

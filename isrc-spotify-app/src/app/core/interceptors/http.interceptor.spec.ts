@@ -397,7 +397,14 @@ describe('HttpInterceptor', () => {
     });
 
     it('should log missing token warnings', () => {
-      httpClient.get(SPOTIFY_API_URL).subscribe();
+      httpClient.get(SPOTIFY_API_URL).subscribe({
+        next: (response) => {
+          // Sucesso esperado se o token for obtido
+        },
+        error: (error) => {
+          // Erro esperado se falhar ao obter token
+        },
+      });
 
       // Como não há token, deve tentar obter um novo
       expect(console.warn).toHaveBeenCalledWith(

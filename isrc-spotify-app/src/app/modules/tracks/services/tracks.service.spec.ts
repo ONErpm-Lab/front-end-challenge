@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { of, throwError } from 'rxjs';
 
@@ -501,34 +501,33 @@ describe('TracksService', () => {
       service.clearError();
     });
 
-    it('should handle network errors with user-friendly messages', (done) => {
+    it('should handle network errors with user-friendly messages', fakeAsync(() => {
       spotifyAuthService.getToken.and.returnValue(of(mockToken));
 
-      service.loadAllTracks().subscribe();
+      let errorReceived: string | null = null;
 
       service.error$.subscribe((error) => {
-        if (error && error.includes('Erro ao carregar tracks')) {
-          expect(error).toContain('Erro ao carregar tracks');
-          done();
-        }
+        errorReceived = error;
       });
+
+      service.loadAllTracks().subscribe();
 
       const requests = httpMock.match((req) =>
         req.url.includes(`${environment.SPOTIFY_API_URL}/search`)
       );
 
-      // Simula erro de rede
-      requests[0].error(
-        new ErrorEvent('Network error', {
-          message: 'Failed to fetch',
-        })
-      );
+      // Simula erro na primeira requisição
+      requests[0].error(new ErrorEvent('Network error'));
 
       // Completa as outras
       for (let i = 1; i < requests.length; i++) {
         requests[i].flush({ tracks: { items: [] } });
       }
-    });
+
+      tick(); // avança o tempo e deixa os observables completarem
+
+      expect(errorReceived).toContain('Erro ao carregar tracks');
+    }));
   });
 
   describe('Data mapping', () => {

@@ -15,7 +15,7 @@ describe('LanguageSelectorComponent', () => {
       'getSupportedLanguages',
       'changeLanguage',
       'getLanguageInfo',
-      'currentLanguage'
+      'currentLanguage',
     ]);
 
     // Configurar mocks específicos
@@ -25,12 +25,12 @@ describe('LanguageSelectorComponent', () => {
       subscribe: (callbacks: any) => {
         callbacks.next();
         return { unsubscribe: () => {} };
-      }
+      },
     } as any);
 
     await TestBed.configureTestingModule({
       imports: [LanguageSelectorComponent, HttpClientTestingModule],
-      providers: [{ provide: I18nService, useValue: spy }]
+      providers: [{ provide: I18nService, useValue: spy }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LanguageSelectorComponent);
@@ -54,18 +54,18 @@ describe('LanguageSelectorComponent', () => {
   describe('toggleDropdown', () => {
     it('should toggle dropdown state from closed to open', () => {
       expect(component.isOpen()).toBe(false);
-      
+
       component.toggleDropdown();
-      
+
       expect(component.isOpen()).toBe(true);
     });
 
     it('should toggle dropdown state from open to closed', () => {
       component.toggleDropdown(); // Abrir
       expect(component.isOpen()).toBe(true);
-      
+
       component.toggleDropdown(); // Fechar
-      
+
       expect(component.isOpen()).toBe(false);
     });
   });
@@ -74,17 +74,17 @@ describe('LanguageSelectorComponent', () => {
     it('should close dropdown when open', () => {
       component.toggleDropdown(); // Abrir
       expect(component.isOpen()).toBe(true);
-      
+
       component.closeDropdown();
-      
+
       expect(component.isOpen()).toBe(false);
     });
 
     it('should keep dropdown closed when already closed', () => {
       expect(component.isOpen()).toBe(false);
-      
+
       component.closeDropdown();
-      
+
       expect(component.isOpen()).toBe(false);
     });
   });
@@ -93,9 +93,9 @@ describe('LanguageSelectorComponent', () => {
     it('should call i18nService.changeLanguage and close dropdown', () => {
       component.toggleDropdown(); // Abrir dropdown
       expect(component.isOpen()).toBe(true);
-      
+
       component.selectLanguage('en');
-      
+
       expect(i18nService.changeLanguage).toHaveBeenCalledWith('en');
       expect(component.isOpen()).toBe(false);
     });
@@ -106,14 +106,14 @@ describe('LanguageSelectorComponent', () => {
         subscribe: (callbacks: any) => {
           callbacks.error(new Error('Network error'));
           return { unsubscribe: () => {} };
-        }
+        },
       } as any);
 
       component.toggleDropdown(); // Abrir dropdown
       expect(component.isOpen()).toBe(true);
-      
+
       component.selectLanguage('en');
-      
+
       expect(component.isOpen()).toBe(false);
     });
   });
@@ -122,9 +122,9 @@ describe('LanguageSelectorComponent', () => {
     it('should return current language info', () => {
       const mockInfo = { code: 'pt' as SupportedLanguage, name: 'Português', flag: '🇧🇷' };
       i18nService.getLanguageInfo.and.returnValue(mockInfo);
-      
+
       const result = component.getCurrentLanguageInfo();
-      
+
       expect(i18nService.getLanguageInfo).toHaveBeenCalledWith('pt');
       expect(result).toEqual(mockInfo);
     });
@@ -134,9 +134,9 @@ describe('LanguageSelectorComponent', () => {
     it('should return language info for specific language', () => {
       const mockInfo = { code: 'en' as SupportedLanguage, name: 'English', flag: '🇺🇸' };
       i18nService.getLanguageInfo.and.returnValue(mockInfo);
-      
+
       const result = component.getLanguageInfo('en');
-      
+
       expect(i18nService.getLanguageInfo).toHaveBeenCalledWith('en');
       expect(result).toEqual(mockInfo);
     });
@@ -145,14 +145,14 @@ describe('LanguageSelectorComponent', () => {
   describe('isCurrentLanguage', () => {
     it('should return true for current language', () => {
       const result = component.isCurrentLanguage('pt');
-      
+
       expect(i18nService.currentLanguage).toHaveBeenCalled();
       expect(result).toBe(true);
     });
 
     it('should return false for different language', () => {
       const result = component.isCurrentLanguage('en');
-      
+
       expect(result).toBe(false);
     });
   });
@@ -161,21 +161,21 @@ describe('LanguageSelectorComponent', () => {
     it('should close dropdown when clicking outside', () => {
       component.toggleDropdown(); // Abrir dropdown
       expect(component.isOpen()).toBe(true);
-      
+
       // Simular clique fora do componente
       const mockEvent = {
-        target: document.createElement('div') // Elemento fora do componente
+        target: document.createElement('div'), // Elemento fora do componente
       } as any;
-      
+
       component.onClickOutside(mockEvent);
-      
+
       expect(component.isOpen()).toBe(false);
     });
 
     it('should not close dropdown when clicking inside', () => {
       component.toggleDropdown(); // Abrir dropdown
       expect(component.isOpen()).toBe(true);
-      
+
       // Simular clique dentro do componente
       const mockEvent = {
         target: {
@@ -184,24 +184,24 @@ describe('LanguageSelectorComponent', () => {
               return document.createElement('div'); // Elemento dentro do componente
             }
             return null;
-          }
-        }
+          },
+        },
       } as any;
-      
+
       component.onClickOutside(mockEvent);
-      
+
       expect(component.isOpen()).toBe(true);
     });
 
     it('should not close dropdown when already closed', () => {
       expect(component.isOpen()).toBe(false);
-      
+
       const mockEvent = {
-        target: document.createElement('div')
+        target: document.createElement('div'),
       } as any;
-      
+
       component.onClickOutside(mockEvent);
-      
+
       expect(component.isOpen()).toBe(false);
     });
   });
