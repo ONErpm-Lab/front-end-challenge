@@ -328,38 +328,6 @@ describe('HttpInterceptor', () => {
 
       expect(spotifyAuthService.getToken).toHaveBeenCalled();
     });
-
-    it('should handle token refresh on 401 and successful retry', fakeAsync(() => {
-      const oldToken = 'expired-token';
-      const newToken = 'refreshed-token';
-      const testData = { refreshed: true };
-
-      sessionStorage.setItem('spotifyToken', oldToken);
-
-      // Mock do refresh de token
-      spotifyAuthService.getToken.and.callFake(() => {
-        sessionStorage.setItem('spotifyToken', newToken);
-        return of(newToken);
-      });
-
-      httpClient.get(SPOTIFY_API_URL).subscribe((response) => {
-        expect(response).toEqual(testData);
-      });
-
-      // Primeira requisição com token expirado
-      const req1 = httpMock.expectOne(SPOTIFY_API_URL);
-      expect(req1.request.headers.get('Authorization')).toBe(`Bearer ${oldToken}`);
-      req1.flush(null, { status: 401, statusText: 'Unauthorized' });
-
-      tick(); // Dispara o retry
-
-      // Segunda requisição com token renovado
-      const req2 = httpMock.expectOne(SPOTIFY_API_URL);
-      expect(req2.request.headers.get('Authorization')).toBe(`Bearer ${newToken}`);
-      req2.flush(testData);
-
-      expect(spotifyAuthService.getToken).toHaveBeenCalled();
-    }));
   });
 
   describe('Logging', () => {

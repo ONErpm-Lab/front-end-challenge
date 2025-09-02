@@ -3,9 +3,9 @@
     <div class="error-container">
       <h1 class="error-title">
         @if (errorType === 'credentials') {
-        <span>Credenciais do Spotify Necessárias</span>
+        <span>{{ 'errorPage.credentials.title' | translate }}</span>
         } @else {
-        <span>Ocorreu um Erro</span>
+        <span>{{ 'errorPage.general.title' | translate }}</span>
         }
       </h1>
 
@@ -13,18 +13,17 @@
 
       @if (errorType === 'credentials') {
       <div class="credentials-info">
-        <h3>Como configurar suas credenciais:</h3>
+        <h3>{{ 'errorPage.credentials.setupInstructions' | translate }}</h3>
         <ol>
           <li>
-            Acesse o
-            <a href="https://developer.spotify.com/dashboard" target="_blank"
-              >Spotify Developer Dashboard</a
-            >
+            <a href="https://developer.spotify.com/dashboard" target="_blank" rel="noopener">
+              {{ 'errorPage.credentials.steps.step1' | translate }}
+            </a>
           </li>
-          <li>Crie um novo app ou use um existente</li>
-          <li>Copie o Client ID e Client Secret</li>
-          <li>Cole no arquivo environment.ts</li>
-          <li>Reinicie a aplicação</li>
+          <li>{{ 'errorPage.credentials.steps.step2' | translate }}</li>
+          <li>{{ 'errorPage.credentials.steps.step3' | translate }}</li>
+          <li>{{ 'errorPage.credentials.steps.step4' | translate }}</li>
+          <li>{{ 'errorPage.credentials.steps.step5' | translate }}</li>
         </ol>
       </div>
       }

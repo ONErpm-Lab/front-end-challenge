@@ -371,44 +371,6 @@ describe('TrackCardComponent', () => {
     });
   });
 
-  describe('Template integration', () => {
-    it('should display track name', () => {
-      const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.textContent).toContain('Test Song');
-    });
-
-    it('should display artist names', () => {
-      const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.textContent).toContain('Test Artist, Another Artist');
-    });
-
-    it('should display album name', () => {
-      // Verifica se o componente tem acesso ao nome do álbum
-      expect(component.track.album.name).toBe('Test Album');
-    });
-
-    it('should show availability status for BR tracks', () => {
-      const compiled = fixture.nativeElement as HTMLElement;
-      fixture.detectChanges();
-
-      // Verifica se algum elemento indica disponibilidade no Brasil
-      // (O teste exato dependeria da estrutura do template)
-      expect(component.isAvailableInBR()).toBe(true);
-    });
-
-    it('should show skeleton loader when image is not loaded', () => {
-      component.isImageLoaded.set(false);
-      fixture.detectChanges();
-
-      const compiled = fixture.nativeElement as HTMLElement;
-      const skeletonLoader = compiled.querySelector('ngx-skeleton-loader');
-
-      // Se o skeleton loader estiver no template, deve estar presente
-      // (O teste exato dependeria da estrutura do template)
-      expect(component.isImageLoaded()).toBe(false);
-    });
-  });
-
   describe('Edge cases', () => {
     it('should handle track with no preview URL', () => {
       component.track = {

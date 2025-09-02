@@ -69,5 +69,26 @@
   },
   "footer": {
     "description": "Developed for consulting music tracks via ISRC code"
+  },
+  "errorPage": {
+    "credentials": {
+      "title": "Spotify Credentials Required",
+      "setupInstructions": "How to configure your credentials:",
+      "steps": {
+        "step1": "Access the Spotify Developer Dashboard",
+        "step2": "Create a new app or use an existing one",
+        "step3": "Copy the Client ID and Client Secret",
+        "step4": "Paste in the environment.ts file",
+        "step5": "Restart the application"
+      },
+      "fileExample": "Example of environment.ts file:"
+    },
+    "general": {
+      "title": "An Error Occurred"
+    },
+    "actions": {
+      "tryAgain": "Try Again",
+      "goHome": "Go Home"
+    }
   }
 }

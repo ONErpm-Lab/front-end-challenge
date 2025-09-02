@@ -69,5 +69,26 @@
   },
   "footer": {
     "description": "Desarrollado para consultar pistas musicales a través del código ISRC"
+  },
+  "errorPage": {
+    "credentials": {
+      "title": "Credenciales de Spotify Requeridas",
+      "setupInstructions": "Cómo configurar tus credenciales:",
+      "steps": {
+        "step1": "Accede al Spotify Developer Dashboard",
+        "step2": "Crea una nueva app o usa una existente",
+        "step3": "Copia el Client ID y Client Secret",
+        "step4": "Pega en el archivo environment.ts",
+        "step5": "Reinicia la aplicación"
+      },
+      "fileExample": "Ejemplo del archivo environment.ts:"
+    },
+    "general": {
+      "title": "Ocurrió un Error"
+    },
+    "actions": {
+      "tryAgain": "Intentar de Nuevo",
+      "goHome": "Volver al Inicio"
+    }
   }
 }

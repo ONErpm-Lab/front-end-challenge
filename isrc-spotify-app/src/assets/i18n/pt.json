@@ -69,5 +69,26 @@
   },
   "footer": {
     "description": "Desenvolvido para consulta de faixas musicais via código ISRC"
+  },
+  "errorPage": {
+    "credentials": {
+      "title": "Credenciais do Spotify Necessárias",
+      "setupInstructions": "Como configurar suas credenciais:",
+      "steps": {
+        "step1": "Acesse o Spotify Developer Dashboard",
+        "step2": "Crie um novo app ou use um existente",
+        "step3": "Copie o Client ID e Client Secret",
+        "step4": "Cole no arquivo environment.ts",
+        "step5": "Reinicie a aplicação"
+      },
+      "fileExample": "Exemplo do arquivo environment.ts:"
+    },
+    "general": {
+      "title": "Ocorreu um Erro"
+    },
+    "actions": {
+      "tryAgain": "Tentar Novamente",
+      "goHome": "Voltar ao Início"
+    }
   }
 }
