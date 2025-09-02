@@ -90,15 +90,16 @@
       <div class="audio-info">
         <div class="player-info">
           <span class="player-label">
-            @if (isPlaying()) { 🎵 Tocando no Spotify... } @else { 🎵 Ouvir no Spotify }
+            @if (isPlaying()) { {{ 'trackCard.player.playingSpotify' | translate }} } @else {
+            {{ 'trackCard.player.listenSpotify' | translate }} }
           </span>
-          <span class="player-subtitle">Clique para abrir no Spotify</span>
+          <span class="player-subtitle">{{ 'trackCard.player.clickToOpen' | translate }}</span>
         </div>
 
         <div class="spotify-controls">
           <button class="spotify-btn" (click)="openSpotify()">
             <i class="fab fa-spotify" style="font-size: 16px; color: white"></i>
-            Abrir no Spotify
+            {{ 'trackCard.player.openSpotify' | translate }}
           </button>
         </div>
       </div>

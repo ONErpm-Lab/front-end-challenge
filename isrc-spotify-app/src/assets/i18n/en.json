@@ -35,7 +35,11 @@
     "player": {
       "playing": "Playing preview...",
       "clickToPlay": "Click to listen preview",
-      "noPreview": "Preview not available"
+      "noPreview": "Preview not available",
+      "playingSpotify": "🎵 Playing on Spotify...",
+      "listenSpotify": "🎵 Listen on Spotify",
+      "clickToOpen": "Click to open on Spotify",
+      "openSpotify": "Open on Spotify"
     },
     "actions": {
       "spotifyButton": "Listen on Spotify"
@@ -48,5 +52,11 @@
     "pt": "Português",
     "en": "English",
     "es": "Español"
+  },
+  "search": {
+    "placeholder": "Search by ISRC, music name or artist...",
+    "searching": "Searching...",
+    "noResults": "No results found",
+    "clear": "Clear search"
   }
 }

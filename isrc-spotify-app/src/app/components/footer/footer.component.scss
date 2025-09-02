@@ -1,62 +1,121 @@
 .footer {
-  background-color: #191414;
-  color: #b3b3b3;
+  background: var(--onerpm-black);
+  color: var(--onerpm-white);
   padding: 2rem 0;
+  border-top: 3px solid var(--onerpm-orange);
   margin-top: auto;
-  border-top: 1px solid #333;
 }
 
 .footer__container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
 }
 
 .footer__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.footer__info {
   flex: 1;
 }
 
-.footer__text {
+.footer__description {
+  font-size: 0.95rem;
+  color: var(--onerpm-gray-medium);
   margin: 0 0 0.5rem 0;
-  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
 .footer__tech {
+  font-size: 0.85rem;
+  color: var(--onerpm-gray-medium);
   margin: 0;
-  font-size: 0.8rem;
-  opacity: 0.8;
+  line-height: 1.4;
 }
 
-.footer__links {
+.footer__spotify {
   display: flex;
-  gap: 1rem;
+  align-items: center;
 }
 
-.footer__link {
+.footer__spotify-link {
+  display: flex;
+  align-items: center;
   color: #1db954;
   text-decoration: none;
   font-size: 0.9rem;
-  transition: color 0.3s ease;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  background: rgba(29, 185, 84, 0.1);
+  border: 1px solid rgba(29, 185, 84, 0.2);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(29, 185, 84, 0.15);
+    border-color: rgba(29, 185, 84, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(29, 185, 84, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }
 
-.footer__link:hover {
-  color: #1ed760;
-  text-decoration: underline;
-}
-
+// Responsividade
 @media (max-width: 768px) {
+  .footer {
+    padding: 1.5rem 0;
+  }
+
   .footer__container {
-    flex-direction: column;
-    text-align: center;
     padding: 0 1rem;
   }
-  
-  .footer__text,
-  .footer__tech {
+
+  .footer__content {
+    flex-direction: column;
     text-align: center;
+    gap: 1.5rem;
+  }
+
+  .footer__info {
+    text-align: center;
+  }
+
+  .footer__description {
+    font-size: 0.9rem;
+  }
+
+  .footer__tech {
+    font-size: 0.8rem;
+  }
+
+  .footer__spotify-link {
+    font-size: 0.85rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 1rem 0;
+  }
+
+  .footer__description {
+    font-size: 0.85rem;
+  }
+
+  .footer__tech {
+    font-size: 0.75rem;
+  }
+
+  .footer__spotify-link {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
   }
 }

@@ -11,16 +11,11 @@
       <span class="flag">{{ getCurrentLanguageInfo().flag }}</span>
       <span class="code">{{ getCurrentLanguageInfo().code.toUpperCase() }}</span>
     </div>
-    <svg
-      class="chevron"
+    <i
+      class="fas fa-chevron-down chevron"
       [class.rotated]="isOpen()"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-    >
-      <path d="M7 10l5 5 5-5z" />
-    </svg>
+      style="font-size: 16px; color: white"
+    ></i>
   </button>
 
   <!-- Dropdown -->
@@ -39,9 +34,7 @@
           <span class="name">{{ getLanguageInfo(language).name }}</span>
         </div>
         @if (isCurrentLanguage(language)) {
-        <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-        </svg>
+        <i class="fas fa-check check-icon" style="font-size: 16px; color: #1db954"></i>
         }
       </button>
       }

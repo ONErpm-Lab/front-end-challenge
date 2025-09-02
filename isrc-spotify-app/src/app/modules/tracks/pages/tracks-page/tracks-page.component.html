@@ -8,7 +8,7 @@
           <input
             type="text"
             class="search-input"
-            placeholder="Buscar por ISRC, nome da música ou artista..."
+            placeholder="{{ 'search.placeholder' | translate }}"
             [(ngModel)]="searchTerm"
             (input)="onSearchInput()"
           />
@@ -63,7 +63,7 @@
     @if (isSearching()) {
     <div class="searching-state">
       <div class="searching-icon">🔍</div>
-      <h3>Buscando...</h3>
+      <h3>{{ 'search.searching' | translate }}...</h3>
       <p>Procurando por "{{ searchTerm() }}"</p>
     </div>
     } @else {
@@ -104,9 +104,9 @@
     @if (searchTerm().length > 0) {
     <div class="not-found-search-state">
       <div class="not-found-icon">🔍</div>
-      <h3>Nenhum resultado encontrado</h3>
+      <h3>{{ 'search.noResults' | translate }}</h3>
       <p>Não foi possível encontrar resultados para "{{ searchTerm() }}"</p>
-      <button class="retry-button" (click)="clearSearch()">Limpar busca</button>
+      <button class="retry-button" (click)="clearSearch()">{{ 'search.clear' | translate }}</button>
     </div>
     } @else {
     <div class="empty-state">

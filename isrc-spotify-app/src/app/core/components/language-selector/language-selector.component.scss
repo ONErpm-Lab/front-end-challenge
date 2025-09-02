@@ -47,6 +47,7 @@
     .chevron {
       transition: transform 0.2s ease;
       opacity: 0.8;
+      margin-left: 0.5rem;
 
       &.rotated {
         transform: rotate(180deg);

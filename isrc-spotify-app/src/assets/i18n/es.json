@@ -35,7 +35,11 @@
     "player": {
       "playing": "Reproduciendo vista previa...",
       "clickToPlay": "Haz clic para escuchar vista previa",
-      "noPreview": "Vista previa no disponible"
+      "noPreview": "Vista previa no disponible",
+      "playingSpotify": "🎵 Reproduciendo en Spotify...",
+      "listenSpotify": "🎵 Escuchar en Spotify",
+      "clickToOpen": "Haz clic para abrir en Spotify",
+      "openSpotify": "Abrir en Spotify"
     },
     "actions": {
       "spotifyButton": "Escuchar en Spotify"
@@ -48,5 +52,11 @@
     "pt": "Português",
     "en": "English",
     "es": "Español"
+  },
+  "search": {
+    "placeholder": "Buscar por ISRC, nombre de la música o artista...",
+    "searching": "Buscando...",
+    "noResults": "No se encontraron resultados",
+    "clear": "Limpiar búsqueda"
   }
 }
