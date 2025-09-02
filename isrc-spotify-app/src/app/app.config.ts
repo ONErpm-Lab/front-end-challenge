@@ -38,11 +38,5 @@ export const appConfig: ApplicationConfig = {
       deps: [I18nService],
       multi: true,
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeSpotify,
-      deps: [SpotifyAuthService],
-      multi: true,
-    },
   ],
 };

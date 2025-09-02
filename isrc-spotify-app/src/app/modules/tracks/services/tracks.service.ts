@@ -21,6 +21,23 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
   }
 
   /**
+   * Verifica se as credenciais do Spotify são válidas
+   */
+  private hasValidCredentials(): boolean {
+    const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } = environment;
+
+    return !!(
+      SPOTIFY_CLIENT_ID &&
+      SPOTIFY_CLIENT_SECRET &&
+      SPOTIFY_CLIENT_ID !== '112' &&
+      SPOTIFY_CLIENT_ID !== '212' &&
+      SPOTIFY_CLIENT_SECRET !== 'secret' &&
+      SPOTIFY_CLIENT_ID.length >= 10 &&
+      SPOTIFY_CLIENT_SECRET.length >= 10
+    );
+  }
+
+  /**
    * Implementação do método abstrato
    */
   getInitialData(): Array<ITrack> {
@@ -31,6 +48,15 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
    * Carrega todas as tracks por ISRC
    */
   loadAllTracks(): Observable<Array<ITrack>> {
+    // Verifica credenciais antes de tentar carregar
+    if (!this.hasValidCredentials()) {
+      console.log('🔑 TracksService: Credenciais inválidas, não carregando tracks');
+      this.setError(
+        'Credenciais do Spotify inválidas. Verifique seu Client ID e Client Secret no arquivo environment.ts'
+      );
+      return of([]);
+    }
+
     this.setLoading(true);
 
     // Primeiro gera o token, depois busca as tracks
@@ -73,6 +99,12 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
    * Busca track específica por ISRC
    */
   searchTrackByISRC(isrc: string): Observable<ITrack | null> {
+    // Verifica credenciais antes de tentar buscar
+    if (!this.hasValidCredentials()) {
+      console.log('🔑 TracksService: Credenciais inválidas, não buscando track');
+      return of(null);
+    }
+
     const url = `${environment.SPOTIFY_API_URL}/search`;
     const params = {
       q: `isrc:${isrc}`,

@@ -6,7 +6,7 @@ import { TrackCardComponent } from '../../components/track-card/track-card.compo
 import { TracksService } from '../../services/tracks.service';
 import { ITrack } from '../../models';
 import { LayoutComponent } from '../../../../components/layout/layout.component';
-import { ISRCCodes, SpotifyAuthService } from '../../../../core';
+import { ISRCCodes } from '../../../../core';
 import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 
 @Component({
@@ -25,7 +25,6 @@ import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 })
 export class TracksPageComponent implements OnInit {
   private readonly tracksService = inject(TracksService);
-  private readonly spotifyAuthService = inject(SpotifyAuthService);
 
   readonly tracks$ = this.tracksService.data$;
   readonly loading$ = this.tracksService.loading$;
@@ -36,8 +35,6 @@ export class TracksPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.tracksService.loadAllTracks().subscribe();
-
-    console.log('teste>>> ', this.spotifyAuthService.hasTokenInStorage());
   }
 
   reloadTracks(): void {

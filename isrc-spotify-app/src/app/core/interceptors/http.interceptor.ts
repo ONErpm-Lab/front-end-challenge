@@ -1,11 +1,6 @@
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { catchError, switchMap } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
-import { throwError, of } from 'rxjs';
-import { SpotifyAuthService } from '../spotify/spotify-auth.service';
-import { inject } from '@angular/core';
 
 export const httpInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
@@ -13,7 +8,7 @@ export const httpInterceptor: HttpInterceptorFn = (
 ): Observable<HttpEvent<unknown>> => {
   console.log('🔗 HTTP Interceptor: Interceptando requisição para:', req.url);
 
-  // Não intercepta requisições para o token
+  // Não intercepta requisições para o token - permite que erros de credenciais cheguem ao guard
   if (req.url === environment.SPOTIFY_TOKEN_URL) {
     console.log('🔗 HTTP Interceptor: Requisição para token, não interceptando');
     return next(req);
@@ -35,168 +30,15 @@ export const httpInterceptor: HttpInterceptorFn = (
         headers: req.headers.set('Authorization', `Bearer ${token}`),
       });
       console.log('🔗 HTTP Interceptor: Adicionando header Authorization');
-      return next(authReq).pipe(
-        catchError((error: HttpErrorResponse) => {
-          return handleSpotifyError(error, req, next);
-        })
-      );
+      return next(authReq);
     } else {
       console.warn(
-        '⚠️ HTTP Interceptor: Requisição para API Spotify sem token. Tentando obter novo token...'
+        '⚠️ HTTP Interceptor: Requisição para API Spotify sem token. Permitindo que o erro chegue ao componente.'
       );
-      // Tenta obter um novo token
-      return handleMissingToken(req, next);
+      // Não tenta obter token automaticamente - deixa o erro chegar ao componente
+      return next(req);
     }
   }
 
-  return next(req).pipe(
-    catchError((error: HttpErrorResponse) => {
-      return handleGenericError(error);
-    })
-  );
+  return next(req);
 };
-
-/**
- * Trata erros específicos da API do Spotify
- */
-function handleSpotifyError(
-  error: HttpErrorResponse,
-  req: HttpRequest<unknown>,
-  next: HttpHandlerFn
-): Observable<HttpEvent<unknown>> {
-  console.log('🔗 HTTP Interceptor: Tratando erro Spotify:', error.status);
-
-  console.log(error.status);
-
-  switch (error.status) {
-    case 401:
-      console.log('🔗 HTTP Interceptor: Token expirado (401), limpando storage e tentando renovar');
-      sessionStorage.removeItem('spotifyToken');
-      return handleMissingToken(req, next);
-
-    case 403:
-      console.log('🔗 HTTP Interceptor: Acesso negado (403)');
-      return throwError(
-        () =>
-          new HttpErrorResponse({
-            error: 'Acesso negado. Verifique suas credenciais.',
-            status: 403,
-            statusText: 'Forbidden',
-          })
-      );
-
-    case 429:
-      console.log('🔗 HTTP Interceptor: Rate limit excedido (429)');
-      return throwError(
-        () =>
-          new HttpErrorResponse({
-            error: 'Limite de requisições excedido. Aguarde um momento.',
-            status: 429,
-            statusText: 'Too Many Requests',
-          })
-      );
-
-    case 500:
-      console.log('🔗 HTTP Interceptor: Erro interno do servidor (500)');
-      return throwError(
-        () =>
-          new HttpErrorResponse({
-            error: 'Erro interno do servidor. Tente novamente mais tarde.',
-            status: 500,
-            statusText: 'Internal Server Error',
-          })
-      );
-
-    default:
-      return throwError(() => error);
-  }
-}
-
-/**
- * Trata casos onde não há token disponível
- */
-function handleMissingToken(
-  req: HttpRequest<unknown>,
-  next: HttpHandlerFn
-): Observable<HttpEvent<unknown>> {
-  try {
-    // Tenta obter um novo token
-    const authService = inject(SpotifyAuthService);
-    return authService.getToken().pipe(
-      switchMap(() => {
-        const newToken = sessionStorage.getItem('spotifyToken');
-        if (newToken) {
-          console.log('🔗 HTTP Interceptor: Novo token obtido, repetindo requisição');
-          const authReq = req.clone({
-            headers: req.headers.set('Authorization', `Bearer ${newToken}`),
-          });
-          return next(authReq);
-        } else {
-          console.error('🔗 HTTP Interceptor: Falha ao obter novo token');
-          return throwError(
-            () =>
-              new HttpErrorResponse({
-                error: 'Falha na autenticação. Tente novamente.',
-                status: 401,
-                statusText: 'Unauthorized',
-              })
-          );
-        }
-      }),
-      catchError((tokenError) => {
-        console.error('🔗 HTTP Interceptor: Erro ao obter token:', tokenError);
-        return throwError(
-          () =>
-            new HttpErrorResponse({
-              error: 'Erro de autenticação. Verifique suas credenciais.',
-              status: 401,
-              statusText: 'Unauthorized',
-            })
-        );
-      })
-    );
-  } catch (error) {
-    console.error('🔗 HTTP Interceptor: Erro ao injetar SpotifyAuthService:', error);
-    return throwError(
-      () =>
-        new HttpErrorResponse({
-          error: 'Erro de configuração da aplicação.',
-          status: 500,
-          statusText: 'Internal Server Error',
-        })
-    );
-  }
-}
-
-/**
- * Trata erros genéricos
- */
-function handleGenericError(error: HttpErrorResponse): Observable<HttpEvent<unknown>> {
-  console.log('🔗 HTTP Interceptor: Tratando erro genérico:', error.status);
-
-  // Personaliza mensagens de erro comuns
-  switch (error.status) {
-    case 0:
-      return throwError(
-        () =>
-          new HttpErrorResponse({
-            error: 'Erro de conexão. Verifique sua internet.',
-            status: 0,
-            statusText: 'Network Error',
-          })
-      );
-
-    case 404:
-      return throwError(
-        () =>
-          new HttpErrorResponse({
-            error: 'Recurso não encontrado.',
-            status: 404,
-            statusText: 'Not Found',
-          })
-      );
-
-    default:
-      return throwError(() => error);
-  }
-}

@@ -52,13 +52,7 @@ export class SpotifyAuthService {
             this.generateToken();
           }, (response.expires_in - 60) * 1000); // Renova 1 minuto antes de expirar
         }),
-        catchError((error) => {
-          this.loadingSubject.next(false);
-          const errorMessage = 'Erro ao gerar token do Spotify. Verifique suas credenciais.';
-          this.errorSubject.next(errorMessage);
-          sessionStorage.removeItem('spotifyToken');
-          return throwError(() => new Error(errorMessage));
-        }),
+
         switchMap((response) => of(response.access_token))
       );
   }
@@ -95,10 +89,6 @@ export class SpotifyAuthService {
    */
   hasValidToken(): boolean {
     return !!this.tokenSubject.value;
-  }
-
-  hasTokenInStorage(): boolean {
-    return !!sessionStorage.getItem('spotifyToken');
   }
 
   /**

@@ -1,0 +1,33 @@
+<app-layout>
+  <div class="error-page">
+    <div class="error-container">
+      <h1 class="error-title">
+        @if (errorType === 'credentials') {
+        <span>Credenciais do Spotify Necessárias</span>
+        } @else {
+        <span>Ocorreu um Erro</span>
+        }
+      </h1>
+
+      <p class="error-message">{{ errorMessage }}</p>
+
+      @if (errorType === 'credentials') {
+      <div class="credentials-info">
+        <h3>Como configurar suas credenciais:</h3>
+        <ol>
+          <li>
+            Acesse o
+            <a href="https://developer.spotify.com/dashboard" target="_blank"
+              >Spotify Developer Dashboard</a
+            >
+          </li>
+          <li>Crie um novo app ou use um existente</li>
+          <li>Copie o Client ID e Client Secret</li>
+          <li>Cole no arquivo environment.ts</li>
+          <li>Reinicie a aplicação</li>
+        </ol>
+      </div>
+      }
+    </div>
+  </div>
+</app-layout>
