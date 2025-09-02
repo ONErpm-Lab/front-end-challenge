@@ -2,6 +2,18 @@
 
 Uma aplicação Angular moderna para buscar e visualizar informações de faixas musicais usando códigos ISRC (International Standard Recording Code) através da API do Spotify.
 
+## 📺 Demonstração
+
+![Demonstração da Aplicação](./public/demonstracao.mov)
+
+> 🎬 **Vídeo de Demonstração**: Assista ao vídeo acima para ver as principais funcionalidades da aplicação em ação!
+> 
+> **Funcionalidades demonstradas:**
+> - 🔍 Busca por códigos ISRC
+> - 🎵 Visualização de informações das faixas
+> - 🌐 Interface responsiva
+> - 🔄 Carregamento dinâmico de dados
+
 ## 🚀 Funcionalidades
 
 - 🔍 **Busca por ISRC**: Pesquise faixas usando códigos ISRC
@@ -101,6 +113,46 @@ npm run build:prod
 
 ### 5. Acesse a aplicação
 Abra seu navegador em: `http://localhost:4200`
+
+## 🌐 Deploy no GitHub Pages
+
+Esta aplicação está configurada para deploy automático no GitHub Pages através de GitHub Actions.
+
+### 🚀 **Aplicação Online:**
+- **URL de Produção**: `https://danields9900.github.io/front-end-challenge/`
+
+### ⚙️ **Deploy Automático:**
+- ✅ Deploy automático a cada push na branch `main`
+- ✅ Build otimizado para produção
+- ✅ Configuração de variáveis de ambiente via GitHub Secrets
+- ✅ Cache de dependências para builds mais rápidos
+
+### 🔧 **Configuração do Deploy:**
+
+1. **Configure os Secrets no GitHub:**
+   - Vá para: `Settings > Secrets and variables > Actions`
+   - Adicione os seguintes secrets:
+     ```
+     SPOTIFY_CLIENT_ID: seu_client_id_aqui
+     SPOTIFY_CLIENT_SECRET: seu_client_secret_aqui
+     ```
+
+2. **Ative o GitHub Pages:**
+   - Vá para: `Settings > Pages`
+   - Source: `Deploy from a branch`
+   - Branch: `gh-pages`
+
+3. **Primeiro Deploy:**
+   - Faça push do código para a branch `main`
+   - O GitHub Actions será executado automaticamente
+   - Aguarde a conclusão do workflow
+   - A aplicação estará disponível em: `https://danields9900.github.io/front-end-challenge/`
+
+### 📋 **Pré-requisitos para Deploy:**
+- ✅ Repositório público no GitHub
+- ✅ GitHub Actions habilitado
+- ✅ Secrets configurados com credenciais válidas do Spotify
+- ✅ GitHub Pages ativado
 
 ## 🧪 Testes
 
