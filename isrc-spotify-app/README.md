@@ -4,7 +4,7 @@ Uma aplicação Angular moderna para buscar e visualizar informações de faixas
 
 ## 📺 Demonstração
 
-![Demonstração da Aplicação](./public/demonstracao.mov)
+![Demonstração da Aplicação](./challenge.mp4)
 
 > 🎬 **Vídeo de Demonstração**: Assista ao vídeo acima para ver as principais funcionalidades da aplicação em ação!
 > 
