@@ -23,7 +23,6 @@
   max-width: 320px;
 }
 
-// Grid responsivo de tracks
 .tracks-grid {
   display: grid;
   gap: 2rem;
@@ -39,7 +38,6 @@
   }
 }
 
-// Animações
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -49,7 +47,6 @@
   }
 }
 
-// Responsividade
 @media (max-width: 1024px) and (min-width: 769px) {
   .tracks-grid {
     grid-template-columns: repeat(2, 1fr);

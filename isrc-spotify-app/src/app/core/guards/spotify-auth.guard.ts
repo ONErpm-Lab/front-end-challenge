@@ -9,17 +9,10 @@ export class SpotifyAuthGuard implements CanActivate {
   private readonly router = inject(Router);
 
   canActivate(): Observable<boolean> {
-    console.log('🔒 SpotifyAuthGuard: Verificando credenciais...');
-
-    // Verifica se as credenciais estão configuradas e são válidas
     if (this.hasValidCredentials()) {
-      console.log('🔒 SpotifyAuthGuard: Credenciais válidas, permitindo acesso');
       return of(true);
     }
 
-    console.log('🔒 SpotifyAuthGuard: Credenciais inválidas, redirecionando para /error');
-
-    // Se as credenciais são inválidas, redireciona para a página de erro
     this.router.navigate(['/error'], {
       queryParams: {
         type: 'credentials',
@@ -41,15 +34,6 @@ export class SpotifyAuthGuard implements CanActivate {
       SPOTIFY_CLIENT_SECRET !== 'secret' &&
       SPOTIFY_CLIENT_ID.length >= 10 &&
       SPOTIFY_CLIENT_SECRET.length >= 10
-    );
-
-    console.log(
-      '🔒 SpotifyAuthGuard: Client ID:',
-      SPOTIFY_CLIENT_ID,
-      'Client Secret:',
-      SPOTIFY_CLIENT_SECRET?.substring(0, 4) + '...',
-      'Válido:',
-      isValid
     );
 
     return isValid;

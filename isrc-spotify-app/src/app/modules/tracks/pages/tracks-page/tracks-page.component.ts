@@ -53,9 +53,6 @@ export class TracksPageComponent implements OnInit {
     return this.allISRCs.filter((isrc) => !foundISRCs.includes(isrc));
   }
 
-  /**
-   * Retorna as tracks ordenadas alfabeticamente
-   */
   getSortedTracks(tracks: ITrack[]): ITrack[] {
     return [...tracks].sort((a, b) => a.name.localeCompare(b.name));
   }

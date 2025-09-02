@@ -1,7 +1,5 @@
-/* Font Awesome */
 @import '@fortawesome/fontawesome-free/css/all.css';
 
-/* Cores globais da ONErpm */
 :root {
   --onerpm-orange: #ff4500;
   --onerpm-orange-light: #ff6b00;
@@ -13,7 +11,6 @@
   --onerpm-gray-medium: #999999;
   --onerpm-gray-dark: #333333;
 
-  /* Gradientes */
   --gradient-orange: linear-gradient(
     135deg,
     var(--onerpm-orange) 0%,
@@ -21,20 +18,17 @@
   );
   --gradient-dark: linear-gradient(135deg, var(--onerpm-black) 0%, var(--onerpm-dark) 100%);
 
-  /* Sombras */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
   --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
   --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.2);
   --shadow-orange: 0 4px 15px rgba(255, 69, 0, 0.3);
 
-  /* Transições */
   --transition-fast: 0.2s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.5s ease;
 }
 
-/* Reset e configurações globais */
 * {
   box-sizing: border-box;
 }
@@ -54,7 +48,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Tipografia */
 h1,
 h2,
 h3,
@@ -91,7 +84,6 @@ p {
   color: var(--onerpm-gray-dark);
 }
 
-/* Links */
 a {
   color: var(--onerpm-orange);
   text-decoration: none;
@@ -103,7 +95,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Botões */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -163,7 +154,6 @@ a:hover {
   }
 }
 
-/* Cards */
 .card {
   background: var(--onerpm-white);
   border-radius: 12px;
@@ -178,7 +168,6 @@ a:hover {
   }
 }
 
-/* Loading states */
 .loading {
   display: flex;
   align-items: center;
@@ -187,7 +176,6 @@ a:hover {
   color: var(--onerpm-gray-medium);
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   html {
     font-size: 14px;
@@ -226,7 +214,6 @@ a:hover {
   }
 }
 
-/* Utilitários essenciais */
 .text-center {
   text-align: center;
 }

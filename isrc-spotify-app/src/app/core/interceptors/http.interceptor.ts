@@ -8,45 +8,31 @@ export const httpInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
-  console.log('🔗 HTTP Interceptor: Interceptando requisição para:', req.url);
-
-  // Não intercepta requisições para o token - permite que erros de credenciais cheguem ao guard
   if (req.url === process.env['SPOTIFY_TOKEN_URL']) {
-    console.log('🔗 HTTP Interceptor: Requisição para token, não interceptando');
     return next(req);
   }
 
-  // Não intercepta requisições para arquivos i18n
   if (req.url.includes('/assets/i18n/')) {
-    console.log('🔗 HTTP Interceptor: Requisição para arquivo i18n, não interceptando');
     return next(req);
   }
 
-  // Adiciona token para requisições da API do Spotify
   if (req.url.includes('api.spotify.com')) {
     const token = sessionStorage.getItem('spotifyToken');
-    console.log('🔗 HTTP Interceptor: Requisição para API Spotify, token encontrado:', !!token);
 
     if (token) {
       const authReq = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${token}`),
       });
-      console.log('🔗 HTTP Interceptor: Adicionando header Authorization');
       return next(authReq).pipe(
         catchError((error: HttpErrorResponse) => {
           return handleSpotifyError(error, req, next);
         })
       );
     } else {
-      console.warn(
-        '⚠️ HTTP Interceptor: Requisição para API Spotify sem token. Permitindo que o erro chegue ao componente.'
-      );
-      // Não tenta obter token automaticamente - deixa o erro chegar ao componente
       return next(req);
     }
   }
 
-  // Para outras requisições, trata erros genéricos
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       return handleGenericError(error);
@@ -54,21 +40,14 @@ export const httpInterceptor: HttpInterceptorFn = (
   );
 };
 
-/**
- * Trata erros específicos da API do Spotify
- */
 function handleSpotifyError(
   error: HttpErrorResponse,
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
-  console.log('🔗 HTTP Interceptor: Tratando erro Spotify:', error.status);
-
   switch (error.status) {
     case 401:
-      console.log('🔗 HTTP Interceptor: Token expirado (401), limpando storage');
       sessionStorage.removeItem('spotifyToken');
-      // Não tenta renovar token automaticamente - deixa o componente decidir
       return throwError(
         () =>
           new HttpErrorResponse({
@@ -79,7 +58,6 @@ function handleSpotifyError(
       );
 
     case 403:
-      console.log('🔗 HTTP Interceptor: Acesso negado (403)');
       return throwError(
         () =>
           new HttpErrorResponse({
@@ -90,7 +68,6 @@ function handleSpotifyError(
       );
 
     case 429:
-      console.log('🔗 HTTP Interceptor: Rate limit excedido (429)');
       return throwError(
         () =>
           new HttpErrorResponse({
@@ -101,7 +78,6 @@ function handleSpotifyError(
       );
 
     case 500:
-      console.log('🔗 HTTP Interceptor: Erro interno do servidor (500)');
       return throwError(
         () =>
           new HttpErrorResponse({
@@ -116,13 +92,7 @@ function handleSpotifyError(
   }
 }
 
-/**
- * Trata erros genéricos
- */
 function handleGenericError(error: HttpErrorResponse): Observable<HttpEvent<unknown>> {
-  console.log('🔗 HTTP Interceptor: Tratando erro genérico:', error.status);
-
-  // Personaliza mensagens de erro comuns
   switch (error.status) {
     case 0:
       return throwError(

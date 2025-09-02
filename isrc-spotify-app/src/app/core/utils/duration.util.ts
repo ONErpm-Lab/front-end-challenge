@@ -1,8 +1,3 @@
-/**
- * Converte duração em milissegundos para formato mm:ss
- * @param durationMs - Duração em milissegundos
- * @returns String formatada em mm:ss
- */
 export function formatDuration(durationMs: number): string {
   if (!durationMs || durationMs <= 0) {
     return '0:00';
@@ -15,11 +10,6 @@ export function formatDuration(durationMs: number): string {
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
-/**
- * Converte duração em milissegundos para minutos
- * @param durationMs - Duração em milissegundos
- * @returns Duração em minutos
- */
 export function durationToMinutes(durationMs: number): number {
   if (!durationMs || durationMs <= 0) {
     return 0;

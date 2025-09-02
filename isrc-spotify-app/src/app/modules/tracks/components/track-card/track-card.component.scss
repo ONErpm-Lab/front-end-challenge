@@ -145,7 +145,7 @@
   }
 
   svg {
-    margin-left: 2px; // Ajuste visual para o ícone de play
+    margin-left: 2px;
   }
 
   &.playing svg {
@@ -260,7 +260,7 @@
   }
 
   i {
-    margin-left: 1px; // Ajuste visual para o ícone de play
+    margin-left: 1px;
   }
 
   &.playing i {
@@ -329,7 +329,6 @@
   }
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .track-card {
     max-width: 280px;

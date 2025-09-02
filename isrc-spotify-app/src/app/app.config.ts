@@ -13,14 +13,12 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
 
-// Factory function para inicializar i18n
 export function initializeI18n(i18nService: I18nService) {
   return () => {
     return i18nService.changeLanguage(i18nService.currentLanguage());
   };
 }
 
-// Factory function para inicializar Spotify
 export function initializeSpotify(spotifyAuthService: SpotifyAuthService) {
   return () => {
     return spotifyAuthService.generateToken();

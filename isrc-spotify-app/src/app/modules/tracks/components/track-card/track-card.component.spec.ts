@@ -8,7 +8,6 @@ import { TrackCardComponent } from './track-card.component';
 import { SpotifyPlaybackService } from '../../../../core/services/spotify-playback.service';
 import { ITrack } from '../../models';
 
-// Mock do SpotifyPlaybackService
 class MockSpotifyPlaybackService {
   playbackState = signal({
     isPlaying: false,
@@ -52,7 +51,7 @@ describe('TrackCardComponent', () => {
       release_date_precision: 'day',
       external_urls: { spotify: 'https://spotify.com/album/123' },
     },
-    duration_ms: 180000, // 3 minutes
+    duration_ms: 180000,
     preview_url: 'https://example.com/preview.mp3',
     external_urls: { spotify: 'https://spotify.com/track/123' },
     available_markets: ['US', 'BR', 'CA'],
@@ -69,10 +68,8 @@ describe('TrackCardComponent', () => {
     component = fixture.componentInstance;
     spotifyService = TestBed.inject(SpotifyPlaybackService) as any;
 
-    // Mock do window.open
     spyOn(window, 'open');
 
-    // Mock do setInterval/clearInterval
     jasmine.clock().install();
 
     component.track = mockTrack;
@@ -100,7 +97,6 @@ describe('TrackCardComponent', () => {
 
     it('should setup playback state monitoring on init', () => {
       expect(component).toBeTruthy();
-      // O ngOnInit já foi chamado no fixture.detectChanges()
     });
   });
 
@@ -170,7 +166,6 @@ describe('TrackCardComponent', () => {
   describe('Date formatting', () => {
     it('should format day precision release date', () => {
       const formattedDate = component.formatReleaseDate();
-      // Aceita tanto 14/01/2023 quanto 15/01/2023 por causa de timezone
       expect(formattedDate).toMatch(/^1[45]\/01\/2023$/);
     });
 
@@ -185,7 +180,6 @@ describe('TrackCardComponent', () => {
       };
 
       const formattedDate = component.formatReleaseDate();
-      // Aceita variações de timezone
       expect(formattedDate).toMatch(/^(01|12)\/(2023|2022)$/);
     });
 
@@ -200,7 +194,6 @@ describe('TrackCardComponent', () => {
       };
 
       const formattedDate = component.formatReleaseDate();
-      // Aceita variações de timezone
       expect(formattedDate).toMatch(/^(2023|2022)$/);
     });
 
@@ -264,7 +257,6 @@ describe('TrackCardComponent', () => {
 
       component.playOnSpotify();
 
-      // Avança o tempo para triggerar o timeout
       jasmine.clock().tick(1001);
 
       expect(window.open).toHaveBeenCalledWith('https://spotify.com/track/123', '_blank');
@@ -275,7 +267,6 @@ describe('TrackCardComponent', () => {
 
       component.playOnSpotify();
 
-      // Avança o tempo para triggerar o timeout
       jasmine.clock().tick(1001);
 
       expect(window.open).not.toHaveBeenCalled();
@@ -292,7 +283,6 @@ describe('TrackCardComponent', () => {
 
   describe('Playback state monitoring', () => {
     it('should update playing state when current track matches', () => {
-      // Simula mudança no estado do Spotify
       spotifyService.playbackState.set({
         isPlaying: true,
         currentTrack: { id: 'track-123' } as any,
@@ -300,17 +290,14 @@ describe('TrackCardComponent', () => {
         duration: 180000,
       });
 
-      // Simula o effect que roda a cada segundo
       jasmine.clock().tick(1001);
 
       expect(component.isPlaying()).toBe(true);
     });
 
     it('should stop playing when different track is playing', () => {
-      // Primeiro, define como tocando
       component.isPlaying.set(true);
 
-      // Simula outra track tocando
       spotifyService.playbackState.set({
         isPlaying: true,
         currentTrack: { id: 'different-track' } as any,
@@ -318,7 +305,6 @@ describe('TrackCardComponent', () => {
         duration: 180000,
       });
 
-      // Simula o effect que roda a cada segundo
       jasmine.clock().tick(1001);
 
       expect(component.isPlaying()).toBe(false);
@@ -334,7 +320,6 @@ describe('TrackCardComponent', () => {
         duration: 0,
       });
 
-      // Simula o effect que roda a cada segundo
       jasmine.clock().tick(1001);
 
       expect(component.isPlaying()).toBe(false);
@@ -411,7 +396,6 @@ describe('TrackCardComponent', () => {
         },
       };
 
-      // Não deve lançar erro, mesmo com data inválida
       expect(() => component.formatReleaseDate()).not.toThrow();
     });
   });

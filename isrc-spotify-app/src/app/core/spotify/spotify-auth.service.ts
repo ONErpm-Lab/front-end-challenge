@@ -19,9 +19,6 @@ export class SpotifyAuthService {
   readonly loading$ = this.loadingSubject.asObservable();
   readonly error$ = this.errorSubject.asObservable();
 
-  /**
-   * Gera um novo token de acesso
-   */
   generateToken(): Observable<string> {
     this.loadingSubject.next(true);
     this.errorSubject.next(null);
@@ -49,19 +46,15 @@ export class SpotifyAuthService {
           this.tokenSubject.next(response.access_token);
           this.loadingSubject.next(false);
 
-          // Configura um timer para renovar o token antes de expirar
           setTimeout(() => {
             this.generateToken();
-          }, (response.expires_in - 60) * 1000); // Renova 1 minuto antes de expirar
+          }, (response.expires_in - 60) * 1000);
         }),
 
         switchMap((response) => of(response.access_token))
       );
   }
 
-  /**
-   * Obtém o token atual ou gera um novo se necessário
-   */
   getToken(): Observable<string> {
     const currentToken = this.tokenSubject.value;
 
@@ -72,30 +65,18 @@ export class SpotifyAuthService {
     return this.generateToken();
   }
 
-  /**
-   * Limpa o token atual
-   */
   clearToken(): void {
     this.tokenSubject.next(null);
   }
 
-  /**
-   * Limpa o erro
-   */
   clearError(): void {
     this.errorSubject.next(null);
   }
 
-  /**
-   * Verifica se há um token válido
-   */
   hasValidToken(): boolean {
     return !!this.tokenSubject.value;
   }
 
-  /**
-   * Obtém o token atual em cache (sem fazer nova requisição)
-   */
   getCurrentToken(): string | null {
     return this.tokenSubject.value;
   }

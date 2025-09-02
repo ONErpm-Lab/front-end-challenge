@@ -11,49 +11,30 @@ export abstract class BaseExtractService<T> {
     error: null,
   });
 
-  // Observables públicos
   readonly data$ = this.stateSubject.pipe(map((state) => state.data));
   readonly loading$ = this.stateSubject.pipe(map((state) => state.loading));
   readonly error$ = this.stateSubject.pipe(map((state) => state.error));
   readonly state$ = this.stateSubject.asObservable();
 
-  /**
-   * Método abstrato para obter dados iniciais
-   */
   abstract getInitialData(): T;
 
-  /**
-   * Atualiza o estado interno
-   */
   updateState(partial: Partial<IBaseExtractResult<T>>): void {
     const currentState = this.stateSubject.value;
     this.stateSubject.next({ ...currentState, ...partial });
   }
 
-  /**
-   * Define o estado de carregamento
-   */
   setLoading(loading: boolean): void {
     this.updateState({ loading });
   }
 
-  /**
-   * Define o estado de erro
-   */
   setError(error: string | null): void {
     this.updateState({ error, loading: false });
   }
 
-  /**
-   * Define os dados
-   */
   setData(data: T): void {
     this.updateState({ data, loading: false, error: null });
   }
 
-  /**
-   * Limpa o estado de erro
-   */
   clearError(): void {
     this.updateState({ error: null });
   }

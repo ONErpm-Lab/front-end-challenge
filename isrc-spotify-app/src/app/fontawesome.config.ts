@@ -64,9 +64,7 @@ import {
   faGithub,
 } from '@fortawesome/free-brands-svg-icons';
 
-// Adiciona todos os ícones à biblioteca
 library.add(
-  // Solid icons
   faPlay,
   faPause,
   faVolumeUp,
@@ -120,7 +118,6 @@ library.add(
   faAngleLeft,
   faAngleRight,
 
-  // Brand icons
   faSpotify,
   faYoutube,
   faFacebook,

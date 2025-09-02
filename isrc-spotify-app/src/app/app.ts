@@ -16,11 +16,9 @@ export class App implements OnInit {
   ngOnInit(): void {
     this.authService.generateToken().subscribe({
       next: (token) => {
-        console.log('🔐 Token do Spotify gerado com sucesso na inicialização da app');
         this.router.navigate(['/tracks']);
       },
       error: (error) => {
-        console.error('❌ Erro ao gerar token do Spotify na inicialização:', error);
         this.router.navigate(['/error'], {
           queryParams: {
             type: 'credentials',

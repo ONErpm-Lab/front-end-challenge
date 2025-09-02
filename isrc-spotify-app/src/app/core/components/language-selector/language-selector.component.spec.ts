@@ -18,7 +18,6 @@ describe('LanguageSelectorComponent', () => {
       'currentLanguage',
     ]);
 
-    // Configurar mocks específicos
     spy.getSupportedLanguages.and.returnValue(mockSupportedLanguages);
     spy.currentLanguage.and.returnValue('pt');
     spy.changeLanguage.and.returnValue({
@@ -61,10 +60,10 @@ describe('LanguageSelectorComponent', () => {
     });
 
     it('should toggle dropdown state from open to closed', () => {
-      component.toggleDropdown(); // Abrir
+      component.toggleDropdown();
       expect(component.isOpen()).toBe(true);
 
-      component.toggleDropdown(); // Fechar
+      component.toggleDropdown();
 
       expect(component.isOpen()).toBe(false);
     });
@@ -72,7 +71,7 @@ describe('LanguageSelectorComponent', () => {
 
   describe('closeDropdown', () => {
     it('should close dropdown when open', () => {
-      component.toggleDropdown(); // Abrir
+      component.toggleDropdown();
       expect(component.isOpen()).toBe(true);
 
       component.closeDropdown();
@@ -91,7 +90,7 @@ describe('LanguageSelectorComponent', () => {
 
   describe('selectLanguage', () => {
     it('should call i18nService.changeLanguage and close dropdown', () => {
-      component.toggleDropdown(); // Abrir dropdown
+      component.toggleDropdown();
       expect(component.isOpen()).toBe(true);
 
       component.selectLanguage('en');
@@ -101,7 +100,6 @@ describe('LanguageSelectorComponent', () => {
     });
 
     it('should handle error and close dropdown', () => {
-      // Configurar mock para simular erro
       i18nService.changeLanguage.and.returnValue({
         subscribe: (callbacks: any) => {
           callbacks.error(new Error('Network error'));
@@ -109,7 +107,7 @@ describe('LanguageSelectorComponent', () => {
         },
       } as any);
 
-      component.toggleDropdown(); // Abrir dropdown
+      component.toggleDropdown();
       expect(component.isOpen()).toBe(true);
 
       component.selectLanguage('en');
@@ -159,12 +157,11 @@ describe('LanguageSelectorComponent', () => {
 
   describe('onClickOutside', () => {
     it('should close dropdown when clicking outside', () => {
-      component.toggleDropdown(); // Abrir dropdown
+      component.toggleDropdown();
       expect(component.isOpen()).toBe(true);
 
-      // Simular clique fora do componente
       const mockEvent = {
-        target: document.createElement('div'), // Elemento fora do componente
+        target: document.createElement('div'),
       } as any;
 
       component.onClickOutside(mockEvent);
@@ -173,15 +170,14 @@ describe('LanguageSelectorComponent', () => {
     });
 
     it('should not close dropdown when clicking inside', () => {
-      component.toggleDropdown(); // Abrir dropdown
+      component.toggleDropdown();
       expect(component.isOpen()).toBe(true);
 
-      // Simular clique dentro do componente
       const mockEvent = {
         target: {
           closest: (selector: string) => {
             if (selector === '.language-selector') {
-              return document.createElement('div'); // Elemento dentro do componente
+              return document.createElement('div');
             }
             return null;
           },

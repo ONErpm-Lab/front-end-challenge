@@ -20,9 +20,6 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
     super();
   }
 
-  /**
-   * Verifica se as credenciais do Spotify são válidas
-   */
   private hasValidCredentials(): boolean {
     const SPOTIFY_CLIENT_ID = process.env['SPOTIFY_CLIENT_ID'];
     const SPOTIFY_CLIENT_SECRET = process.env['SPOTIFY_CLIENT_SECRET'];
@@ -38,19 +35,12 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
     );
   }
 
-  /**
-   * Implementação do método abstrato
-   */
   getInitialData(): Array<ITrack> {
     return [];
   }
 
-  /**
-   * Carrega todas as tracks por ISRC
-   */
   loadAllTracks(): Observable<Array<ITrack>> {
     if (!this.hasValidCredentials()) {
-      console.log('🔑 TracksService: Credenciais inválidas, não carregando tracks');
       this.setError(
         'Credenciais do Spotify inválidas. Verifique seu Client ID e Client Secret no arquivo environment.ts'
       );
@@ -92,12 +82,8 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
     );
   }
 
-  /**
-   * Busca track específica por ISRC
-   */
   searchTrackByISRC(isrc: string): Observable<ITrack | null> {
     if (!this.hasValidCredentials()) {
-      console.log('🔑 TracksService: Credenciais inválidas, não buscando track');
       return of(null);
     }
 
@@ -123,13 +109,7 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
     );
   }
 
-  /**
-   * Mapeia a resposta do Spotify para nosso modelo
-   */
   private mapSpotifyTrackToTrack(spotifyTrack: ITrack, isrc: string): ITrack {
-    console.log('🔍 Mapeando track:', spotifyTrack.name, 'ISRC:', isrc);
-    console.log('🔍 Preview URL:', spotifyTrack.preview_url);
-
     const track = {
       id: spotifyTrack.id,
       name: spotifyTrack.name,
@@ -153,20 +133,13 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
       isrc: isrc,
     };
 
-    console.log('🔍 Track mapeada:', track);
     return track;
   }
 
-  /**
-   * Recarrega as tracks (útil para botão "Tentar novamente")
-   */
   reloadTracks(): Observable<Array<ITrack>> {
     return this.loadAllTracks();
   }
 
-  /**
-   * Filtra tracks por disponibilidade no Brasil
-   */
   getTracksByAvailability(availableInBR: boolean): Observable<Array<ITrack>> {
     return this.data$.pipe(
       map((tracks) =>
@@ -179,9 +152,6 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
     );
   }
 
-  /**
-   * Filtra tracks por artista
-   */
   getTracksByArtist(artistName: string): Observable<Array<ITrack>> {
     return this.data$.pipe(
       map((tracks) =>
@@ -194,9 +164,6 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
     );
   }
 
-  /**
-   * Busca tracks por termo de busca (ISRC, nome, artista, álbum)
-   */
   searchTracksByTerm(searchTerm: string): Observable<Array<ITrack>> {
     if (!searchTerm.trim()) {
       return this.data$;
@@ -221,9 +188,6 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
     );
   }
 
-  /**
-   * Verifica se o termo de busca tem formato de ISRC
-   */
   private isISRCFormat(term: string): boolean {
     const isrcPattern = /^[A-Z]{2}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{5}$/i;
     const alternativePattern = /^[A-Z]{2}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4,6}$/i;

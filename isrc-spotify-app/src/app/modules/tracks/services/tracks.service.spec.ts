@@ -76,7 +76,6 @@ describe('TracksService', () => {
     httpMock = TestBed.inject(HttpTestingController);
     spotifyAuthService = TestBed.inject(SpotifyAuthService) as jasmine.SpyObj<SpotifyAuthService>;
 
-    // Mock console para evitar logs nos testes
     spyOn(console, 'log');
     spyOn(console, 'error');
   });
@@ -132,7 +131,6 @@ describe('TracksService', () => {
         );
       });
 
-      // Espera uma requisição para cada ISRC code
       const isrcCodes = Object.values(ISRCCodes);
       const requests = httpMock.match((req) =>
         req.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
@@ -140,10 +138,8 @@ describe('TracksService', () => {
 
       expect(requests.length).toBe(isrcCodes.length);
 
-      // Responde apenas para a primeira requisição com dados
       requests[0].flush(mockResponse);
 
-      // Responde com vazio para as outras
       for (let i = 1; i < requests.length; i++) {
         requests[i].flush({ tracks: { items: [] } });
       }
@@ -160,7 +156,6 @@ describe('TracksService', () => {
         req.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
       );
 
-      // Responde com vazio para todas as requisições
       requests.forEach((req) => {
         req.flush({ tracks: { items: [] } });
       });
@@ -176,9 +171,7 @@ describe('TracksService', () => {
         next: (tracks) => {
           tracksReceived = tracks;
         },
-        error: (error) => {
-          // Erro pode ser capturado aqui também
-        },
+        error: (error) => {},
       });
 
       service.error$.subscribe((error) => {
@@ -205,8 +198,8 @@ describe('TracksService', () => {
         req.flush({ tracks: { items: [] } });
       });
 
-      expect(loadingStates).toContain(true); // Loading started
-      expect(loadingStates).toContain(false); // Loading finished
+      expect(loadingStates).toContain(true);
+      expect(loadingStates).toContain(false);
     });
   });
 
@@ -289,7 +282,6 @@ describe('TracksService', () => {
 
   describe('getTracksByAvailability', () => {
     beforeEach(() => {
-      // Mock dos dados do serviço usando setData
       service.setData([
         { ...mockTrack, available_markets: ['US', 'BR'] },
         { ...mockTrack, id: 'track-456', available_markets: ['US', 'CA'] },
@@ -424,7 +416,6 @@ describe('TracksService', () => {
       const validISRCs = ['USUM71703861', 'GBUM71505078', 'USRC17607839'];
 
       validISRCs.forEach((isrc) => {
-        // Testa indiretamente através do searchTracksByTerm
         service.searchTracksByTerm(isrc).subscribe();
 
         httpMock
@@ -440,12 +431,10 @@ describe('TracksService', () => {
 
       invalidISRCs.forEach((term) => {
         service.searchTracksByTerm(term).subscribe((tracks) => {
-          // Deve fazer busca local, não API
           expect(tracks).toBeDefined();
         });
       });
 
-      // Não deve haver requisições HTTP para termos inválidos
       httpMock.expectNone((request) =>
         request.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
       );

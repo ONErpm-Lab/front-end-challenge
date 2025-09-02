@@ -16,44 +16,30 @@ export class I18nService {
   private readonly STORAGE_KEY = 'app-language';
   private readonly DEFAULT_LANGUAGE: SupportedLanguage = 'pt';
 
-  // Signals para gerenciar estado
   private _currentLanguage = signal<SupportedLanguage>(this.getStoredLanguage());
   private _translations = signal<Translation>({});
   private _isLoading = signal<boolean>(false);
 
-  // Computed signals públicos
   public readonly currentLanguage = this._currentLanguage.asReadonly();
   public readonly translations = this._translations.asReadonly();
   public readonly isLoading = this._isLoading.asReadonly();
 
-  // Cache para traduções
   private translationCache = new Map<SupportedLanguage, Translation>();
 
   constructor(private http: HttpClient) {
-    // Carregar traduções iniciais
     this.loadTranslations(this._currentLanguage()).subscribe();
   }
 
-  /**
-   * Obtém idioma armazenado ou retorna padrão
-   */
   private getStoredLanguage(): SupportedLanguage {
     const stored = localStorage.getItem(this.STORAGE_KEY) as SupportedLanguage;
     return this.isValidLanguage(stored) ? stored : this.DEFAULT_LANGUAGE;
   }
 
-  /**
-   * Verifica se o idioma é válido
-   */
   private isValidLanguage(lang: string): lang is SupportedLanguage {
     return ['pt', 'en', 'es'].includes(lang);
   }
 
-  /**
-   * Carrega traduções para um idioma específico
-   */
   private loadTranslations(language: SupportedLanguage): Observable<Translation> {
-    // Verificar cache primeiro
     const cached = this.translationCache.get(language);
     if (cached) {
       this._translations.set(cached);
@@ -67,7 +53,6 @@ export class I18nService {
 
     return this.http.get<Translation>(`/assets/i18n/${language}.json`).pipe(
       map((translations) => {
-        // Armazenar no cache
         this.translationCache.set(language, translations);
         this._translations.set(translations);
         this._isLoading.set(false);
@@ -77,31 +62,21 @@ export class I18nService {
     );
   }
 
-  /**
-   * Altera o idioma atual
-   */
   changeLanguage(language: SupportedLanguage): Observable<Translation> {
     if (!this.isValidLanguage(language)) {
       throw new Error(`Idioma não suportado: ${language}`);
     }
 
-    // Atualizar estado
     this._currentLanguage.set(language);
 
-    // Salvar no localStorage
     localStorage.setItem(this.STORAGE_KEY, language);
 
-    // Carregar traduções
     return this.loadTranslations(language);
   }
 
-  /**
-   * Obtém uma tradução por chave
-   */
   translate(key: string, params?: { [key: string]: any }): string {
     const translations = this._translations();
 
-    // Se ainda não há traduções carregadas, retornar a chave
     if (!translations || Object.keys(translations).length === 0) {
       return key;
     }
@@ -109,30 +84,22 @@ export class I18nService {
     const value = this.getNestedValue(translations, key);
 
     if (value === undefined || value === null) {
-      console.warn(`Tradução não encontrada para a chave: ${key}`);
       return key;
     }
 
     return this.interpolate(value.toString(), params);
   }
 
-  /**
-   * Obtém uma tradução por chave (versão reativa)
-   */
   translate$(key: string, params?: { [key: string]: any }): Observable<string> {
     return new Observable((subscriber) => {
       const value = this.translate(key, params);
       subscriber.next(value);
 
-      // Observar mudanças no idioma atual
       const unsubscribe = () => {};
       return unsubscribe;
     });
   }
 
-  /**
-   * Obtém valor aninhado de um objeto usando notação de ponto
-   */
   private getNestedValue(obj: any, path: string): any {
     if (!path || !obj) return undefined;
     return path.split('.').reduce((current, key) => {
@@ -140,9 +107,6 @@ export class I18nService {
     }, obj);
   }
 
-  /**
-   * Interpola parâmetros na string de tradução
-   */
   private interpolate(text: string, params?: { [key: string]: any }): string {
     if (!params) return text;
 
@@ -151,16 +115,10 @@ export class I18nService {
     });
   }
 
-  /**
-   * Obtém todas as linguagens suportadas
-   */
   getSupportedLanguages(): SupportedLanguage[] {
     return ['pt', 'en', 'es'];
   }
 
-  /**
-   * Obtém informações de uma linguagem
-   */
   getLanguageInfo(language: SupportedLanguage): {
     code: SupportedLanguage;
     name: string;
@@ -175,9 +133,6 @@ export class I18nService {
     return languageMap[language];
   }
 
-  /**
-   * Pipe helper para templates
-   */
   instant(key: string, params?: { [key: string]: any }): string {
     if (!key) return '';
     return this.translate(key, params);

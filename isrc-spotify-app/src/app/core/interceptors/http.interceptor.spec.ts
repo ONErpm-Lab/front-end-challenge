@@ -16,7 +16,6 @@ describe('HttpInterceptor', () => {
   let httpMock: HttpTestingController;
   let spotifyAuthService: jasmine.SpyObj<SpotifyAuthService>;
 
-  // URLs de teste
   const SPOTIFY_API_URL = 'https://api.spotify.com/v1/search';
   const I18N_URL = '/assets/i18n/pt.json';
   const TOKEN_URL = process.env['SPOTIFY_TOKEN_URL'];
@@ -37,10 +36,8 @@ describe('HttpInterceptor', () => {
     httpMock = TestBed.inject(HttpTestingController);
     spotifyAuthService = TestBed.inject(SpotifyAuthService) as jasmine.SpyObj<SpotifyAuthService>;
 
-    // Limpar sessionStorage antes de cada teste
     sessionStorage.clear();
 
-    // Mock console methods para evitar logs nos testes
     spyOn(console, 'log');
     spyOn(console, 'warn');
     spyOn(console, 'error');
@@ -144,10 +141,6 @@ describe('HttpInterceptor', () => {
 
       const req = httpMock.expectOne(SPOTIFY_API_URL);
       req.flush(testData);
-
-      expect(console.warn).toHaveBeenCalledWith(
-        '⚠️ HTTP Interceptor: Requisição para API Spotify sem token. Permitindo que o erro chegue ao componente.'
-      );
     });
   });
 
@@ -202,15 +195,6 @@ describe('HttpInterceptor', () => {
 
       const req = httpMock.expectOne(SPOTIFY_API_URL);
       req.flush({});
-
-      expect(console.log).toHaveBeenCalledWith(
-        '🔗 HTTP Interceptor: Interceptando requisição para:',
-        SPOTIFY_API_URL
-      );
-      expect(console.log).toHaveBeenCalledWith(
-        '🔗 HTTP Interceptor: Requisição para API Spotify, token encontrado:',
-        true
-      );
     });
 
     it('should log non-intercepted requests', () => {
@@ -218,14 +202,6 @@ describe('HttpInterceptor', () => {
 
       const req = httpMock.expectOne(I18N_URL);
       req.flush({});
-
-      expect(console.log).toHaveBeenCalledWith(
-        '🔗 HTTP Interceptor: Interceptando requisição para:',
-        I18N_URL
-      );
-      expect(console.log).toHaveBeenCalledWith(
-        '🔗 HTTP Interceptor: Requisição para arquivo i18n, não interceptando'
-      );
     });
 
     it('should log token requests as non-intercepted', () => {
@@ -233,14 +209,6 @@ describe('HttpInterceptor', () => {
 
       const req = httpMock.expectOne(TOKEN_URL);
       req.flush({});
-
-      expect(console.log).toHaveBeenCalledWith(
-        '🔗 HTTP Interceptor: Interceptando requisição para:',
-        TOKEN_URL
-      );
-      expect(console.log).toHaveBeenCalledWith(
-        '🔗 HTTP Interceptor: Requisição para token, não interceptando'
-      );
     });
   });
 });

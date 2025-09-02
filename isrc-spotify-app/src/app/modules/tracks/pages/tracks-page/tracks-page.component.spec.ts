@@ -11,7 +11,6 @@ import { LayoutComponent } from '../../../../components/layout/layout.component'
 import { ITrack } from '../../models';
 import { ISRCCodes } from '../../../../core';
 
-// Mock do TracksService
 class MockTracksService {
   private dataSubject = new BehaviorSubject<ITrack[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
@@ -25,7 +24,6 @@ class MockTracksService {
   reloadTracks = jasmine.createSpy('reloadTracks').and.returnValue(of([]));
   clearError = jasmine.createSpy('clearError');
 
-  // Métodos para controlar o mock nos testes
   setData(data: ITrack[]) {
     this.dataSubject.next(data);
   }
@@ -156,7 +154,7 @@ describe('TracksPageComponent', () => {
     });
 
     it('should load tracks on init', () => {
-      fixture.detectChanges(); // Chama ngOnInit
+      fixture.detectChanges();
 
       expect(mockTracksService.loadAllTracks).toHaveBeenCalled();
     });
@@ -205,7 +203,6 @@ describe('TracksPageComponent', () => {
 
   describe('Not found ISRCs', () => {
     it('should return empty array when all ISRCs are found', () => {
-      // Cria tracks para todos os ISRCs
       const allISRCTracks = Object.values(ISRCCodes).map((isrc, index) => ({
         ...mockTracks[0],
         id: `track-${index}`,
@@ -218,7 +215,7 @@ describe('TracksPageComponent', () => {
     });
 
     it('should return missing ISRCs when some tracks are not found', () => {
-      const partialTracks = [mockTracks[0]]; // Apenas um track
+      const partialTracks = [mockTracks[0]];
       const notFound = component.getNotFoundISRCs(partialTracks);
 
       expect(notFound.length).toBeGreaterThan(0);
@@ -232,21 +229,17 @@ describe('TracksPageComponent', () => {
     });
 
     it('should handle duplicate ISRCs correctly', () => {
-      const tracksWithDuplicates = [
-        mockTracks[0],
-        { ...mockTracks[0], id: 'track-duplicate' }, // Mesmo ISRC
-      ];
+      const tracksWithDuplicates = [mockTracks[0], { ...mockTracks[0], id: 'track-duplicate' }];
 
       const notFound = component.getNotFoundISRCs(tracksWithDuplicates);
 
-      // Deve tratar duplicatas corretamente
       expect(notFound).not.toContain(mockTracks[0].isrc);
     });
   });
 
   describe('Track sorting', () => {
     it('should sort tracks alphabetically by name', () => {
-      const unsortedTracks = [mockTracks[1], mockTracks[2], mockTracks[0]]; // Beta, Charlie, Alpha
+      const unsortedTracks = [mockTracks[1], mockTracks[2], mockTracks[0]];
       const sorted = component.getSortedTracks(unsortedTracks);
 
       expect(sorted[0].name).toBe('Alpha Song');
@@ -259,7 +252,7 @@ describe('TracksPageComponent', () => {
       const sorted = component.getSortedTracks(mockTracks);
 
       expect(mockTracks).toEqual(originalTracks);
-      expect(sorted).not.toBe(mockTracks); // Deve ser uma nova array
+      expect(sorted).not.toBe(mockTracks);
     });
 
     it('should handle empty array', () => {
@@ -345,9 +338,7 @@ describe('TracksPageComponent', () => {
 
   describe('Error handling', () => {
     it('should handle service errors gracefully', () => {
-      mockTracksService.loadAllTracks.and.returnValue(
-        of([]) // Simula sucesso, mas com array vazio
-      );
+      mockTracksService.loadAllTracks.and.returnValue(of([]));
 
       expect(() => component.reloadTracks()).not.toThrow();
     });
@@ -367,7 +358,6 @@ describe('TracksPageComponent', () => {
 
       expect(typeof trackByFn).toBe('function');
 
-      // Testa se a função retorna valores consistentes
       const track = mockTracks[0];
       const result1 = trackByFn(0, track);
       const result2 = trackByFn(0, track);
@@ -380,9 +370,7 @@ describe('TracksPageComponent', () => {
       const sorted1 = component.getSortedTracks(tracks);
       const sorted2 = component.getSortedTracks(tracks);
 
-      // Arrays devem ter o mesmo conteúdo
       expect(sorted1).toEqual(sorted2);
-      // Mas devem ser instâncias diferentes (imutabilidade)
       expect(sorted1).not.toBe(sorted2);
     });
   });
@@ -405,21 +393,18 @@ describe('TracksPageComponent', () => {
     });
 
     it('should handle empty ISRC codes list', () => {
-      // Mock temporário do ISRCCodes vazio
       const originalAllISRCs = component.allISRCs;
       (component as any).allISRCs = [];
 
       const notFound = component.getNotFoundISRCs(mockTracks);
       expect(notFound).toEqual([]);
 
-      // Restaura o valor original
       (component as any).allISRCs = originalAllISRCs;
     });
   });
 
   describe('Component lifecycle', () => {
     it('should call loadAllTracks on ngOnInit', () => {
-      // Reset do spy
       mockTracksService.loadAllTracks.calls.reset();
 
       component.ngOnInit();
@@ -431,7 +416,7 @@ describe('TracksPageComponent', () => {
       component.ngOnInit();
       component.ngOnInit();
 
-      expect(mockTracksService.loadAllTracks).toHaveBeenCalledTimes(2); // 2 manuais (fixture.detectChanges já foi feito antes)
+      expect(mockTracksService.loadAllTracks).toHaveBeenCalledTimes(2);
     });
   });
 });

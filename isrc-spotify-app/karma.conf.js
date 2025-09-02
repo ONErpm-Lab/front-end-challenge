@@ -14,15 +14,14 @@ module.exports = function (config) {
     ],
     client: {
       jasmine: {
-        // Configurações do Jasmine
         random: false,
         failFast: false,
         timeoutInterval: 10000
       },
-      clearContext: false // deixa o output do jasmine no console
+      clearContext: false
     },
     jasmineHtmlReporter: {
-      suppressAll: true // remove o output duplicado
+      suppressAll: true 
     },
     coverageReporter: {
       dir: require('path').join(__dirname, './coverage/isrc-spotify-app'),
