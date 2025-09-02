@@ -90,8 +90,11 @@
           "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular-builders/custom-webpack:karma",
           "options": {
+            "customWebpackConfig": {
+              "path": "./webpack.config.js"
+            },
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "polyfills": ["zone.js", "zone.js/testing", "@angular/localize/init"],
