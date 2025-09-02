@@ -68,20 +68,6 @@
   gap: 1rem;
 }
 
-.header__powered {
-  font-size: 0.85rem;
-  color: var(--onerpm-gray-medium);
-  padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 69, 0, 0.2);
-
-  strong {
-    color: var(--onerpm-orange);
-    font-weight: 600;
-  }
-}
-
 @media (max-width: 768px) {
   .header {
     padding: 1rem 0;

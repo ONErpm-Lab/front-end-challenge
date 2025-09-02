@@ -1,7 +1,6 @@
 {
   "header": {
-    "subtitle": "Discover music tracks through ISRC codes",
-    "poweredBy": "Powered by"
+    "subtitle": "Discover music tracks through ISRC codes"
   },
   "tracks": {
     "loading": {
@@ -57,5 +56,8 @@
     "searching": "Searching...",
     "noResults": "No results found",
     "clear": "Clear search"
+  },
+  "footer": {
+    "description": "Developed for consulting music tracks via ISRC code"
   }
 }

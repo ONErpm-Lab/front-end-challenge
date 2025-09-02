@@ -1,7 +1,6 @@
 {
   "header": {
-    "subtitle": "Descubre pistas musicales a través de códigos ISRC",
-    "poweredBy": "Powered by"
+    "subtitle": "Descubre pistas musicales a través de códigos ISRC"
   },
   "tracks": {
     "loading": {
@@ -57,5 +56,8 @@
     "searching": "Buscando...",
     "noResults": "No se encontraron resultados",
     "clear": "Limpiar búsqueda"
+  },
+  "footer": {
+    "description": "Desarrollado para consultar pistas musicales a través del código ISRC"
   }
 }
