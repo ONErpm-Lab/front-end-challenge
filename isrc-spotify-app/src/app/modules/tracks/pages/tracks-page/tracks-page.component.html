@@ -1,6 +1,5 @@
 <app-layout>
   <div class="tracks-page">
-    <!-- Estados da aplicação -->
     @if (loading$ | async) {
     <div class="loading-state">
       <div class="loading-header">
@@ -24,9 +23,7 @@
         }
       </div>
     </div>
-    } @else {
-    <!-- Estado de erro -->
-    @if (error$ | async; as error) {
+    } @else { @if (error$ | async; as error) {
     <div class="error-state">
       <div class="error-icon">⚠️</div>
       <h3>{{ 'tracks.error.title' | translate }}</h3>
@@ -35,9 +32,7 @@
         {{ 'tracks.error.retryButton' | translate }}
       </button>
     </div>
-    } @else {
-    <!-- Grid de tracks -->
-    @if (tracks$ | async; as tracks) { @if (getSortedTracks(tracks).length > 0) {
+    } @else { @if (tracks$ | async; as tracks) { @if (getSortedTracks(tracks).length > 0) {
     <div class="tracks-content">
       <div class="tracks-grid">
         @for (track of getSortedTracks(tracks); track track.isrc) {
@@ -45,7 +40,6 @@
         }
       </div>
 
-      <!-- Seção de ISRCs não encontrados -->
       @if (getNotFoundISRCs(tracks); as notFoundISRCs) { @if (notFoundISRCs.length > 0) {
       <div class="not-found-section">
         <h3 class="not-found-title">
@@ -69,7 +63,7 @@
       } }
     </div>
     } @else {
-    <!-- Estado vazio -->
+
     <div class="empty-state">
       <div class="empty-icon">🎵</div>
       <h3>{{ 'tracks.empty.title' | translate }}</h3>

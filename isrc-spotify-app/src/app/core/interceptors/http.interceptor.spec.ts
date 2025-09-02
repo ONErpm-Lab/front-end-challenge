@@ -10,7 +10,6 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { httpInterceptor } from './http.interceptor';
 import { SpotifyAuthService } from '../spotify/spotify-auth.service';
-import { environment } from '../../../environments/environment';
 
 describe('HttpInterceptor', () => {
   let httpClient: HttpClient;
@@ -20,7 +19,7 @@ describe('HttpInterceptor', () => {
   // URLs de teste
   const SPOTIFY_API_URL = 'https://api.spotify.com/v1/search';
   const I18N_URL = '/assets/i18n/pt.json';
-  const TOKEN_URL = environment.SPOTIFY_TOKEN_URL;
+  const TOKEN_URL = process.env['SPOTIFY_TOKEN_URL'];
   const GENERIC_URL = 'https://example.com/api/data';
 
   beforeEach(() => {

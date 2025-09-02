@@ -4,7 +4,7 @@ import { Observable, forkJoin, of } from 'rxjs';
 import { map, catchError, tap, switchMap } from 'rxjs/operators';
 import { ITrack } from '../models';
 import { sortByTitlePTBR } from '../../../core';
-import { environment } from '../../../../environments/environment';
+
 import { SpotifyAuthService } from '../../../core/spotify/spotify-auth.service';
 import { ISRCCodes } from '../../../core/models';
 import { BaseExtractService } from '../../../core/services/base-extract.service';
@@ -24,7 +24,8 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
    * Verifica se as credenciais do Spotify são válidas
    */
   private hasValidCredentials(): boolean {
-    const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } = environment;
+    const SPOTIFY_CLIENT_ID = process.env['SPOTIFY_CLIENT_ID'];
+    const SPOTIFY_CLIENT_SECRET = process.env['SPOTIFY_CLIENT_SECRET'];
 
     return !!(
       SPOTIFY_CLIENT_ID &&
@@ -48,7 +49,6 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
    * Carrega todas as tracks por ISRC
    */
   loadAllTracks(): Observable<Array<ITrack>> {
-    // Verifica credenciais antes de tentar carregar
     if (!this.hasValidCredentials()) {
       console.log('🔑 TracksService: Credenciais inválidas, não carregando tracks');
       this.setError(
@@ -59,10 +59,8 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
 
     this.setLoading(true);
 
-    // Primeiro gera o token, depois busca as tracks
     return this.authService.getToken().pipe(
       switchMap(() => {
-        // Busca todas as tracks em paralelo
         const tracks$ = Object.values(ISRCCodes).map((isrc) => this.searchTrackByISRC(isrc));
 
         return forkJoin(tracks$).pipe(
@@ -72,7 +70,6 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
           catchError((error) => {
             let errorMessage = 'Erro ao carregar tracks. Verifique sua conexão.';
 
-            // Detecta erros específicos de credenciais do Spotify
             if (
               error.error === 'invalid_client' ||
               error.error === 'Invalid client' ||
@@ -99,20 +96,18 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
    * Busca track específica por ISRC
    */
   searchTrackByISRC(isrc: string): Observable<ITrack | null> {
-    // Verifica credenciais antes de tentar buscar
     if (!this.hasValidCredentials()) {
       console.log('🔑 TracksService: Credenciais inválidas, não buscando track');
       return of(null);
     }
 
-    const url = `${environment.SPOTIFY_API_URL}/search`;
+    const url = `${process.env['SPOTIFY_API_URL']}/search`;
     const params = {
       q: `isrc:${isrc}`,
       type: 'track',
       include_external: 'audio',
     };
 
-    // Primeiro gera o token, depois faz a busca
     return this.authService.getToken().pipe(
       switchMap(() => {
         return this.http.get<any>(url, { params }).pipe(
@@ -209,12 +204,10 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
 
     const term = searchTerm.trim().toLowerCase();
 
-    // Se parece ser um ISRC (formato específico), busca na API
     if (this.isISRCFormat(term)) {
       return this.searchTrackByISRC(term).pipe(map((track) => (track ? [track] : [])));
     }
 
-    // Caso contrário, filtra localmente
     return this.data$.pipe(
       map((tracks) =>
         tracks.filter(
@@ -232,8 +225,6 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
    * Verifica se o termo de busca tem formato de ISRC
    */
   private isISRCFormat(term: string): boolean {
-    // Formato ISRC mais flexível: 2 letras + 3 alfanuméricos + 2 alfanuméricos + 5 números
-    // Mas também aceita variações comuns
     const isrcPattern = /^[A-Z]{2}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{5}$/i;
     const alternativePattern = /^[A-Z]{2}[A-Z0-9]{3}[A-Z0-9]{2}[0-9]{4,6}$/i;
 

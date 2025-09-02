@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +10,7 @@ export class SpotifyAuthGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     console.log('🔒 SpotifyAuthGuard: Verificando credenciais...');
-    
+
     // Verifica se as credenciais estão configuradas e são válidas
     if (this.hasValidCredentials()) {
       console.log('🔒 SpotifyAuthGuard: Credenciais válidas, permitindo acesso');
@@ -19,7 +18,7 @@ export class SpotifyAuthGuard implements CanActivate {
     }
 
     console.log('🔒 SpotifyAuthGuard: Credenciais inválidas, redirecionando para /error');
-    
+
     // Se as credenciais são inválidas, redireciona para a página de erro
     this.router.navigate(['/error'], {
       queryParams: {
@@ -31,8 +30,9 @@ export class SpotifyAuthGuard implements CanActivate {
   }
 
   private hasValidCredentials(): boolean {
-    const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } = environment;
-    
+    const SPOTIFY_CLIENT_ID = process.env['SPOTIFY_CLIENT_ID'];
+    const SPOTIFY_CLIENT_SECRET = process.env['SPOTIFY_CLIENT_SECRET'];
+
     const isValid = !!(
       SPOTIFY_CLIENT_ID &&
       SPOTIFY_CLIENT_SECRET &&
@@ -42,9 +42,16 @@ export class SpotifyAuthGuard implements CanActivate {
       SPOTIFY_CLIENT_ID.length >= 10 &&
       SPOTIFY_CLIENT_SECRET.length >= 10
     );
-    
-    console.log('🔒 SpotifyAuthGuard: Client ID:', SPOTIFY_CLIENT_ID, 'Client Secret:', SPOTIFY_CLIENT_SECRET?.substring(0, 4) + '...', 'Válido:', isValid);
-    
+
+    console.log(
+      '🔒 SpotifyAuthGuard: Client ID:',
+      SPOTIFY_CLIENT_ID,
+      'Client Secret:',
+      SPOTIFY_CLIENT_SECRET?.substring(0, 4) + '...',
+      'Válido:',
+      isValid
+    );
+
     return isValid;
   }
 }

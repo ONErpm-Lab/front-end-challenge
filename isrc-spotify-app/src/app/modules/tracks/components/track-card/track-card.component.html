@@ -1,8 +1,6 @@
 <div class="track-card" [class.available-br]="isAvailableInBR()">
-  <!-- Header do Card -->
   <div class="track-card__header"></div>
 
-  <!-- Capa do Álbum -->
   <div class="track-card__artwork">
     <div class="artwork-container">
       @if (track.album.images && track.album.images.length > 0) { @if (!isImageLoaded() &&
@@ -29,7 +27,6 @@
         (error)="onImageError()"
       />
 
-      <!-- Play Button Overlay -->
       @if (track.preview_url && isImageLoaded()) {
       <div class="play-overlay" (click)="toggleAudio()">
         <div class="play-button" [class.playing]="isPlaying()">
@@ -49,7 +46,6 @@
     </div>
   </div>
 
-  <!-- Informações da Track -->
   <div class="track-card__info">
     <h3 class="track-title" [title]="track.name">{{ track.name }}</h3>
     <p class="track-artists" [title]="getArtistNames()">{{ getArtistNames() }}</p>
@@ -78,7 +74,6 @@
     </div>
   </div>
 
-  <!-- Player de Áudio -->
   <div class="track-card__player">
     <div class="audio-controls">
       <button class="play-btn" (click)="playOnSpotify()" [class.playing]="isPlaying()">
@@ -108,6 +103,5 @@
     </div>
   </div>
 
-  <!-- Actions -->
   <div class="track-card__actions"></div>
 </div>

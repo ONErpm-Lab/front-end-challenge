@@ -1,5 +1,4 @@
 <div class="language-selector" (click)="$event.stopPropagation()">
-  <!-- Botão principal -->
   <button
     class="language-selector__trigger"
     (click)="toggleDropdown()"
@@ -18,7 +17,6 @@
     ></i>
   </button>
 
-  <!-- Dropdown -->
   @if (isOpen()) {
   <div class="language-selector__dropdown">
     <div class="dropdown-content">
@@ -40,10 +38,7 @@
       }
     </div>
   </div>
-  }
-
-  <!-- Backdrop para fechar ao clicar fora -->
-  @if (isOpen()) {
+  } @if (isOpen()) {
   <div class="language-selector__backdrop" (click)="closeDropdown()"></div>
   }
 </div>

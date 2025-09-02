@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, tap, switchMap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
+
 import { ISpotifyTokenResponse } from '../../modules/tracks';
 
 @Injectable({
@@ -33,11 +33,13 @@ export class SpotifyAuthService {
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .set(
         'Authorization',
-        `Basic ${btoa(`${environment.SPOTIFY_CLIENT_ID}:${environment.SPOTIFY_CLIENT_SECRET}`)}`
+        `Basic ${btoa(
+          `${process.env['SPOTIFY_CLIENT_ID']}:${process.env['SPOTIFY_CLIENT_SECRET']}`
+        )}`
       );
 
     return this.http
-      .post<ISpotifyTokenResponse>(environment.SPOTIFY_TOKEN_URL, body.toString(), {
+      .post<ISpotifyTokenResponse>(process.env['SPOTIFY_TOKEN_URL'], body.toString(), {
         headers,
       })
       .pipe(

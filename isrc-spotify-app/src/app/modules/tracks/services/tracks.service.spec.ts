@@ -6,7 +6,6 @@ import { TracksService } from './tracks.service';
 import { SpotifyAuthService } from '../../../core/spotify/spotify-auth.service';
 import { ITrack } from '../models';
 import { ISRCCodes } from '../../../core/models';
-import { environment } from '../../../../environments/environment';
 
 describe('TracksService', () => {
   let service: TracksService;
@@ -136,7 +135,7 @@ describe('TracksService', () => {
       // Espera uma requisição para cada ISRC code
       const isrcCodes = Object.values(ISRCCodes);
       const requests = httpMock.match((req) =>
-        req.url.includes(`${environment.SPOTIFY_API_URL}/search`)
+        req.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
       );
 
       expect(requests.length).toBe(isrcCodes.length);
@@ -158,7 +157,7 @@ describe('TracksService', () => {
       });
 
       const requests = httpMock.match((req) =>
-        req.url.includes(`${environment.SPOTIFY_API_URL}/search`)
+        req.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
       );
 
       // Responde com vazio para todas as requisições
@@ -199,7 +198,7 @@ describe('TracksService', () => {
       service.loadAllTracks().subscribe();
 
       const requests = httpMock.match((req) =>
-        req.url.includes(`${environment.SPOTIFY_API_URL}/search`)
+        req.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
       );
 
       requests.forEach((req) => {
@@ -231,7 +230,7 @@ describe('TracksService', () => {
 
       const req = httpMock.expectOne(
         (request) =>
-          request.url.includes(`${environment.SPOTIFY_API_URL}/search`) &&
+          request.url.includes(`${process.env['SPOTIFY_API_URL']}/search`) &&
           request.params.get('q') === `isrc:${mockISRC}`
       );
 
@@ -247,7 +246,7 @@ describe('TracksService', () => {
       });
 
       const req = httpMock.expectOne((request) =>
-        request.url.includes(`${environment.SPOTIFY_API_URL}/search`)
+        request.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
       );
 
       req.flush({ tracks: { items: [] } });
@@ -259,7 +258,7 @@ describe('TracksService', () => {
       });
 
       const req = httpMock.expectOne((request) =>
-        request.url.includes(`${environment.SPOTIFY_API_URL}/search`)
+        request.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
       );
 
       req.error(new ErrorEvent('Network error'));
@@ -271,7 +270,7 @@ describe('TracksService', () => {
       });
 
       const req = httpMock.expectOne((request) =>
-        request.url.includes(`${environment.SPOTIFY_API_URL}/search`)
+        request.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
       );
 
       req.flush({ invalid: 'response' });
@@ -379,7 +378,7 @@ describe('TracksService', () => {
       });
 
       const req = httpMock.expectOne((request) =>
-        request.url.includes(`${environment.SPOTIFY_API_URL}/search`)
+        request.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
       );
       req.flush(mockResponse);
     });
@@ -429,7 +428,7 @@ describe('TracksService', () => {
         service.searchTracksByTerm(isrc).subscribe();
 
         httpMock
-          .expectOne((request) => request.url.includes(`${environment.SPOTIFY_API_URL}/search`))
+          .expectOne((request) => request.url.includes(`${process.env['SPOTIFY_API_URL']}/search`))
           .flush({ tracks: { items: [] } });
       });
     });
@@ -448,7 +447,7 @@ describe('TracksService', () => {
 
       // Não deve haver requisições HTTP para termos inválidos
       httpMock.expectNone((request) =>
-        request.url.includes(`${environment.SPOTIFY_API_URL}/search`)
+        request.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
       );
     });
   });
@@ -495,7 +494,7 @@ describe('TracksService', () => {
       });
 
       const req = httpMock.expectOne((request) =>
-        request.url.includes(`${environment.SPOTIFY_API_URL}/search`)
+        request.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
       );
       req.flush(mockResponse);
     });
@@ -519,7 +518,7 @@ describe('TracksService', () => {
       });
 
       const req = httpMock.expectOne((request) =>
-        request.url.includes(`${environment.SPOTIFY_API_URL}/search`)
+        request.url.includes(`${process.env['SPOTIFY_API_URL']}/search`)
       );
       req.flush(mockResponse);
     });

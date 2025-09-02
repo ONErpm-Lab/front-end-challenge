@@ -1,6 +1,30 @@
-# IsrcSpotifyApp
+# ISRC → Spotify App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+Aplicação Angular para buscar músicas no Spotify usando códigos ISRC (International Standard Recording Code).
+
+## 🚀 Configuração Inicial
+
+### 1. Instalar Dependências
+```bash
+npm install
+```
+
+### 2. Configurar Credenciais do Spotify
+```bash
+# Copie o arquivo de exemplo
+cp env.example .env
+
+# Configure suas credenciais no arquivo .env
+NG_APP_SPOTIFY_CLIENT_ID=seu_client_id_aqui
+NG_APP_SPOTIFY_CLIENT_SECRET=seu_client_secret_aqui
+```
+
+**📋 Como obter as credenciais:**
+1. Acesse [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+2. Crie um novo app ou use um existente
+3. Copie o Client ID e Client Secret
+
+⚠️ **IMPORTANTE:** Nunca commite suas credenciais reais no código! Veja [SECURITY.md](./SECURITY.md) para mais detalhes.
 
 ## Development server
 

@@ -30,7 +30,6 @@ export class TracksPageComponent implements OnInit {
   readonly loading$ = this.tracksService.loading$;
   readonly error$ = this.tracksService.error$;
 
-  // Lista de ISRCs não encontrados (será calculada no template)
   readonly allISRCs: string[] = Object.values(ISRCCodes);
 
   ngOnInit(): void {

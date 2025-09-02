@@ -1,6 +1,6 @@
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { environment } from '../../../environments/environment';
+
 import { catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -11,7 +11,7 @@ export const httpInterceptor: HttpInterceptorFn = (
   console.log('🔗 HTTP Interceptor: Interceptando requisição para:', req.url);
 
   // Não intercepta requisições para o token - permite que erros de credenciais cheguem ao guard
-  if (req.url === environment.SPOTIFY_TOKEN_URL) {
+  if (req.url === process.env['SPOTIFY_TOKEN_URL']) {
     console.log('🔗 HTTP Interceptor: Requisição para token, não interceptando');
     return next(req);
   }

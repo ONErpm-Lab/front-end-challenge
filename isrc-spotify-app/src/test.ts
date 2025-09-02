@@ -1,5 +1,3 @@
-// This file is required by karma.conf.js and loads recursively all the .spec and framework files
-
 import 'zone.js/dist/zone-testing';
 
 import { getTestBed } from '@angular/core/testing';
@@ -19,15 +17,12 @@ declare const require: {
   };
 };
 
-// Primeiro, inicializar o ambiente de testes do Angular
 getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
 
-// Encontrar todos os testes
 const context = require.context('./', true, /\.spec\.ts$/);
-// Carregar os módulos
+
 context.keys().forEach(context);
 
-// Função helper para criar mocks de HTTP
 export function createMockHttpResponse(data: any, status: number = 200) {
   return {
     body: data,
@@ -37,7 +32,6 @@ export function createMockHttpResponse(data: any, status: number = 200) {
   };
 }
 
-// Função helper para criar mocks de erro HTTP
 export function createMockHttpError(status: number, message: string) {
   return {
     status,

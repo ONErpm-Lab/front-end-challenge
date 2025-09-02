@@ -29,12 +29,10 @@ export class TrackCardComponent implements OnInit, OnDestroy {
   private readonly spotifyService = inject(SpotifyPlaybackService);
   private subscription = new Subscription();
 
-  // Estados do componente
   readonly isPlaying = signal(false);
   readonly isImageLoaded = signal(false);
   readonly hasError = signal(false);
 
-  // Utilitários para o template
   readonly formatDuration = formatDuration;
 
   /**
@@ -85,23 +83,18 @@ export class TrackCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Observa mudanças no estado de reprodução do Spotify
-    // Usa um effect para reagir às mudanças do signal
     const effect = () => {
       const state = this.spotifyService.playbackState();
-      // Atualiza o estado de reprodução baseado no Spotify
+
       if (state.currentTrack?.id === this.track.id) {
         this.isPlaying.set(state.isPlaying);
       } else if (this.isPlaying()) {
-        // Se não é a faixa atual, para de tocar
         this.isPlaying.set(false);
       }
     };
 
-    // Executa o effect inicialmente
     effect();
 
-    // Adiciona um listener para mudanças (simulado)
     const interval = setInterval(effect, 1000);
     this.subscription.add({ unsubscribe: () => clearInterval(interval) });
   }
@@ -116,10 +109,8 @@ export class TrackCardComponent implements OnInit, OnDestroy {
   playOnSpotify(): void {
     this.isPlaying.set(true);
 
-    // Tenta reproduzir via Spotify Web Playback SDK
     this.spotifyService.playTrack(this.track.id);
 
-    // Fallback: abre o Spotify em nova aba se não conseguir conectar
     setTimeout(() => {
       if (!this.spotifyService.isConnected()) {
         window.open(this.track.external_urls.spotify, '_blank');
@@ -171,11 +162,7 @@ export class TrackCardComponent implements OnInit, OnDestroy {
     return 100;
   }
 
-  toggleMute(): void {
-    // Não implementado para Spotify
-  }
+  toggleMute(): void {}
 
-  onVolumeChange(event: Event): void {
-    // Não implementado para Spotify
-  }
+  onVolumeChange(event: Event): void {}
 }
