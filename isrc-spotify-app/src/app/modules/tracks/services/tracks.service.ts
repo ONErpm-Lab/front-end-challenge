@@ -23,7 +23,7 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
   /**
    * Implementação do método abstrato
    */
-  protected getInitialData(): Array<ITrack> {
+  getInitialData(): Array<ITrack> {
     return [];
   }
 
