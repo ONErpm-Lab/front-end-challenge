@@ -1,8 +1,18 @@
 {
+  "common": {
+    "welcome": "Bem-vindo",
+    "hello": "Olá {{name}}",
+    "buttons": {
+      "save": "Salvar",
+      "cancel": "Cancelar"
+    }
+  },
   "header": {
     "subtitle": "Descubra faixas musicais através do código ISRC"
   },
   "tracks": {
+    "title": "Faixas de Música",
+    "notFound": "Nenhuma faixa encontrada",
     "loading": {
       "title": "Carregando suas músicas...",
       "subtitle": "Buscando faixas pelos códigos ISRC na base do Spotify"
@@ -17,7 +27,7 @@
       "subtitle": "Não foi possível encontrar nenhuma das tracks pelos códigos ISRC fornecidos.",
       "retryButton": "Tentar novamente"
     },
-    "notFound": {
+    "notFoundList": {
       "title": "{{count}} ISRC{{plural}} não encontrado{{plural}}:"
     }
   },

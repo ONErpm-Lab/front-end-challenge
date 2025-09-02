@@ -1,8 +1,18 @@
 {
+  "common": {
+    "welcome": "Welcome",
+    "hello": "Hello {{name}}",
+    "buttons": {
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  },
   "header": {
     "subtitle": "Discover music tracks through ISRC codes"
   },
   "tracks": {
+    "title": "Music Tracks",
+    "notFound": "No tracks found",
     "loading": {
       "title": "Loading your music...",
       "subtitle": "Searching tracks by ISRC codes in Spotify database"
@@ -17,7 +27,7 @@
       "subtitle": "Could not find any tracks with the provided ISRC codes.",
       "retryButton": "Try again"
     },
-    "notFound": {
+    "notFoundList": {
       "title": "{{count}} ISRC{{plural}} not found:"
     }
   },

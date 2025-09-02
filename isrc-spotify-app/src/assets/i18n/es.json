@@ -1,8 +1,18 @@
 {
+  "common": {
+    "welcome": "Bienvenido",
+    "hello": "Hola {{name}}",
+    "buttons": {
+      "save": "Guardar",
+      "cancel": "Cancelar"
+    }
+  },
   "header": {
     "subtitle": "Descubre pistas musicales a través de códigos ISRC"
   },
   "tracks": {
+    "title": "Pistas de Música",
+    "notFound": "No se encontraron pistas",
     "loading": {
       "title": "Cargando tu música...",
       "subtitle": "Buscando pistas por códigos ISRC en la base de datos de Spotify"
@@ -17,7 +27,7 @@
       "subtitle": "No se pudieron encontrar pistas con los códigos ISRC proporcionados.",
       "retryButton": "Intentar de nuevo"
     },
-    "notFound": {
+    "notFoundList": {
       "title": "{{count}} ISRC{{plural}} no encontrado{{plural}}:"
     }
   },

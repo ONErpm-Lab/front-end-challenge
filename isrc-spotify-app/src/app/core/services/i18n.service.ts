@@ -134,6 +134,7 @@ export class I18nService {
    * Obtém valor aninhado de um objeto usando notação de ponto
    */
   private getNestedValue(obj: any, path: string): any {
+    if (!path || !obj) return undefined;
     return path.split('.').reduce((current, key) => {
       return current && current[key] !== undefined ? current[key] : undefined;
     }, obj);
@@ -178,6 +179,7 @@ export class I18nService {
    * Pipe helper para templates
    */
   instant(key: string, params?: { [key: string]: any }): string {
+    if (!key) return '';
     return this.translate(key, params);
   }
 }
