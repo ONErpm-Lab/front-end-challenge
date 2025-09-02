@@ -61,26 +61,31 @@ export class TracksPageComponent implements OnInit {
   }
 
   /**
-   * Filtra tracks baseado no termo de busca
+   * Filtra tracks baseado no termo de busca e ordena alfabeticamente
    */
   getFilteredTracks(tracks: ITrack[]): ITrack[] {
     const search = this.searchTerm().toLowerCase().trim();
 
-    if (!search) return tracks;
+    let filteredTracks: ITrack[];
 
-    // Se há resultados de busca, retorna eles
-    if (this.searchResults$().length > 0) {
-      return this.searchResults$();
+    if (!search) {
+      filteredTracks = tracks;
+    } else if (this.searchResults$().length > 0) {
+      // Se há resultados de busca, retorna eles
+      filteredTracks = this.searchResults$();
+    } else {
+      // Caso contrário, filtra localmente
+      filteredTracks = tracks.filter(
+        (track) =>
+          track.isrc.toLowerCase().includes(search) ||
+          track.name.toLowerCase().includes(search) ||
+          track.artists.some((artist) => artist.name.toLowerCase().includes(search)) ||
+          track.album.name.toLowerCase().includes(search)
+      );
     }
 
-    // Caso contrário, filtra localmente
-    return tracks.filter(
-      (track) =>
-        track.isrc.toLowerCase().includes(search) ||
-        track.name.toLowerCase().includes(search) ||
-        track.artists.some((artist) => artist.name.toLowerCase().includes(search)) ||
-        track.album.name.toLowerCase().includes(search)
-    );
+    // Ordena alfabeticamente por título da faixa
+    return filteredTracks.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   /**

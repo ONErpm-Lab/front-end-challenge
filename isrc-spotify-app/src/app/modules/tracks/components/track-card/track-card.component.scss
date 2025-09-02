@@ -251,11 +251,11 @@
     animation: pulse 2s infinite;
   }
 
-  img {
+  i {
     margin-left: 1px; // Ajuste visual para o ícone de play
   }
 
-  &.playing img {
+  &.playing i {
     margin-left: 0;
   }
 }
@@ -315,7 +315,7 @@
     transform: translateY(0);
   }
 
-  img {
+  i {
     width: 16px;
     height: 16px;
   }

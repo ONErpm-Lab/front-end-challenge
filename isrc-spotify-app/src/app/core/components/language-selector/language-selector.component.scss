@@ -55,9 +55,9 @@
   }
 
   &__dropdown {
-    position: fixed;
-    top: calc(var(--header-height, 80px) + 8px);
-    right: 20px;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
     min-width: 160px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
