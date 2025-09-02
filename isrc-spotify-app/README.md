@@ -6,6 +6,7 @@ Uma aplicação Angular moderna para buscar e visualizar informações de faixas
 
 ![Demonstração da Aplicação](./public/challenge.mp4)
 
+
 > 🎬 **Vídeo de Demonstração**: Assista ao vídeo acima para ver as principais funcionalidades da aplicação em ação!
 > 
 > **Funcionalidades demonstradas:**
@@ -63,7 +64,7 @@ Uma aplicação Angular moderna para buscar e visualizar informações de faixas
 
 1. **Crie o arquivo `.env`** na raiz do projeto:
    ```bash
-   cp .env.example .env  # Se existir um arquivo de exemplo
+   cp env.example .env
    # OU crie manualmente
    ```
 
