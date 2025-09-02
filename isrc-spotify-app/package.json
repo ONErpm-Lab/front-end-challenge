@@ -1,22 +1,18 @@
 {
-  "name": "isrc-spotify-app",
+  "name": "Spotify App",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:prod": "ng build --configuration=production --base-href=/front-end-challenge/",
+    "build:prod": "node scripts/replace-env-vars.js && ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "setup": "npm install",
     "test": "ng test",
     "test:watch": "ng test --watch",
     "test:coverage": "ng test --code-coverage",
     "test:ci": "ng test --watch=false --browsers=ChromeHeadless --code-coverage",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:headed": "playwright test --headed",
-    "test:e2e:debug": "playwright test --debug",
-    "test:all": "npm run test:ci && npm run test:e2e"
+    "test:all": "npm run test:ci"
   },
   "prettier": {
     "printWidth": 100,
@@ -56,7 +52,6 @@
     "@angular/cli": "^20.2.1",
     "@angular/compiler-cli": "^20.2.0",
     "@angular/platform-browser-dynamic": "^20.2.3",
-    "@playwright/test": "^1.55.0",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^24.3.0",
     "dotenv": "^17.2.1",

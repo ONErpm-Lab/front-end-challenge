@@ -30,7 +30,6 @@ Uma aplicação Angular moderna para buscar e visualizar informações de faixas
 - **SCSS** - Estilização
 - **FontAwesome** - Ícones
 - **Jasmine/Karma** - Testes unitários
-- **Playwright** - Testes e2e
 
 ## 📋 Pré-requisitos
 
@@ -170,18 +169,6 @@ npm run test:coverage
 npm run test:ci
 ```
 
-### Testes E2E
-```bash
-# Executar testes e2e
-npm run test:e2e
-
-# Testes e2e com interface
-npm run test:e2e:ui
-
-# Testes e2e em modo debug
-npm run test:e2e:debug
-```
-
 ## 📁 Estrutura do Projeto
 
 ```
@@ -242,7 +229,7 @@ npm run build          # Build para produção
 npm run build:prod     # Build otimizado para produção
 npm test               # Executa testes unitários
 npm run test:coverage  # Testes com relatório de cobertura
-npm run test:e2e       # Executa testes e2e
+
 npm run setup          # Instala dependências
 ```
 
