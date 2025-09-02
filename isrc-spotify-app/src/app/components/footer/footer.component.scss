@@ -30,13 +30,6 @@
   line-height: 1.4;
 }
 
-.footer__tech {
-  font-size: 0.85rem;
-  color: var(--onerpm-gray-medium);
-  margin: 0;
-  line-height: 1.4;
-}
-
 .footer__spotify {
   display: flex;
   align-items: center;
@@ -91,10 +84,6 @@
     font-size: 0.9rem;
   }
 
-  .footer__tech {
-    font-size: 0.8rem;
-  }
-
   .footer__spotify-link {
     font-size: 0.85rem;
     padding: 0.6rem 1.2rem;
@@ -108,10 +97,6 @@
 
   .footer__description {
     font-size: 0.85rem;
-  }
-
-  .footer__tech {
-    font-size: 0.75rem;
   }
 
   .footer__spotify-link {

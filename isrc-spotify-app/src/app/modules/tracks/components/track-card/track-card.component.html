@@ -13,7 +13,7 @@
         [theme]="{
           'border-radius': '12px',
           width: '100%',
-          height: '200px',
+          height: '100%',
           'aspect-ratio': '1'
         }"
       >
@@ -64,7 +64,7 @@
         <span class="meta-value">{{ formatDuration(track.duration_ms) }}</span>
       </div>
 
-      <div class="meta-item">
+      <div class="meta-item availability-item">
         <div class="availability-badge" [class.available]="isAvailableInBR()">
           @if (isAvailableInBR()) {
           <span class="badge-icon">🇧🇷</span>
