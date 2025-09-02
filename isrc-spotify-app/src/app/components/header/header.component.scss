@@ -50,42 +50,14 @@
   gap: 1rem;
 }
 
-.header__logo {
-  background: var(--onerpm-orange);
-  border-radius: 50%;
-  padding: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
-
-  i {
-    color: var(--onerpm-white);
-  }
-}
-
 .header__text {
   flex: 1;
 }
 
-.header__title {
-  font-size: 1.75rem;
-  font-weight: 900;
-  margin: 0 0 0.25rem 0;
-  color: var(--onerpm-white);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-
-  background: linear-gradient(135deg, var(--onerpm-white) 0%, var(--onerpm-orange) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 .header__subtitle {
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   margin: 0;
-  color: var(--onerpm-gray-medium);
+  color: white;
   font-weight: 400;
   line-height: 1.4;
 }

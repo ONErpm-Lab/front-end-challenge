@@ -1,28 +1,5 @@
 <app-layout>
   <div class="tracks-page">
-    <!-- Barra de Busca -->
-    <div class="search-section">
-      <div class="search-container">
-        <div class="search-input-wrapper">
-          <i class="fas fa-search search-icon" style="font-size: 20px; color: #666"></i>
-          <input
-            type="text"
-            class="search-input"
-            placeholder="{{ 'search.placeholder' | translate }}"
-            [(ngModel)]="searchTerm"
-            (input)="onSearchInput()"
-          />
-        </div>
-        <button
-          class="clear-search-btn"
-          (click)="clearSearch()"
-          [class.visible]="searchTerm.length > 0"
-        >
-          <i class="fas fa-times" style="font-size: 16px; color: #666"></i>
-        </button>
-      </div>
-    </div>
-
     <!-- Estados da aplicação -->
     @if (loading$ | async) {
     <div class="loading-state">
@@ -59,19 +36,11 @@
       </button>
     </div>
     } @else {
-    <!-- Estado de busca -->
-    @if (isSearching()) {
-    <div class="searching-state">
-      <div class="searching-icon">🔍</div>
-      <h3>{{ 'search.searching' | translate }}...</h3>
-      <p>Procurando por "{{ searchTerm() }}"</p>
-    </div>
-    } @else {
     <!-- Grid de tracks -->
-    @if (tracks$ | async; as tracks) { @if (getFilteredTracks(tracks).length > 0) {
+    @if (tracks$ | async; as tracks) { @if (getSortedTracks(tracks).length > 0) {
     <div class="tracks-content">
       <div class="tracks-grid">
-        @for (track of getFilteredTracks(tracks); track track.isrc) {
+        @for (track of getSortedTracks(tracks); track track.isrc) {
         <app-track-card [track]="track" class="track-card-item"></app-track-card>
         }
       </div>
@@ -100,15 +69,7 @@
       } }
     </div>
     } @else {
-    <!-- Estado vazio ou não encontrado -->
-    @if (searchTerm().length > 0) {
-    <div class="not-found-search-state">
-      <div class="not-found-icon">🔍</div>
-      <h3>{{ 'search.noResults' | translate }}</h3>
-      <p>Não foi possível encontrar resultados para "{{ searchTerm() }}"</p>
-      <button class="retry-button" (click)="clearSearch()">{{ 'search.clear' | translate }}</button>
-    </div>
-    } @else {
+    <!-- Estado vazio -->
     <div class="empty-state">
       <div class="empty-icon">🎵</div>
       <h3>{{ 'tracks.empty.title' | translate }}</h3>
@@ -117,6 +78,6 @@
         {{ 'tracks.empty.retryButton' | translate }}
       </button>
     </div>
-    } } } } } }
+    } } } }
   </div>
 </app-layout>
