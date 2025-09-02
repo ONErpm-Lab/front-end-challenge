@@ -1,18 +1,21 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
+import { of, throwError } from 'rxjs';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { httpInterceptor } from './http.interceptor';
+import { SpotifyAuthService } from '../spotify/spotify-auth.service';
 import { environment } from '../../../environments/environment';
 
 describe('HttpInterceptor', () => {
   let httpClient: HttpClient;
   let httpMock: HttpTestingController;
+  let spotifyAuthService: jasmine.SpyObj<SpotifyAuthService>;
 
   // URLs de teste
   const SPOTIFY_API_URL = 'https://api.spotify.com/v1/search';
@@ -21,15 +24,19 @@ describe('HttpInterceptor', () => {
   const GENERIC_URL = 'https://example.com/api/data';
 
   beforeEach(() => {
+    const spotifyAuthSpy = jasmine.createSpyObj('SpotifyAuthService', ['getToken']);
+
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(withInterceptors([httpInterceptor])),
         provideHttpClientTesting(),
+        { provide: SpotifyAuthService, useValue: spotifyAuthSpy },
       ],
     });
 
     httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);
+    spotifyAuthService = TestBed.inject(SpotifyAuthService) as jasmine.SpyObj<SpotifyAuthService>;
 
     // Limpar sessionStorage antes de cada teste
     sessionStorage.clear();
@@ -145,17 +152,46 @@ describe('HttpInterceptor', () => {
     });
   });
 
-  describe('Requisições genéricas', () => {
-    it('should not intercept generic requests', () => {
-      const testData = { message: 'Hello World' };
-
-      httpClient.get(GENERIC_URL).subscribe((response) => {
-        expect(response).toEqual(testData);
+  describe('Tratamento de erros genéricos', () => {
+    it('should handle network errors (status 0)', () => {
+      httpClient.get(GENERIC_URL).subscribe({
+        next: () => fail('Should have failed'),
+        error: (error: HttpErrorResponse) => {
+          expect(error.status).toBe(0);
+          expect(error.error).toBe('Erro de conexão. Verifique sua internet.');
+        },
       });
 
       const req = httpMock.expectOne(GENERIC_URL);
-      expect(req.request.headers.has('Authorization')).toBeFalse();
-      req.flush(testData);
+      req.flush(null, { status: 0, statusText: 'Network Error' });
+    });
+
+    it('should handle 404 Not Found errors', () => {
+      httpClient.get(GENERIC_URL).subscribe({
+        next: () => fail('Should have failed'),
+        error: (error: HttpErrorResponse) => {
+          expect(error.status).toBe(404);
+          expect(error.error).toBe('Recurso não encontrado.');
+        },
+      });
+
+      const req = httpMock.expectOne(GENERIC_URL);
+      req.flush(null, { status: 404, statusText: 'Not Found' });
+    });
+
+    it('should pass through other generic errors unchanged', () => {
+      const originalError = { message: 'Some other error' };
+
+      httpClient.get(GENERIC_URL).subscribe({
+        next: () => fail('Should have failed'),
+        error: (error: HttpErrorResponse) => {
+          expect(error.status).toBe(503);
+          expect(error.error).toEqual(originalError);
+        },
+      });
+
+      const req = httpMock.expectOne(GENERIC_URL);
+      req.flush(originalError, { status: 503, statusText: 'Service Unavailable' });
     });
   });
 

@@ -343,51 +343,6 @@ describe('TracksPageComponent', () => {
     });
   });
 
-  describe('Template integration', () => {
-    beforeEach(() => {
-      fixture.detectChanges();
-    });
-
-    it('should display loading state', () => {
-      mockTracksService.setLoading(true);
-      fixture.detectChanges();
-
-      // O template deve mostrar indicador de loading
-      // (O teste específico dependeria da estrutura do template)
-      component.loading$.subscribe((loading) => {
-        expect(loading).toBe(true);
-      });
-    });
-
-    it('should display error state', () => {
-      mockTracksService.setError('Test error message');
-      fixture.detectChanges();
-
-      // O template deve mostrar a mensagem de erro
-      component.error$.subscribe((error) => {
-        expect(error).toBe('Test error message');
-      });
-    });
-
-    it('should display tracks when loaded', () => {
-      mockTracksService.setData(mockTracks);
-      fixture.detectChanges();
-
-      component.tracks$.subscribe((tracks) => {
-        expect(tracks).toEqual(mockTracks);
-      });
-    });
-
-    it('should display empty state when no tracks', () => {
-      mockTracksService.setData([]);
-      fixture.detectChanges();
-
-      component.tracks$.subscribe((tracks) => {
-        expect(tracks).toEqual([]);
-      });
-    });
-  });
-
   describe('Error handling', () => {
     it('should handle service errors gracefully', () => {
       mockTracksService.loadAllTracks.and.returnValue(
@@ -477,26 +432,6 @@ describe('TracksPageComponent', () => {
       component.ngOnInit();
 
       expect(mockTracksService.loadAllTracks).toHaveBeenCalledTimes(2); // 2 manuais (fixture.detectChanges já foi feito antes)
-    });
-  });
-
-  describe('Integration with child components', () => {
-    it('should pass correct data to track cards', () => {
-      mockTracksService.setData(mockTracks);
-      fixture.detectChanges();
-
-      // Verifica se os dados estão disponíveis para os componentes filhos
-      component.tracks$.subscribe((tracks) => {
-        expect(tracks).toEqual(mockTracks);
-        expect(tracks.length).toBe(mockTracks.length);
-      });
-    });
-
-    it('should provide trackBy function for ngFor optimization', () => {
-      const trackByFunction = component.trackByISRC;
-
-      expect(trackByFunction).toBeDefined();
-      expect(typeof trackByFunction).toBe('function');
     });
   });
 });

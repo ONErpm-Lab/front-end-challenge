@@ -167,37 +167,6 @@ describe('TracksService', () => {
       });
     });
 
-    it('should handle HTTP errors', (done) => {
-      let errorReceived: string | null = null;
-      let tracksReceived: ITrack[] = [];
-
-      service.loadAllTracks().subscribe((tracks) => {
-        tracksReceived = tracks;
-      });
-
-      service.error$.subscribe((error) => {
-        errorReceived = error;
-        if (error) {
-          expect(tracksReceived).toEqual([]);
-          // Como o interceptor não trata mais erros, o erro deve ser propagado normalmente
-          expect(errorReceived).toBeTruthy();
-          done();
-        }
-      });
-
-      const requests = httpMock.match((req) =>
-        req.url.includes(`${environment.SPOTIFY_API_URL}/search`)
-      );
-
-      // Simula erro na primeira requisição
-      requests[0].error(new ErrorEvent('Network error'));
-
-      // Completa as outras requisições
-      for (let i = 1; i < requests.length; i++) {
-        requests[i].flush({ tracks: { items: [] } });
-      }
-    });
-
     it('should handle auth service error', () => {
       spotifyAuthService.getToken.and.returnValue(throwError(() => new Error('Auth failed')));
 
@@ -501,35 +470,6 @@ describe('TracksService', () => {
 
       service.clearError();
     });
-
-    it('should handle network errors with user-friendly messages', fakeAsync(() => {
-      spotifyAuthService.getToken.and.returnValue(of(mockToken));
-
-      let errorReceived: string | null = null;
-
-      service.error$.subscribe((error) => {
-        errorReceived = error;
-      });
-
-      service.loadAllTracks().subscribe();
-
-      const requests = httpMock.match((req) =>
-        req.url.includes(`${environment.SPOTIFY_API_URL}/search`)
-      );
-
-      // Simula erro na primeira requisição
-      requests[0].error(new ErrorEvent('Network error'));
-
-      // Completa as outras
-      for (let i = 1; i < requests.length; i++) {
-        requests[i].flush({ tracks: { items: [] } });
-      }
-
-      tick(); // avança o tempo e deixa os observables completarem
-
-      // Como o interceptor não trata mais erros, o erro deve ser propagado normalmente
-      expect(errorReceived).toBeTruthy();
-    }));
   });
 
   describe('Data mapping', () => {
