@@ -6,7 +6,7 @@ import { ITrack } from '../models';
 import { sortByTitlePTBR } from '../../../core';
 import { environment } from '../../../../environments/environment';
 import { SpotifyAuthService } from '../../../core/spotify/spotify-auth.service';
-import { ISRCCodes, ISpotifyTrack } from '../../../core/models';
+import { ISRCCodes } from '../../../core/models';
 import { BaseExtractService } from '../../../core/services/base-extract.service';
 
 @Injectable({
@@ -131,7 +131,7 @@ export class TracksService extends BaseExtractService<Array<ITrack>> {
   /**
    * Mapeia a resposta do Spotify para nosso modelo
    */
-  private mapSpotifyTrackToTrack(spotifyTrack: ISpotifyTrack, isrc: string): ITrack {
+  private mapSpotifyTrackToTrack(spotifyTrack: ITrack, isrc: string): ITrack {
     console.log('🔍 Mapeando track:', spotifyTrack.name, 'ISRC:', isrc);
     console.log('🔍 Preview URL:', spotifyTrack.preview_url);
 

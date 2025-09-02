@@ -10,6 +10,12 @@ export interface ITrack {
   isrc: string;
 }
 
+export interface ISpotifyTokenResponse {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+}
+
 export interface IArtist {
   id: string;
   name: string;

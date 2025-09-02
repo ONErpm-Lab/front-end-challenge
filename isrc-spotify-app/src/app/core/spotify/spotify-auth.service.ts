@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, tap, switchMap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { ISpotifyTokenResponse } from '../models';
+import { ISpotifyTokenResponse } from '../../modules/tracks';
 
 @Injectable({
   providedIn: 'root',
