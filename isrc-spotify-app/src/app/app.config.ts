@@ -9,6 +9,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { httpInterceptor } from './core';
 import { I18nService } from './core/services/i18n.service';
 import { SpotifyAuthService } from './core/spotify/spotify-auth.service';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
 
