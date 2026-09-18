@@ -1,72 +1,27 @@
-You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
+# Engineering notes — ONErpm ISRC challenge
 
-## TypeScript Best Practices
-
-- Use strict type checking
-- Prefer type inference when the type is obvious
-- Avoid the `any` type; use `unknown` when type is uncertain
-
-## Angular Best Practices
-
-- Always use standalone components over NgModules
-- Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+.
-- Use signals for state management
-- Implement lazy loading for feature routes
-- Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
-- Use `NgOptimizedImage` for all static images.
-  - `NgOptimizedImage` does not work for inline base64 images.
-
-## Accessibility Requirements
-
-- It MUST pass all AXE checks.
-- It MUST follow all WCAG AA minimums, including focus management, color contrast, and ARIA attributes.
-
-### Components
-
-- Keep components small and focused on a single responsibility
-- Use `input()` and `output()` functions instead of decorators
-- Use `computed()` for derived state
-- Set `changeDetection: ChangeDetectionStrategy.OnPush` in `@Component` decorator
-- Prefer inline templates for small components
-- Prefer Reactive forms instead of Template-driven ones
-- Do NOT use `ngClass`, use `class` bindings instead
-- Do NOT use `ngStyle`, use `style` bindings instead
-- When using external templates/styles, use paths relative to the component TS file.
-
-## State Management
-
-- Use signals for local component state
-- Use `computed()` for derived state
-- Keep state transformations pure and predictable
-- Do NOT use `mutate` on signals, use `update` or `set` instead
-
-## Templates
-
-- Keep templates simple and avoid complex logic
-- Use native control flow (`@if`, `@for`, `@switch`) instead of `*ngIf`, `*ngFor`, `*ngSwitch`
-- Use the async pipe to handle observables
-- Do not assume globals like (`new Date()`) are available.
-
-## Services
-
-- Design services around a single responsibility
-- Use the `providedIn: 'root'` option for singleton services
-- Use the `inject()` function instead of constructor injection
-
----
-
-# Project: ONErpm ISRC challenge
-
-Public page that resolves ISRC codes against the Spotify Web API. The challenge brief
-is `docs/README.md` — it is the source of truth for requirements and must not be edited.
+Conventions, constraints and decisions that are not obvious from reading the code.
+The challenge brief is [`docs/README.md`](docs/README.md) — it is the source of truth
+for requirements and must not be edited.
 
 ## Stack
 
 Angular 21 (LTS) · TypeScript strict · RxJS 7 · Tailwind CSS v4 · Vitest ·
 Cloudflare Pages Function for the token exchange.
 
-Angular 21 specifics that apply here: standalone (no NgModules), zoneless change
-detection, `OnPush` everywhere, native control flow, `input()`/`output()`, `inject()`.
+Zoneless change detection, standalone components, no NgModules.
+
+## Conventions
+
+TypeScript is strict; `any` is not used, `unknown` is. Components are standalone with
+`OnPush`, `input()`/`output()` over decorators, `inject()` over constructor injection,
+`computed()` for derived state, and native control flow (`@if`, `@for`, `@switch`).
+`ngClass` and `ngStyle` are not used — bind `class` and `style` directly. Album art
+goes through `NgOptimizedImage`. Templates stay declarative: logic belongs in the
+component.
+
+Accessibility is checked, not just intended: `angular-eslint`'s template-accessibility
+rules run as part of `npm run lint`, and the target is WCAG AA.
 
 ## Two runtimes live in this repo
 
@@ -132,13 +87,19 @@ bodies to the browser.
 
 ## Testing
 
-Colocated `*.spec.ts`. Vitest with jsdom, zoneless (`provideZonelessChangeDetection()`
-in `TestBed`, and `await fixture.whenStable()` instead of `detectChanges()`).
+Two suites, because there are two runtimes. `npm test` runs both.
 
-- Pure logic (mapper, pipe, sorter) — plain unit tests, no TestBed.
-- Repositories and interceptors — `HttpTestingController`, always with
-  `afterEach(() => httpMock.verify())`.
-- Containers — `FakeTrackRepository`.
+- **App** — `ng test`, Vitest with jsdom, zoneless: use
+  `provideZonelessChangeDetection()` in `TestBed` and `await fixture.whenStable()`
+  rather than `detectChanges()`. Specs sit beside the code.
+  - Pure logic (mapper, pipes, sorter) — plain unit tests, no TestBed.
+  - Repositories and interceptors — `HttpTestingController`, always with
+    `afterEach(() => httpMock.verify())`.
+  - Containers — `FakeTrackRepository`, never HTTP.
+- **Functions** — `npm run test:functions`, Vitest in a node environment with `fetch`
+  mocked. These specs live in `tests/functions/`, _not_ beside the code, because
+  Cloudflare Pages routes every file under `functions/` and test files must never be
+  published.
 
 Set `maxRetries: 1` in test configs; real backoff timers make suites slow and flaky.
 
