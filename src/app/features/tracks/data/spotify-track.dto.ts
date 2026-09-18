@@ -19,6 +19,8 @@ export interface SpotifyArtistDto {
 export interface SpotifyAlbumDto {
   readonly images?: readonly SpotifyImageDto[];
   readonly release_date?: string;
+  /** How much of `release_date` is meaningful. Spotify often knows only the year. */
+  readonly release_date_precision?: 'year' | 'month' | 'day';
 }
 
 export interface SpotifyTrackDto {

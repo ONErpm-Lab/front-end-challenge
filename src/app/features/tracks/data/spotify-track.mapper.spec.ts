@@ -14,6 +14,7 @@ describe('toTrack', () => {
       artists: ['Artista Um', 'Artista Dois'],
       albumImageUrl: 'https://i.scdn.co/image/large',
       releaseDate: '2019-07-12',
+      releaseDatePrecision: 'day',
       durationMs: 213_000,
       previewUrl: 'https://p.scdn.co/mp3-preview/abc',
       spotifyUrl: 'https://open.spotify.com/track/track-id',

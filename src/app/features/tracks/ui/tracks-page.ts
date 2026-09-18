@@ -9,6 +9,7 @@ import { REQUESTED_ISRCS } from '../domain/isrc-catalog';
 import { sortByTitle } from '../domain/sort-tracks';
 import type { Track } from '../domain/track';
 import { TrackRepository } from '../domain/track-repository';
+import { TrackCard } from './track-card';
 
 /** What the template needs to know, and nothing more. */
 type TracksView =
@@ -26,11 +27,11 @@ type TracksView =
 @Component({
   selector: 'onerpm-tracks-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Alert, Spinner],
+  imports: [Alert, Spinner, TrackCard],
   template: `
-    <section class="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+    <section class="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       <header class="mb-6">
-        <h1 class="text-2xl font-bold tracking-tight sm:text-3xl">Faixas</h1>
+        <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Faixas</h1>
         <p class="mt-1 text-sm text-slate-600">
           Dados obtidos a partir dos códigos ISRC informados no contrato.
         </p>
@@ -40,6 +41,7 @@ type TracksView =
         @case ('loading') {
           <onerpm-spinner label="Buscando faixas..." />
         }
+
         @case ('failed') {
           <onerpm-alert
             title="Não foi possível carregar as faixas"
@@ -47,9 +49,40 @@ type TracksView =
             tone="error"
           />
         }
+
         @case ('loaded') {
-          <!-- TODO(base): replace with the track list once the card component lands. -->
-          <p class="text-sm text-slate-600">{{ tracks().length }} faixa(s) carregada(s).</p>
+          @if (tracks().length) {
+            @if (missingCount(); as missing) {
+              <!-- Partial success is not failure, but hiding it would be dishonest. -->
+              <div class="mb-4">
+                <onerpm-alert
+                  title="Algumas faixas não foram encontradas"
+                  [message]="
+                    missing +
+                    ' dos ' +
+                    requestedCount +
+                    ' códigos ISRC não retornaram resultado no Spotify.'
+                  "
+                  tone="warning"
+                />
+              </div>
+            }
+
+            <ul class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              @for (track of tracks(); track track.isrc; let i = $index) {
+                <li class="h-full">
+                  <!-- The first row is above the fold, so its cover is the LCP candidate. -->
+                  <onerpm-track-card [track]="track" [priority]="i < 3" />
+                </li>
+              }
+            </ul>
+          } @else {
+            <onerpm-alert
+              title="Nenhuma faixa encontrada"
+              message="Nenhum dos códigos ISRC informados retornou resultado no Spotify."
+              tone="info"
+            />
+          }
         }
       }
     </section>
@@ -58,6 +91,8 @@ type TracksView =
 export class TracksPage {
   private readonly repository = inject(TrackRepository);
   private readonly notifier = inject(ErrorNotifier);
+
+  protected readonly requestedCount = REQUESTED_ISRCS.length;
 
   protected readonly view = toSignal(this.loadTracks(), {
     initialValue: { status: 'loading' } as TracksView,
@@ -72,6 +107,9 @@ export class TracksPage {
     const current = this.view();
     return current.status === 'failed' ? current.error : null;
   });
+
+  /** Zero is falsy, which is exactly the "say nothing" case for the `@if` above. */
+  protected readonly missingCount = computed(() => this.requestedCount - this.tracks().length);
 
   private loadTracks(): Observable<TracksView> {
     return this.repository.findByIsrcs(REQUESTED_ISRCS).pipe(

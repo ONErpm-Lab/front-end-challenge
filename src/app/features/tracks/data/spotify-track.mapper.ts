@@ -24,11 +24,23 @@ export function toTrack(
     artists: (dto.artists ?? []).map((artist) => artist.name).filter(isNonEmpty),
     albumImageUrl: pickLargestImage(dto.album?.images),
     releaseDate: dto.album?.release_date ?? '',
+    releaseDatePrecision:
+      dto.album?.release_date_precision ?? inferPrecision(dto.album?.release_date),
     durationMs: dto.duration_ms ?? 0,
     previewUrl: dto.preview_url ?? null,
     spotifyUrl: dto.external_urls?.spotify ?? `https://open.spotify.com/track/${dto.id}`,
     availableInTargetMarket: (dto.available_markets ?? []).includes(targetMarket),
   };
+}
+
+/**
+ * Spotify usually sends `release_date_precision`, but not always. Falling back to the
+ * shape of the string keeps the UI from rendering a day it was never told.
+ */
+function inferPrecision(releaseDate: string | undefined): 'year' | 'month' | 'day' {
+  const segments = (releaseDate ?? '').split('-').length;
+  if (segments >= 3) return 'day';
+  return segments === 2 ? 'month' : 'year';
 }
 
 /** Spotify returns covers largest-first, but we do not depend on that ordering. */

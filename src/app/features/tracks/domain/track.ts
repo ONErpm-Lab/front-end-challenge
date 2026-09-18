@@ -14,17 +14,16 @@ export interface Track {
   readonly albumImageUrl: string | null;
   /** ISO-8601 date string; precision varies (`YYYY`, `YYYY-MM`, `YYYY-MM-DD`). */
   readonly releaseDate: string;
+  /** How much of {@link releaseDate} is meaningful, so the UI does not invent a day. */
+  readonly releaseDatePrecision: 'year' | 'month' | 'day';
   readonly durationMs: number;
   /**
    * 30-second preview stream.
    *
-   * TODO(spec-landmine): Spotify stopped populating `preview_url` for apps created
-   * after Nov 2024, so this is `null` for most tracks and the required audio player
-   * cannot rely on it. Decide before building the player:
-   *   (a) use the Spotify embed iframe (open.spotify.com/embed/track/{id}) as the
-   *       fallback player, or
-   *   (b) render a disabled player with an explanation when this is null.
-   * Whichever wins, it stays behind the player component so the rest is unaffected.
+   * Usually null: Spotify stopped populating `preview_url` for apps created after
+   * Nov 2024. `TrackPlayer` therefore falls back to Spotify's embed player, which
+   * previews the track without needing this. Kept because when it *is* present we
+   * can offer a real audio element instead of an iframe.
    */
   readonly previewUrl: string | null;
   /** Public Spotify page for the track. */

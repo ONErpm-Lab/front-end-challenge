@@ -29,6 +29,7 @@ export const track = (overrides: Partial<Track> = {}): Track => ({
   artists: ['Artista Um'],
   albumImageUrl: 'https://i.scdn.co/image/large',
   releaseDate: '2019-07-12',
+  releaseDatePrecision: 'day',
   durationMs: 213_000,
   previewUrl: null,
   spotifyUrl: 'https://open.spotify.com/track/track-id',
