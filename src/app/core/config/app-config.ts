@@ -18,15 +18,6 @@ export interface AppConfig {
   readonly lookupConcurrency: number;
   /** Attempts for a retryable (429/5xx) request, first try included. */
   readonly maxRetries: number;
-  /**
-   * Serve tracks from local fixtures instead of calling Spotify.
-   *
-   * TODO(spotify-403): temporary. Spotify now returns 403 on every Web API endpoint
-   * unless the app owner holds an active Premium subscription, which blocks all real
-   * data. This lets the UI be built meanwhile. Set back to `false` everywhere — and
-   * delete this flag — once real access works.
-   */
-  readonly useFixtures: boolean;
 }
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');

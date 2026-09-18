@@ -12,5 +12,4 @@ export const environment: AppConfig = {
   targetMarket: 'BR',
   lookupConcurrency: 4,
   maxRetries: 3,
-  useFixtures: false,
 };
