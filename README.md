@@ -105,20 +105,46 @@ Cloudflare Pages.
 
 ## Desenvolvimento
 
-São dois processos: a função serverless e o dev server do Angular, que faz proxy de
-`/api` para ela (`proxy.conf.json`).
+Há dois modos, e vale saber qual você quer antes de rodar.
+
+| Modo      | Comando(s)                        | Porta | Hot reload | Igual à produção                     |
+| --------- | --------------------------------- | ----- | ---------- | ------------------------------------ |
+| **Ver**   | `npm run preview`                 | 8788  | ❌         | ✅ mesmo servir do Cloudflare Pages  |
+| **Mexer** | `npm run serve` **+** `npm start` | 4200  | ✅         | ❌ proxy de `/api` para a porta 8788 |
+
+### Só quero ver rodando
 
 ```bash
-npm run dev:api   # http://localhost:8788  (wrangler pages dev)
-npm start         # http://localhost:4200
+npm run preview   # http://localhost:8788
 ```
+
+Um comando só. O `wrangler pages dev` serve o build estático **e** as functions na
+mesma porta, exatamente como o Cloudflare Pages faz — então o que você vê aqui é o
+que vai ao ar.
+
+O detalhe: ele serve o conteúdo de `dist/`, não o código-fonte. Editar um arquivo não
+muda nada até rodar o build de novo (é o que o `preview` faz antes de subir).
+
+### Vou mexer no código
+
+```bash
+npm run serve   # http://localhost:8788 — functions + assets
+npm start       # http://localhost:4200 — dev server com hot reload
+```
+
+Dois processos. O dev server do Angular faz proxy de `/api` para a porta 8788
+(`proxy.conf.json`), então é nele que você abre o navegador.
+
+Rodar só o `npm start` dá `ECONNREFUSED` em `/api/spotify-token` e a página mostra o
+alerta de provedor indisponível: não é bug, é o `npm run serve` faltando.
 
 ## Scripts
 
 | Comando              | O que faz                          |
 | -------------------- | ---------------------------------- |
-| `npm start`          | Dev server com proxy para `/api`   |
-| `npm run dev:api`    | Pages Function local (wrangler)    |
+| `npm start`          | Dev server Angular (hot reload)    |
+| `npm run serve`      | Assets do build + functions        |
+| `npm run preview`    | Build + serve, igual à produção    |
 | `npm run build`      | Build de produção                  |
 | `npm test`           | Suíte de testes                    |
 | `npm run test:watch` | Testes em watch mode               |

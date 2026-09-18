@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "dev:api": "wrangler pages dev --port 8788",
+    "serve": "wrangler pages dev --port 8788",
+    "preview": "npm run build && npm run serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
