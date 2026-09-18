@@ -58,11 +58,13 @@ describe('SpotifyTrackRepository', () => {
     expect((await promise).map((t) => t.title).sort()).toEqual(['A', 'B']);
   });
 
-  it('never sends a market param, because it would strip available_markets', async () => {
+  it('sends the target market, which is what makes Spotify return is_playable', async () => {
     const promise = firstValueFrom(repository.findByIsrcs(['AAA']));
     const request = expectSearch('AAA');
 
-    expect(request.request.params.has('market')).toBe(false);
+    // Without this parameter there is no market signal at all: `available_markets`
+    // is absent from responses for recently created apps.
+    expect(request.request.params.get('market')).toBe(CONFIG.targetMarket);
 
     request.flush({ tracks: { items: [spotifyTrackDto()] } });
     await promise;

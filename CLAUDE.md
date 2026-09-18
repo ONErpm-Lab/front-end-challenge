@@ -142,18 +142,24 @@ in `TestBed`, and `await fixture.whenStable()` instead of `detectChanges()`).
 
 Set `maxRetries: 1` in test configs; real backoff timers make suites slow and flaky.
 
-## Two open spec landmines
+## Spotify API constraints (verified against the live API)
 
-Both are marked `TODO(spec-landmine)` in the code. Do not resolve them silently —
-they change what the UI can promise:
+These are settled, not open questions. Re-deriving them from the docs will mislead
+you — the documented fields are not what the API actually returns for a recently
+created app:
 
-1. **`preview_url` is `null` for apps created after Nov 2024.** The brief requires an
-   audio preview player. Either use the Spotify embed iframe as the player, or render
-   a disabled state with an explanation. See `domain/track.ts`.
-2. **No batch-by-ISRC endpoint**, so lookups fan out one search per code. Critically,
-   the request must **not** send a `market` param — Spotify omits `available_markets`
-   whenever it is present, and that array is how BR availability is derived. See
-   `domain/track-repository.ts` and `data/spotify-track.repository.ts`.
+1. **`preview_url` is absent**, not null — the field is gone from every response.
+   There is no audio file to hand an `<audio>` element, so `TrackPlayer` falls back
+   to Spotify's embed iframe, which must be **152px tall or it renders blank**. The
+   `<audio>` branch is kept only for tokens that still receive the field.
+2. **`available_markets` is absent too**, including from `GET /v1/tracks/{id}`. BR
+   availability comes from **`is_playable`, which Spotify returns only when the
+   request sends a `market` parameter**. So `market` is required, not forbidden —
+   dropping it silently marks every track unavailable.
+3. **No usable batch endpoint.** `GET /v1/tracks?ids=` answers 403 for this app tier,
+   so lookups fan out one search per ISRC with bounded concurrency.
+4. **Web API access requires the app owner to hold active Spotify Premium.** Without
+   it every endpoint answers 403, whatever the credentials.
 
 ## Tooling notes
 

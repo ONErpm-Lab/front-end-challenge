@@ -20,11 +20,11 @@ export abstract class TrackRepository {
    * the stream errors only when the provider itself is unusable, which is what
    * drives the alert the spec requires.
    *
-   * TODO(spec-landmine): Spotify has no batch-by-ISRC endpoint. The implementation
-   * must fan out over `GET /search?q=isrc:{code}&type=track` (one call per code) and
-   * must NOT send a `market` parameter — Spotify omits `available_markets` from the
-   * response whenever `market` is present, which would break the BR availability
-   * check. See `SpotifyTrackRepository`.
+   * Spotify has no batch-by-ISRC endpoint usable here — `GET /v1/tracks?ids=` answers
+   * 403 for this app tier — so the implementation fans out over
+   * `GET /search?q=isrc:{code}&type=track&market={market}`, one call per code. The
+   * `market` parameter is required: it is what makes Spotify return `is_playable`,
+   * which is the only market signal left now that `available_markets` is absent.
    */
   abstract findByIsrcs(isrcs: readonly string[]): Observable<readonly Track[]>;
 }

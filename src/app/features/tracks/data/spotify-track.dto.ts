@@ -32,7 +32,15 @@ export interface SpotifyTrackDto {
   readonly album?: SpotifyAlbumDto;
   readonly external_urls?: { readonly spotify?: string };
   readonly external_ids?: { readonly isrc?: string };
-  /** Present only when the request omits a `market` parameter. */
+  /**
+   * Whether the track can be played in the requested `market`. Present only when the
+   * request sends a `market` parameter, and now the only market signal Spotify gives:
+   * `available_markets` is absent from responses for recently created apps.
+   */
+  readonly is_playable?: boolean;
+  /** Why a track is not playable, when Spotify says. */
+  readonly restrictions?: { readonly reason?: string };
+  /** Legacy market list. Retained as a fallback for tokens that still receive it. */
   readonly available_markets?: readonly string[];
 }
 

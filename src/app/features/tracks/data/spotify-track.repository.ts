@@ -31,10 +31,15 @@ export class SpotifyTrackRepository extends TrackRepository {
   }
 
   private findByIsrc(isrc: string): Observable<Track | null> {
-    const params = new HttpParams().set('q', `isrc:${isrc}`).set('type', 'track').set('limit', 1);
-    // NOTE: deliberately no `market` param. Spotify omits `available_markets` from
-    // the response whenever `market` is sent, and that array is how the spec's BR
-    // availability flag is derived.
+    // `market` is required, not optional: Spotify no longer returns
+    // `available_markets` at all for recently created apps, and `is_playable` — the
+    // only remaining market signal, and what the spec's BR flag is built on — is
+    // returned only when this parameter is present.
+    const params = new HttpParams()
+      .set('q', `isrc:${isrc}`)
+      .set('type', 'track')
+      .set('limit', 1)
+      .set('market', this.config.targetMarket);
 
     return this.http
       .get<SpotifySearchResponseDto>(`${this.config.spotifyApiUrl}/search`, { params })

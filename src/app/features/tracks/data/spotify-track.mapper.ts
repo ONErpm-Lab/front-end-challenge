@@ -29,8 +29,21 @@ export function toTrack(
     durationMs: dto.duration_ms ?? 0,
     previewUrl: dto.preview_url ?? null,
     spotifyUrl: dto.external_urls?.spotify ?? `https://open.spotify.com/track/${dto.id}`,
-    availableInTargetMarket: (dto.available_markets ?? []).includes(targetMarket),
+    availableInTargetMarket: isAvailable(dto, targetMarket),
   };
+}
+
+/**
+ * Spotify no longer returns `available_markets` for recently created apps, so the
+ * market question is answered by `is_playable`, which comes back only when the
+ * request sends a `market`. The legacy list is still honoured when present, so a
+ * token that receives it keeps working.
+ */
+function isAvailable(dto: SpotifyTrackDto, targetMarket: string): boolean {
+  if (typeof dto.is_playable === 'boolean') {
+    return dto.is_playable;
+  }
+  return (dto.available_markets ?? []).includes(targetMarket);
 }
 
 /**

@@ -7,7 +7,7 @@ export const spotifyTrackDto = (overrides: Partial<SpotifyTrackDto> = {}): Spoti
   id: 'track-id',
   name: 'Uma Faixa',
   duration_ms: 213_000,
-  preview_url: 'https://p.scdn.co/mp3-preview/abc',
+  preview_url: null,
   artists: [{ name: 'Artista Um' }, { name: 'Artista Dois' }],
   album: {
     images: [
@@ -18,7 +18,7 @@ export const spotifyTrackDto = (overrides: Partial<SpotifyTrackDto> = {}): Spoti
   },
   external_urls: { spotify: 'https://open.spotify.com/track/track-id' },
   external_ids: { isrc: 'BRC310600002' },
-  available_markets: ['BR', 'US'],
+  is_playable: true,
   ...overrides,
 });
 
