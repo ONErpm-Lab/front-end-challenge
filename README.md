@@ -25,6 +25,66 @@ Por isso a troca de credenciais acontece em `functions/api/spotify-token.ts`, qu
 no servidor e devolve ao navegador apenas o `access_token`. O código em `src/` nunca vê
 o segredo.
 
+## Atendimento ao enunciado
+
+Todos os itens pedidos em [`docs/README.md`](docs/README.md) foram entregues. Dois
+deles não são mais possíveis da forma descrita, porque a API do Spotify deixou de
+retornar os campos correspondentes. Abaixo, o que foi verificado contra a API real e
+qual foi a substituição.
+
+| Item do enunciado                    | Situação       |
+| ------------------------------------ | -------------- |
+| Thumb do álbum                       | ✅ direto      |
+| Data de lançamento                   | ✅ direto      |
+| Título da faixa                      | ✅ direto      |
+| Lista dos artistas                   | ✅ direto      |
+| Duração em `mm:ss`                   | ✅ direto      |
+| Link para a página no Spotify        | ✅ direto      |
+| Player com prévia do áudio           | ⚠️ substituído |
+| Sinalização de disponibilidade no BR | ⚠️ substituído |
+
+### Player com prévia do áudio
+
+**Não é possível como descrito.** O campo `preview_url`, que expõe o arquivo de
+prévia de 30s, foi removido das respostas da API para aplicações criadas a partir de
+nov/2024. Nas 10 faixas do enunciado ele vem **ausente** — não nulo, o campo não
+existe. Sem arquivo, não há como alimentar um elemento `<audio>` próprio.
+
+**Substituído por** o player de incorporação oficial do Spotify
+(`open.spotify.com/embed/track/{id}`), que continua reproduzindo a prévia. O
+requisito — ouvir a prévia na própria página — é cumprido; o que muda é quem desenha
+o controle.
+
+O componente `TrackPlayer` ainda usa um `<audio>` nativo quando `preview_url` existe,
+então a decisão fica isolada em um arquivo e volta sozinha se o Spotify reverter.
+
+### Sinalização de disponibilidade no Brasil
+
+**Não é possível como descrito.** O array `available_markets`, a forma documentada de
+saber em quais países a faixa está licenciada, também não vem mais nas respostas —
+nem na busca, nem em `GET /v1/tracks/{id}`.
+
+**Substituído por** `is_playable`, que o Spotify retorna **apenas quando a requisição
+envia o parâmetro `market`**. A busca por ISRC passa `market=BR`, e o valor de
+`is_playable` vira a sinalização exibida no card.
+
+Vale registrar a armadilha: a documentação diz que enviar `market` _remove_
+`available_markets`, o que sugere não enviá-lo. Hoje isso está invertido — o array
+não vem de qualquer forma, e omitir `market` apenas descarta também o `is_playable`,
+marcando silenciosamente todas as faixas como indisponíveis.
+
+### Outras observações
+
+- **A página é pública, mas o fluxo Client Credentials exige um `client_secret`.**
+  Publicá-lo no bundle exporia a credencial, então a troca acontece em uma função
+  serverless (`functions/api/spotify-token.ts`) que devolve apenas o access token. O
+  código em `src/` continua sendo Angular puro e nunca vê o segredo.
+- **Não existe endpoint de busca em lote por ISRC**, e `GET /v1/tracks?ids=` responde
+  403 nesta camada de aplicação. A busca é feita uma por código, com concorrência
+  limitada.
+- **A API exige que o dono da aplicação tenha Spotify Premium ativo.** Sem isso todos
+  os endpoints respondem 403, independentemente das credenciais.
+
 ## Pré-requisitos
 
 - Node `^20.19 || ^22.12 || >=24`
