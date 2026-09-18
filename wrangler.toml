@@ -1,0 +1,8 @@
+name = "onerpm-isrc"
+compatibility_date = "2026-09-17"
+pages_build_output_dir = "dist/onerpm-isrc/browser"
+
+# Secrets are never stored here.
+#   local: .dev.vars (gitignored)
+#   prod : `wrangler pages secret put SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET`
+#          or the Cloudflare Pages dashboard.
