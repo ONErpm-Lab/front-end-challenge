@@ -1,5 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * How much of a release date is actually known.
+ *
+ * Lives in `shared` because both the domain model and this pipe need it, and the
+ * dependency may only point that way.
+ */
 export type DatePrecision = 'year' | 'month' | 'day';
 
 /**

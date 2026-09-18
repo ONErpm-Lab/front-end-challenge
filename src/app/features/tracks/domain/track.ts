@@ -1,3 +1,5 @@
+import type { DatePrecision } from '../../../shared/pipes/release-date.pipe';
+
 /**
  * The app's own view of a track.
  *
@@ -15,7 +17,7 @@ export interface Track {
   /** ISO-8601 date string; precision varies (`YYYY`, `YYYY-MM`, `YYYY-MM-DD`). */
   readonly releaseDate: string;
   /** How much of {@link releaseDate} is meaningful, so the UI does not invent a day. */
-  readonly releaseDatePrecision: 'year' | 'month' | 'day';
+  readonly releaseDatePrecision: DatePrecision;
   readonly durationMs: number;
   /**
    * 30-second preview stream.

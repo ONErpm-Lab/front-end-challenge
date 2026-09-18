@@ -1,3 +1,4 @@
+import type { DatePrecision } from '../../../shared/pipes/release-date.pipe';
 import type { Track } from '../domain/track';
 import type { SpotifyImageDto, SpotifyTrackDto } from './spotify-track.dto';
 
@@ -50,7 +51,7 @@ function isAvailable(dto: SpotifyTrackDto, targetMarket: string): boolean {
  * Spotify usually sends `release_date_precision`, but not always. Falling back to the
  * shape of the string keeps the UI from rendering a day it was never told.
  */
-function inferPrecision(releaseDate: string | undefined): 'year' | 'month' | 'day' {
+function inferPrecision(releaseDate: string | undefined): DatePrecision {
   const segments = (releaseDate ?? '').split('-').length;
   if (segments >= 3) return 'day';
   return segments === 2 ? 'month' : 'year';

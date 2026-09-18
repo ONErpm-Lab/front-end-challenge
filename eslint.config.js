@@ -88,8 +88,9 @@ module.exports = defineConfig([
   },
 
   // Cloudflare Pages Functions (Workers runtime: Web standards only, no Node built-ins).
+  // Their specs live in tests/ so Pages never routes or bundles them.
   {
-    files: ['functions/**/*.ts'],
+    files: ['functions/**/*.ts', 'tests/functions/**/*.ts'],
     extends: [eslint.configs.recommended, tseslint.configs.recommended],
     rules: {
       'no-restricted-globals': [
@@ -102,7 +103,7 @@ module.exports = defineConfig([
         {
           patterns: [
             {
-              group: ['node:*', '@angular/*', '../src/*', '../../src/*'],
+              group: ['node:*', '@angular/*', '**/src/*'],
               message:
                 'Workers code must not import Node built-ins or Angular application code. Share plain types only.',
             },

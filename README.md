@@ -140,18 +140,19 @@ alerta de provedor indisponível: não é bug, é o `npm run serve` faltando.
 
 ## Scripts
 
-| Comando              | O que faz                          |
-| -------------------- | ---------------------------------- |
-| `npm start`          | Dev server Angular (hot reload)    |
-| `npm run serve`      | Assets do build + functions        |
-| `npm run preview`    | Build + serve, igual à produção    |
-| `npm run build`      | Build de produção                  |
-| `npm test`           | Suíte de testes                    |
-| `npm run test:watch` | Testes em watch mode               |
-| `npm run test:cov`   | Testes com relatório de cobertura  |
-| `npm run lint`       | ESLint (`src/` e `functions/`)     |
-| `npm run format`     | Prettier                           |
-| `npm run deploy`     | Build + deploy no Cloudflare Pages |
+| Comando                  | O que faz                          |
+| ------------------------ | ---------------------------------- |
+| `npm start`              | Dev server Angular (hot reload)    |
+| `npm run serve`          | Assets do build + functions        |
+| `npm run preview`        | Build + serve, igual à produção    |
+| `npm run build`          | Build de produção                  |
+| `npm test`               | Todos os testes (app + functions)  |
+| `npm run test:functions` | Só os testes das functions         |
+| `npm run test:watch`     | Testes em watch mode               |
+| `npm run test:cov`       | Testes com relatório de cobertura  |
+| `npm run lint`           | ESLint (`src/` e `functions/`)     |
+| `npm run format`         | Prettier                           |
+| `npm run deploy`         | Build + deploy no Cloudflare Pages |
 
 ## Arquitetura
 
@@ -183,9 +184,18 @@ fronteira do container.
 npm test
 ```
 
-Cobrem o mapper e a ordenação (unitários puros), o repositório e os interceptors
-(integração com `HttpTestingController`) e a página (integração contra um
-`FakeTrackRepository`).
+São duas suítes, porque são dois runtimes:
+
+- **App** (`ng test`, jsdom) — mapper, pipes e ordenação como unitários puros; o
+  repositório, o interceptor de erro e o de autenticação com `HttpTestingController`;
+  a página contra um `FakeTrackRepository`, sem HTTP.
+- **Functions** (`vitest`, node) — a troca de credenciais e o handler HTTP, com
+  `fetch` mockado. Cobrem justamente o que não pode falhar em silêncio: o segredo
+  nunca sai na resposta, nenhum campo extra do Spotify vaza, e uma falha do provedor
+  vira 502 sem repassar o corpo do erro.
+
+Os specs das functions ficam em `tests/` e não ao lado do código porque o Cloudflare
+Pages transforma em rota qualquer arquivo dentro de `functions/`.
 
 ## Convenções de commit
 
