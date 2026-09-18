@@ -20,6 +20,7 @@ const CONFIG: AppConfig = {
   // Retries off: this suite is about request shape and error classification, and
   // backoff timers would only make it slow and flaky.
   maxRetries: 1,
+  useFixtures: false,
 };
 
 describe('SpotifyTrackRepository', () => {

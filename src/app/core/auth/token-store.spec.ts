@@ -12,6 +12,7 @@ const CONFIG: AppConfig = {
   targetMarket: 'BR',
   lookupConcurrency: 4,
   maxRetries: 1,
+  useFixtures: false,
 };
 
 describe('TokenStore', () => {
