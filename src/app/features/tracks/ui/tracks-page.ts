@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, map, of, startWith, type Observable } from 'rxjs';
 import { appError, isAppError, type AppError } from '../../../core/errors/app-error';
-import { ErrorNotifier } from '../../../core/errors/error-notifier';
 import { Alert } from '../../../shared/ui/alert/alert';
 import { Spinner } from '../../../shared/ui/spinner/spinner';
 import { REQUESTED_ISRCS } from '../domain/isrc-catalog';
@@ -90,7 +89,6 @@ type TracksView =
 })
 export class TracksPage {
   private readonly repository = inject(TrackRepository);
-  private readonly notifier = inject(ErrorNotifier);
 
   protected readonly requestedCount = REQUESTED_ISRCS.length;
 
@@ -120,7 +118,6 @@ export class TracksPage {
         const error = isAppError(raw)
           ? raw
           : appError('unknown', 'Ocorreu um erro inesperado.', raw);
-        this.notifier.notify(error);
         return of({ status: 'failed', error } as TracksView);
       }),
     );

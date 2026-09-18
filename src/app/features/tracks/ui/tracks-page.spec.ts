@@ -1,7 +1,6 @@
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { appError, type AppError } from '../../../core/errors/app-error';
-import { ErrorNotifier } from '../../../core/errors/error-notifier';
 import { REQUESTED_ISRCS } from '../domain/isrc-catalog';
 import type { Track } from '../domain/track';
 import { TrackRepository } from '../domain/track-repository';
@@ -80,12 +79,5 @@ describe('TracksPage', () => {
     expect(alert).toBeTruthy();
     expect(alert.textContent).toContain('indisponível');
     expect(titlesOf(fixture.nativeElement)).toHaveLength(0);
-  });
-
-  it('reports the failure to the notifier so the shell can react to it too', async () => {
-    const fixture = setup(appError('network', 'Sem conexão.'));
-    await fixture.whenStable();
-
-    expect(TestBed.inject(ErrorNotifier).error()?.kind).toBe('network');
   });
 });

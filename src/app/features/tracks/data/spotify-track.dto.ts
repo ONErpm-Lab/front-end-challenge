@@ -38,8 +38,6 @@ export interface SpotifyTrackDto {
    * `available_markets` is absent from responses for recently created apps.
    */
   readonly is_playable?: boolean;
-  /** Why a track is not playable, when Spotify says. */
-  readonly restrictions?: { readonly reason?: string };
   /** Legacy market list. Retained as a fallback for tokens that still receive it. */
   readonly available_markets?: readonly string[];
 }

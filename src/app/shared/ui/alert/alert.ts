@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 export type AlertTone = 'error' | 'warning' | 'info';
 
@@ -22,17 +22,6 @@ export type AlertTone = 'error' | 'warning' | 'info';
           <p class="mt-1 opacity-90">{{ message() }}</p>
         }
       </div>
-
-      @if (dismissible()) {
-        <button
-          type="button"
-          class="rounded p-1 opacity-70 transition hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2"
-          [attr.aria-label]="dismissLabel()"
-          (click)="dismissed.emit()"
-        >
-          &times;
-        </button>
-      }
     </div>
   `,
 })
@@ -40,10 +29,6 @@ export class Alert {
   readonly title = input.required<string>();
   readonly message = input<string>();
   readonly tone = input<AlertTone>('error');
-  readonly dismissible = input(false);
-  readonly dismissLabel = input('Fechar alerta');
-
-  readonly dismissed = output<void>();
 
   protected readonly toneClasses: Record<AlertTone, string> = {
     error: 'border-red-300 bg-red-50 text-red-900',
