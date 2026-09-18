@@ -1,71 +1,111 @@
-## Início
+# ONErpm · Faixas por ISRC
 
-Bem vindo ao mundo da música!
+Página pública que resolve códigos ISRC na Spotify Web API e exibe os dados de cada
+faixa, ordenados alfabeticamente por título.
 
-Atualmente temos a necessidade de consumir os dados de faixas musicais através do código ISRC, que é uma das coisas mais importantes na indústria fonográfica.
+O enunciado original do desafio está em [`docs/README.md`](docs/README.md).
 
-Segundo [Abramus](https://www.abramus.org.br/musica/isrc/), ISRC (International Standard Recording Code ou Código de Gravação Padrão Internacional) é um padrão internacional de código para identificar de forma única as gravações (faixas).
+## Stack
 
-Ele funciona como um código de barras da faixa.
+| Camada     | Escolha                                                           |
+| ---------- | ----------------------------------------------------------------- |
+| Framework  | Angular 21 (LTS), standalone, zoneless, change detection `OnPush` |
+| Linguagem  | TypeScript strict                                                 |
+| Assíncrono | RxJS 7                                                            |
+| Estilo     | Tailwind CSS v4 (via PostCSS)                                     |
+| Testes     | Vitest (unitários e de integração) + `HttpTestingController`      |
+| Backend    | Cloudflare Pages Function (apenas para o token do Spotify)        |
 
+## Por que existe um backend
 
-## Problema
+O fluxo _Client Credentials_ do Spotify exige um `client_secret`, e o enunciado pede
+uma página **pública**. Colocar o segredo no bundle o tornaria público junto com ela.
 
-Durante o fechamento de contrato com um produtor, foram informados 10 ISRC's que não constam em nossas bases de dados, que seguem abaixo:
+Por isso a troca de credenciais acontece em `functions/api/spotify-token.ts`, que roda
+no servidor e devolve ao navegador apenas o `access_token`. O código em `src/` nunca vê
+o segredo.
 
-* NO1R42509310
-* NO1R42511410
-* BRC310600002
-* BR1SP1200071
-* BR1SP1200070
-* BR1SP1500002
-* BXKZM1900338
-* BXKZM1900345
-* QZNJX2081700
-* QZNJX2078148
+## Pré-requisitos
 
-Precisamos obter e exibir os seguintes dados:
+- Node `^20.19 || ^22.12 || >=24`
+- npm `>= 11` (o npm 10 não resolve a árvore de dependências do Vitest 4; para apenas
+  instalar a partir do lockfile, `npm ci` funciona em ambas as versões)
+- Uma app registrada em [developer.spotify.com](https://developer.spotify.com/dashboard)
 
-* Thumb do álbum
-* Data de lançamento
-* Título da faixa
-* Lista dos artistas da faixa
-* Duração da faixa em minutos e segundos (mm:ss)
-* Player com prévia do áudio
-* Link para a página da faixa no Spotify
-* Sinalização dizendo se a faixa está ou não disponível no Brasil (BR)
+## Configuração
 
-Por decisão técnica, precisamos exibí-los através de uma webpage pública, ordenados por título da faixa de forma alfabética, sem necessidade de armazenamento para consulta posterior.
+```bash
+npm ci
+cp .dev.vars.example .dev.vars   # preencha SPOTIFY_CLIENT_ID e SPOTIFY_CLIENT_SECRET
+```
 
-Caso a integração com o fornecedor dos dados não esteja disponível, um alerta deve ser dado ao usuário.
+`.dev.vars` é ignorado pelo git. Em produção, use
+`wrangler pages secret put SPOTIFY_CLIENT_ID` (e o mesmo para o secret) ou o painel do
+Cloudflare Pages.
 
+## Desenvolvimento
 
-## Requisitos
+São dois processos: a função serverless e o dev server do Angular, que faz proxy de
+`/api` para ela (`proxy.conf.json`).
 
-* Faça um fork deste repositório e abra um PR quando estiver finalizado.
-* O frontend deve ser no  deve ser feito em Angular versão LTS.
-* A página deve ser responsiva para atender todos os tipos de dispositivos.
-* Use a API do Spotify: [https://developer.spotify.com/](https://developer.spotify.com/) para coletar os dados das faixas.
+```bash
+npm run dev:api   # http://localhost:8788  (wrangler pages dev)
+npm start         # http://localhost:4200
+```
 
+## Scripts
 
-## Diferencial
+| Comando              | O que faz                          |
+| -------------------- | ---------------------------------- |
+| `npm start`          | Dev server com proxy para `/api`   |
+| `npm run dev:api`    | Pages Function local (wrangler)    |
+| `npm run build`      | Build de produção                  |
+| `npm test`           | Suíte de testes                    |
+| `npm run test:watch` | Testes em watch mode               |
+| `npm run test:cov`   | Testes com relatório de cobertura  |
+| `npm run lint`       | ESLint (`src/` e `functions/`)     |
+| `npm run format`     | Prettier                           |
+| `npm run deploy`     | Build + deploy no Cloudflare Pages |
 
-* Desenvolver testes unitários e de integração.
+## Arquitetura
 
+Dependências apontam em uma única direção: `features → shared → core`. O ESLint
+reprova qualquer import que contrarie isso, então a regra não depende de disciplina.
 
-## O que será avaliado
+```
+src/app/
+├── core/       # singletons da aplicação: config, HTTP, token, erros
+├── shared/     # apresentacional e reutilizável, sem conhecer o domínio
+└── features/
+    └── tracks/
+        ├── domain/   # Track, contrato do repositório, regras (ordenação)
+        ├── data/     # DTOs do Spotify, mapper, implementação HTTP
+        └── ui/       # container + componentes de apresentação
+```
 
-* Fidelidade às instruções.
-* Padrões de projeto.
-* Clean Code e boas práticas.
-* Boas práticas de versionamento.
+O ponto central é `TrackRepository`, uma classe abstrata que serve de token de DI. A
+página injeta o contrato, nunca a implementação: trocar o Spotify por outro provedor é
+adicionar uma classe, e testar a página é fornecer um fake — sem tocar no componente.
 
+RxJS cuida do assíncrono (token, fan-out das buscas, retry com backoff, erros); signals
+cuidam do estado de view. A conversão acontece uma única vez, com `toSignal()`, na
+fronteira do container.
 
-## Perfil que buscamos
+## Testes
 
-* Comunicativo
-* Autodidata
-* Automotivado
-* Curioso
-* Gostar de trabalhar em equipe
-* Compromissado
+```bash
+npm test
+```
+
+Cobrem o mapper e a ordenação (unitários puros), o repositório e os interceptors
+(integração com `HttpTestingController`) e a página (integração contra um
+`FakeTrackRepository`).
+
+## Convenções de commit
+
+[Conventional Commits](https://www.conventionalcommits.org/), validados por commitlint
+em um hook do husky. O hook de pre-commit roda ESLint e Prettier nos arquivos em stage.
+
+```
+feat(tracks): exibe disponibilidade no mercado BR
+```
