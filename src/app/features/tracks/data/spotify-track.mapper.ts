@@ -22,7 +22,7 @@ export function toTrack(
     id: dto.id,
     title: dto.name,
     artists: (dto.artists ?? []).map((artist) => artist.name).filter(isNonEmpty),
-    albumImageUrl: pickLargestImage(dto.album?.images),
+    albumImageUrl: pickCoverImage(dto.album?.images),
     releaseDate: dto.album?.release_date ?? '',
     releaseDatePrecision:
       dto.album?.release_date_precision ?? inferPrecision(dto.album?.release_date),
@@ -56,14 +56,35 @@ function inferPrecision(releaseDate: string | undefined): 'year' | 'month' | 'da
   return segments === 2 ? 'month' : 'year';
 }
 
-/** Spotify returns covers largest-first, but we do not depend on that ordering. */
-function pickLargestImage(images: readonly SpotifyImageDto[] | undefined): string | null {
+/**
+ * Roughly the widest a cover is ever rendered: one card in a three-column grid on a
+ * desktop, or a single column on a phone.
+ */
+const PREFERRED_COVER_WIDTH = 300;
+
+/**
+ * Picks the smallest cover that is still big enough to render sharply, rather than
+ * the largest available.
+ *
+ * Spotify offers 640, 300 and 64 pixel variants. Taking 640 for a ~300px slot costs
+ * roughly four times the bytes per card, ten times over, for no visible gain. Falls
+ * back to the largest on offer when everything is smaller than we want, and does not
+ * assume Spotify's ordering.
+ */
+function pickCoverImage(images: readonly SpotifyImageDto[] | undefined): string | null {
   if (!images?.length) {
     return null;
   }
-  return images.reduce((largest, image) =>
-    (image.width ?? 0) > (largest.width ?? 0) ? image : largest,
-  ).url;
+
+  const bigEnough = images.filter((image) => (image.width ?? 0) >= PREFERRED_COVER_WIDTH);
+
+  const chosen = bigEnough.length
+    ? // Smallest of the acceptable ones.
+      bigEnough.reduce((best, image) => ((image.width ?? 0) < (best.width ?? 0) ? image : best))
+    : // Nothing is big enough, so take the best available.
+      images.reduce((best, image) => ((image.width ?? 0) > (best.width ?? 0) ? image : best));
+
+  return chosen.url;
 }
 
 const isNonEmpty = (value: string | undefined): value is string =>

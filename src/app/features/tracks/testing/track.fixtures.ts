@@ -11,8 +11,10 @@ export const spotifyTrackDto = (overrides: Partial<SpotifyTrackDto> = {}): Spoti
   artists: [{ name: 'Artista Um' }, { name: 'Artista Dois' }],
   album: {
     images: [
-      { url: 'https://i.scdn.co/image/small', width: 64, height: 64 },
-      { url: 'https://i.scdn.co/image/large', width: 640, height: 640 },
+      // The three sizes Spotify actually returns.
+      { url: 'https://i.scdn.co/image/640', width: 640, height: 640 },
+      { url: 'https://i.scdn.co/image/300', width: 300, height: 300 },
+      { url: 'https://i.scdn.co/image/64', width: 64, height: 64 },
     ],
     release_date: '2019-07-12',
   },
@@ -27,7 +29,7 @@ export const track = (overrides: Partial<Track> = {}): Track => ({
   id: 'track-id',
   title: 'Uma Faixa',
   artists: ['Artista Um'],
-  albumImageUrl: 'https://i.scdn.co/image/large',
+  albumImageUrl: 'https://i.scdn.co/image/300',
   releaseDate: '2019-07-12',
   releaseDatePrecision: 'day',
   durationMs: 213_000,

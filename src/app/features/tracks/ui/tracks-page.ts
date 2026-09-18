@@ -51,17 +51,15 @@ type TracksView =
 
         @case ('loaded') {
           @if (tracks().length) {
-            @if (missingCount(); as missing) {
-              <!-- Partial success is not failure, but hiding it would be dishonest. -->
+            @if (unresolvedIsrcs().length) {
+              <!--
+                Naming the codes matters: the brief frames this as closing a contract
+                over ten specific ISRCs, so "which one failed" is the actionable part.
+              -->
               <div class="mb-4">
                 <onerpm-alert
                   title="Algumas faixas não foram encontradas"
-                  [message]="
-                    missing +
-                    ' dos ' +
-                    requestedCount +
-                    ' códigos ISRC não retornaram resultado no Spotify.'
-                  "
+                  [message]="unresolvedMessage()"
                   tone="warning"
                 />
               </div>
@@ -106,8 +104,27 @@ export class TracksPage {
     return current.status === 'failed' ? current.error : null;
   });
 
-  /** Zero is falsy, which is exactly the "say nothing" case for the `@if` above. */
-  protected readonly missingCount = computed(() => this.requestedCount - this.tracks().length);
+  /**
+   * The requested codes Spotify returned nothing for.
+   *
+   * Derived by difference rather than reported by the repository: every `Track`
+   * carries the ISRC it was looked up by (the mapper falls back to the requested code
+   * when Spotify omits it), so the contract stays one method wide.
+   */
+  protected readonly unresolvedIsrcs = computed<readonly string[]>(() => {
+    const resolved = new Set(this.tracks().map((track) => track.isrc));
+    return REQUESTED_ISRCS.filter((isrc) => !resolved.has(isrc));
+  });
+
+  protected readonly unresolvedMessage = computed(() => {
+    const missing = this.unresolvedIsrcs();
+    // "dos ... códigos" stays plural in pt-BR whatever the count; the verb agrees.
+    const verb = missing.length > 1 ? 'retornaram' : 'retornou';
+    return (
+      `${missing.length} dos ${this.requestedCount} códigos ISRC não ${verb} ` +
+      `resultado no Spotify: ${missing.join(', ')}.`
+    );
+  });
 
   private loadTracks(): Observable<TracksView> {
     return this.repository.findByIsrcs(REQUESTED_ISRCS).pipe(

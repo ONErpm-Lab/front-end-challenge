@@ -12,7 +12,7 @@ describe('toTrack', () => {
       id: 'track-id',
       title: 'Uma Faixa',
       artists: ['Artista Um', 'Artista Dois'],
-      albumImageUrl: 'https://i.scdn.co/image/large',
+      albumImageUrl: 'https://i.scdn.co/image/300',
       releaseDate: '2019-07-12',
       releaseDatePrecision: 'day',
       durationMs: 213_000,
@@ -22,17 +22,46 @@ describe('toTrack', () => {
     });
   });
 
-  it('picks the largest album image regardless of response ordering', () => {
+  it('picks the smallest cover still big enough to render sharply', () => {
     const dto = spotifyTrackDto({
       album: {
         images: [
-          { url: 'https://i.scdn.co/image/large', width: 640 },
-          { url: 'https://i.scdn.co/image/small', width: 64 },
+          { url: 'https://i.scdn.co/image/640', width: 640 },
+          { url: 'https://i.scdn.co/image/300', width: 300 },
+          { url: 'https://i.scdn.co/image/64', width: 64 },
         ],
       },
     });
 
-    expect(toTrack(dto, 'X', MARKET)?.albumImageUrl).toBe('https://i.scdn.co/image/large');
+    // 640 would cost roughly four times the bytes for a slot this size.
+    expect(toTrack(dto, 'X', MARKET)?.albumImageUrl).toBe('https://i.scdn.co/image/300');
+  });
+
+  it('does not depend on the order Spotify lists the covers in', () => {
+    const dto = spotifyTrackDto({
+      album: {
+        images: [
+          { url: 'https://i.scdn.co/image/64', width: 64 },
+          { url: 'https://i.scdn.co/image/640', width: 640 },
+          { url: 'https://i.scdn.co/image/300', width: 300 },
+        ],
+      },
+    });
+
+    expect(toTrack(dto, 'X', MARKET)?.albumImageUrl).toBe('https://i.scdn.co/image/300');
+  });
+
+  it('falls back to the largest when every cover is smaller than preferred', () => {
+    const dto = spotifyTrackDto({
+      album: {
+        images: [
+          { url: 'https://i.scdn.co/image/64', width: 64 },
+          { url: 'https://i.scdn.co/image/160', width: 160 },
+        ],
+      },
+    });
+
+    expect(toTrack(dto, 'X', MARKET)?.albumImageUrl).toBe('https://i.scdn.co/image/160');
   });
 
   it('reports availability from is_playable, which is what Spotify returns today', () => {

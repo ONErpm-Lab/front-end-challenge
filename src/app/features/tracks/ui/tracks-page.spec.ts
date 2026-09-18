@@ -43,13 +43,31 @@ describe('TracksPage', () => {
     expect(titlesOf(fixture.nativeElement)).toEqual(['Alegria', 'Marimbondo', 'Zumbi']);
   });
 
-  it('warns when fewer codes resolved than were requested', async () => {
-    const fixture = setup([track()]);
+  it('names every ISRC that Spotify returned nothing for', async () => {
+    const [resolved, ...unresolved] = REQUESTED_ISRCS;
+    const fixture = setup([track({ isrc: resolved })]);
     await fixture.whenStable();
 
     const alert = fixture.nativeElement.querySelector('[role="alert"]');
-    expect(alert.textContent).toContain('não foram encontradas');
-    expect(alert.textContent).toContain(String(REQUESTED_ISRCS.length - 1));
+    expect(alert.textContent).toContain('não retornaram');
+
+    // The codes are the actionable part: this closes a contract over specific ISRCs.
+    for (const isrc of unresolved) {
+      expect(alert.textContent).toContain(isrc);
+    }
+    expect(alert.textContent).not.toContain(resolved);
+  });
+
+  it('uses the singular when exactly one code is unresolved', async () => {
+    const resolved = REQUESTED_ISRCS.slice(0, -1).map((isrc, i) =>
+      track({ isrc, id: `id-${i}`, title: `Faixa ${i}` }),
+    );
+    const fixture = setup(resolved);
+    await fixture.whenStable();
+
+    const alert = fixture.nativeElement.querySelector('[role="alert"]');
+    expect(alert.textContent).toContain('1 dos 10 códigos ISRC não retornou');
+    expect(alert.textContent).toContain(REQUESTED_ISRCS[REQUESTED_ISRCS.length - 1]);
   });
 
   it('renders no alert when every code resolved', async () => {
