@@ -1,0 +1,5 @@
+# Copy to `.dev.vars` (gitignored) and fill in with your own Spotify app credentials.
+# Create an app at https://developer.spotify.com/dashboard
+# These are read by the Pages Function only — they must never reach src/.
+SPOTIFY_CLIENT_ID=
+SPOTIFY_CLIENT_SECRET=

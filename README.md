@@ -1,71 +1,207 @@
-## Início
+# ONErpm · Faixas por ISRC
 
-Bem vindo ao mundo da música!
+Página pública que resolve códigos ISRC na Spotify Web API e exibe os dados de cada
+faixa, ordenados alfabeticamente por título.
 
-Atualmente temos a necessidade de consumir os dados de faixas musicais através do código ISRC, que é uma das coisas mais importantes na indústria fonográfica.
+O enunciado original do desafio está em [`docs/README.md`](docs/README.md).
 
-Segundo [Abramus](https://www.abramus.org.br/musica/isrc/), ISRC (International Standard Recording Code ou Código de Gravação Padrão Internacional) é um padrão internacional de código para identificar de forma única as gravações (faixas).
+## Stack
 
-Ele funciona como um código de barras da faixa.
+| Camada     | Escolha                                                           |
+| ---------- | ----------------------------------------------------------------- |
+| Framework  | Angular 21 (LTS), standalone, zoneless, change detection `OnPush` |
+| Linguagem  | TypeScript strict                                                 |
+| Assíncrono | RxJS 7                                                            |
+| Estilo     | Tailwind CSS v4 (via PostCSS)                                     |
+| Testes     | Vitest (unitários e de integração) + `HttpTestingController`      |
+| Backend    | Cloudflare Pages Function (apenas para o token do Spotify)        |
 
+## Por que existe um backend
 
-## Problema
+O fluxo _Client Credentials_ do Spotify exige um `client_secret`, e o enunciado pede
+uma página **pública**. Colocar o segredo no bundle o tornaria público junto com ela.
 
-Durante o fechamento de contrato com um produtor, foram informados 10 ISRC's que não constam em nossas bases de dados, que seguem abaixo:
+Por isso a troca de credenciais acontece em `functions/api/spotify-token.ts`, que roda
+no servidor e devolve ao navegador apenas o `access_token`. O código em `src/` nunca vê
+o segredo.
 
-* NO1R42509310
-* NO1R42511410
-* BRC310600002
-* BR1SP1200071
-* BR1SP1200070
-* BR1SP1500002
-* BXKZM1900338
-* BXKZM1900345
-* QZNJX2081700
-* QZNJX2078148
+## Atendimento ao enunciado
 
-Precisamos obter e exibir os seguintes dados:
+Todos os itens pedidos em [`docs/README.md`](docs/README.md) foram entregues. Dois
+deles não são mais possíveis da forma descrita, porque a API do Spotify deixou de
+retornar os campos correspondentes. Abaixo, o que foi verificado contra a API real e
+qual foi a substituição.
 
-* Thumb do álbum
-* Data de lançamento
-* Título da faixa
-* Lista dos artistas da faixa
-* Duração da faixa em minutos e segundos (mm:ss)
-* Player com prévia do áudio
-* Link para a página da faixa no Spotify
-* Sinalização dizendo se a faixa está ou não disponível no Brasil (BR)
+| Item do enunciado                    | Situação       |
+| ------------------------------------ | -------------- |
+| Thumb do álbum                       | ✅ direto      |
+| Data de lançamento                   | ✅ direto      |
+| Título da faixa                      | ✅ direto      |
+| Lista dos artistas                   | ✅ direto      |
+| Duração em `mm:ss`                   | ✅ direto      |
+| Link para a página no Spotify        | ✅ direto      |
+| Player com prévia do áudio           | ⚠️ substituído |
+| Sinalização de disponibilidade no BR | ⚠️ substituído |
 
-Por decisão técnica, precisamos exibí-los através de uma webpage pública, ordenados por título da faixa de forma alfabética, sem necessidade de armazenamento para consulta posterior.
+### Player com prévia do áudio
 
-Caso a integração com o fornecedor dos dados não esteja disponível, um alerta deve ser dado ao usuário.
+**Não é possível como descrito.** O campo `preview_url`, que expõe o arquivo de
+prévia de 30s, foi removido das respostas da API para aplicações criadas a partir de
+nov/2024. Nas 10 faixas do enunciado ele vem **ausente** — não nulo, o campo não
+existe. Sem arquivo, não há como alimentar um elemento `<audio>` próprio.
 
+**Substituído por** o player de incorporação oficial do Spotify
+(`open.spotify.com/embed/track/{id}`), que continua reproduzindo a prévia. O
+requisito — ouvir a prévia na própria página — é cumprido; o que muda é quem desenha
+o controle.
 
-## Requisitos
+O componente `TrackPlayer` ainda usa um `<audio>` nativo quando `preview_url` existe,
+então a decisão fica isolada em um arquivo e volta sozinha se o Spotify reverter.
 
-* Faça um fork deste repositório e abra um PR quando estiver finalizado.
-* O frontend deve ser no  deve ser feito em Angular versão LTS.
-* A página deve ser responsiva para atender todos os tipos de dispositivos.
-* Use a API do Spotify: [https://developer.spotify.com/](https://developer.spotify.com/) para coletar os dados das faixas.
+### Sinalização de disponibilidade no Brasil
 
+**Não é possível como descrito.** O array `available_markets`, a forma documentada de
+saber em quais países a faixa está licenciada, também não vem mais nas respostas —
+nem na busca, nem em `GET /v1/tracks/{id}`.
 
-## Diferencial
+**Substituído por** `is_playable`, que o Spotify retorna **apenas quando a requisição
+envia o parâmetro `market`**. A busca por ISRC passa `market=BR`, e o valor de
+`is_playable` vira a sinalização exibida no card.
 
-* Desenvolver testes unitários e de integração.
+Vale registrar a armadilha: a documentação diz que enviar `market` _remove_
+`available_markets`, o que sugere não enviá-lo. Hoje isso está invertido — o array
+não vem de qualquer forma, e omitir `market` apenas descarta também o `is_playable`,
+marcando silenciosamente todas as faixas como indisponíveis.
 
+### Outras observações
 
-## O que será avaliado
+- **A página é pública, mas o fluxo Client Credentials exige um `client_secret`.**
+  Publicá-lo no bundle exporia a credencial, então a troca acontece em uma função
+  serverless (`functions/api/spotify-token.ts`) que devolve apenas o access token. O
+  código em `src/` continua sendo Angular puro e nunca vê o segredo.
+- **Não existe endpoint de busca em lote por ISRC**, e `GET /v1/tracks?ids=` responde
+  403 nesta camada de aplicação. A busca é feita uma por código, com concorrência
+  limitada.
+- **A API exige que o dono da aplicação tenha Spotify Premium ativo.** Sem isso todos
+  os endpoints respondem 403, independentemente das credenciais.
 
-* Fidelidade às instruções.
-* Padrões de projeto.
-* Clean Code e boas práticas.
-* Boas práticas de versionamento.
+## Pré-requisitos
 
+- Node `^20.19 || ^22.12 || >=24`
+- npm `>= 11` (o npm 10 não resolve a árvore de dependências do Vitest 4; para apenas
+  instalar a partir do lockfile, `npm ci` funciona em ambas as versões)
+- Uma app registrada em [developer.spotify.com](https://developer.spotify.com/dashboard)
 
-## Perfil que buscamos
+## Configuração
 
-* Comunicativo
-* Autodidata
-* Automotivado
-* Curioso
-* Gostar de trabalhar em equipe
-* Compromissado
+```bash
+npm ci
+cp .dev.vars.example .dev.vars   # preencha SPOTIFY_CLIENT_ID e SPOTIFY_CLIENT_SECRET
+```
+
+`.dev.vars` é ignorado pelo git. Em produção, use
+`wrangler pages secret put SPOTIFY_CLIENT_ID` (e o mesmo para o secret) ou o painel do
+Cloudflare Pages.
+
+## Desenvolvimento
+
+Há dois modos, e vale saber qual você quer antes de rodar.
+
+| Modo      | Comando(s)                        | Porta | Hot reload | Igual à produção                     |
+| --------- | --------------------------------- | ----- | ---------- | ------------------------------------ |
+| **Ver**   | `npm run preview`                 | 8788  | ❌         | ✅ mesmo servir do Cloudflare Pages  |
+| **Mexer** | `npm run serve` **+** `npm start` | 4200  | ✅         | ❌ proxy de `/api` para a porta 8788 |
+
+### Só quero ver rodando
+
+```bash
+npm run preview   # http://localhost:8788
+```
+
+Um comando só. O `wrangler pages dev` serve o build estático **e** as functions na
+mesma porta, exatamente como o Cloudflare Pages faz — então o que você vê aqui é o
+que vai ao ar.
+
+O detalhe: ele serve o conteúdo de `dist/`, não o código-fonte. Editar um arquivo não
+muda nada até rodar o build de novo (é o que o `preview` faz antes de subir).
+
+### Vou mexer no código
+
+```bash
+npm run serve   # http://localhost:8788 — functions + assets
+npm start       # http://localhost:4200 — dev server com hot reload
+```
+
+Dois processos. O dev server do Angular faz proxy de `/api` para a porta 8788
+(`proxy.conf.json`), então é nele que você abre o navegador.
+
+Rodar só o `npm start` dá `ECONNREFUSED` em `/api/spotify-token` e a página mostra o
+alerta de provedor indisponível: não é bug, é o `npm run serve` faltando.
+
+## Scripts
+
+| Comando                  | O que faz                          |
+| ------------------------ | ---------------------------------- |
+| `npm start`              | Dev server Angular (hot reload)    |
+| `npm run serve`          | Assets do build + functions        |
+| `npm run preview`        | Build + serve, igual à produção    |
+| `npm run build`          | Build de produção                  |
+| `npm test`               | Todos os testes (app + functions)  |
+| `npm run test:functions` | Só os testes das functions         |
+| `npm run test:watch`     | Testes em watch mode               |
+| `npm run test:cov`       | Testes com relatório de cobertura  |
+| `npm run lint`           | ESLint (`src/` e `functions/`)     |
+| `npm run format`         | Prettier                           |
+| `npm run deploy`         | Build + deploy no Cloudflare Pages |
+
+## Arquitetura
+
+Dependências apontam em uma única direção: `features → shared → core`. O ESLint
+reprova qualquer import que contrarie isso, então a regra não depende de disciplina.
+
+```
+src/app/
+├── core/       # singletons da aplicação: config, HTTP, token, erros
+├── shared/     # apresentacional e reutilizável, sem conhecer o domínio
+└── features/
+    └── tracks/
+        ├── domain/   # Track, contrato do repositório, regras (ordenação)
+        ├── data/     # DTOs do Spotify, mapper, implementação HTTP
+        └── ui/       # container + componentes de apresentação
+```
+
+O ponto central é `TrackRepository`, uma classe abstrata que serve de token de DI. A
+página injeta o contrato, nunca a implementação: trocar o Spotify por outro provedor é
+adicionar uma classe, e testar a página é fornecer um fake — sem tocar no componente.
+
+RxJS cuida do assíncrono (token, fan-out das buscas, retry com backoff, erros); signals
+cuidam do estado de view. A conversão acontece uma única vez, com `toSignal()`, na
+fronteira do container.
+
+## Testes
+
+```bash
+npm test
+```
+
+São duas suítes, porque são dois runtimes:
+
+- **App** (`ng test`, jsdom) — mapper, pipes e ordenação como unitários puros; o
+  repositório, o interceptor de erro e o de autenticação com `HttpTestingController`;
+  a página contra um `FakeTrackRepository`, sem HTTP.
+- **Functions** (`vitest`, node) — a troca de credenciais e o handler HTTP, com
+  `fetch` mockado. Cobrem justamente o que não pode falhar em silêncio: o segredo
+  nunca sai na resposta, nenhum campo extra do Spotify vaza, e uma falha do provedor
+  vira 502 sem repassar o corpo do erro.
+
+Os specs das functions ficam em `tests/` e não ao lado do código porque o Cloudflare
+Pages transforma em rota qualquer arquivo dentro de `functions/`.
+
+## Convenções de commit
+
+[Conventional Commits](https://www.conventionalcommits.org/), validados por commitlint
+em um hook do husky. O hook de pre-commit roda ESLint e Prettier nos arquivos em stage.
+
+```
+feat(tracks): exibe disponibilidade no mercado BR
+```
