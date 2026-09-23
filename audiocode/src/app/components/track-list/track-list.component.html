@@ -1,0 +1,79 @@
+<div class="container">
+    <header class="header">
+        <img src="/logo-audiocode.png" class="brand__logo" alt="Audiocode" />
+    </header>
+
+    <div class="track-search">
+        <input
+            id="track-search-input"
+            type="search"
+            placeholder="Digite o nome da faixa ou do artista"
+            [value]="searchTerm"
+            (input)="searchTerm = $any($event.target).value"
+        />
+    </div>
+
+    <main class="main-content">
+        @if (isLoading) {
+        <div class="loading-container">
+            <div class="spinner"></div>
+            <p>Carregando faixas...</p>
+        </div>
+        }
+
+        @if (hasError) {
+        <div class="error-container">
+            <div class="error-icon">⚠️</div>
+            <h2>Ops! Algo deu errado</h2>
+            <p>{{ errorMessage }}</p>
+            <button class="btn-retry" (click)="loadTracks()">Tentar novamente</button>
+        </div>
+        }
+
+        @if (!isLoading && !hasError && (tracks$ | async); as tracks) {
+        @if (getFilteredTracks(tracks).length === 0) {
+        <div class="empty-state">
+            <p>{{ searchTerm ? 'Nenhuma faixa ou artista encontrado.' : 'Nenhuma faixa encontrada.' }}</p>
+        </div>
+        } @else {
+        <div class="tracks-grid">
+            @for (track of getFilteredTracks(tracks); track track.isrc) {
+            <article
+                class="track-card"
+                [class.track-card--selected]="selectedTrack?.isrc === track.isrc"
+            >
+                <div
+                    class="track-card__summary"
+                    tabindex="0"
+                    role="button"
+                    [attr.aria-expanded]="selectedTrack?.isrc === track.isrc"
+                    (click)="toggleTrack(track)"
+                    (keydown.enter)="toggleTrack(track)"
+                    (keydown.space)="toggleTrack(track); $event.preventDefault()"
+                >
+                    <img [src]="track.albumThumb" [alt]="track.title" />
+                    <div class="track-card__content">
+                        <h2>{{ track.title }}</h2>
+                        <p>{{ track.artists.join(', ') }}</p>
+                        <p>{{ track.durationFormated }}</p>
+                        <p>{{ track.releaseDate | date:'dd/MM/yyyy' }}</p>
+                    </div>
+                    <span class="track-card__chevron" aria-hidden="true">⌄</span>
+                </div>
+
+                @if (selectedTrack?.isrc === track.isrc) {
+                <div class="track-card__details">
+                    <app-track-item [track]="track"></app-track-item>
+                </div>
+                }
+            </article>
+            }
+        </div>
+        }
+        }
+    </main>
+
+    <footer class="footer">
+        <p>Dados fornecidos pela API do Spotify • {{ isrcs.length }} ISRCs consultados</p>
+    </footer>
+</div>

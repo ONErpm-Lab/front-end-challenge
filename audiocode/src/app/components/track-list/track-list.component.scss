@@ -1,0 +1,183 @@
+/* Contentor da lista de cartões (opcional, para dar espaço entre eles) */
+.container,
+.main-content,
+.tracks-grid,
+.selected-track {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.main-content,
+.selected-track {
+  overflow-x: hidden;
+}
+
+.track-search {
+  width: 100%;
+  max-width: 100%;
+  margin: 20px 0 24px;
+}
+
+.track-search label {
+  display: block;
+  margin-bottom: 8px;
+  color: #303638;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.track-search input {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 12px 16px;
+  border: 1px solid #cfd5d8;
+  border-radius: 8px;
+  color: #303638;
+  font: inherit;
+  background: #fff;
+}
+
+.track-search input:focus {
+  border-color: #e7793d;
+  outline: 3px solid rgba(231, 121, 61, .2);
+}
+
+.tracks-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* O cartão principal da faixa */
+.track-card {
+  display: flex; /* Esta é a regra mágica que coloca lado a lado */
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  align-items: flex-start; /* Alinha o texto pelo topo da imagem */
+  gap: 24px; /* Espaço entre a imagem e os textos */
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #dfe3e5;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.track-card__summary {
+  display: flex;
+  width: 100%;
+  flex: 0 0 auto;
+  min-width: 0;
+  align-items: center;
+  gap: 24px;
+  cursor: pointer;
+}
+
+.track-card__summary:focus-visible {
+  outline: 3px solid #e7793d;
+  outline-offset: 2px;
+}
+
+.track-card__chevron {
+  margin-left: auto;
+  color: #e7793d;
+  font-size: 24px;
+  line-height: 1;
+  transform: rotate(0deg);
+  transition: transform .2s ease;
+}
+
+.track-card--selected .track-card__chevron {
+  transform: rotate(180deg);
+}
+
+.track-card__details {
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #dfe3e5;
+}
+
+.track-card:focus-visible,
+.track-card--selected {
+  outline: 3px solid #e7793d;
+  outline-offset: 2px;
+}
+
+.selected-track {
+  margin-top: 32px;
+}
+
+.selected-track h2 {
+  margin-bottom: 16px;
+  color: #303638;
+}
+
+@media (max-width: 480px) {
+  .track-card__summary {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .track-card__summary .track-card__content {
+    flex: 1;
+  }
+}
+
+/* Tamanho fixo e proporção da imagem */
+.track-card img {
+  width: 100px; /* Tamanho muito mais reduzido */
+  height: 100px;
+  object-fit: cover; /* Garante que a imagem não fica distorcida */
+  border-radius: 6px;
+  flex-shrink: 0; /* Impede que a imagem encolha em ecrãs mais pequenos */
+}
+
+.brand__logo {
+  display: block;
+  max-height: 55px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Contentor do texto */
+.track-card__content {
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
+  flex-direction: column;
+  gap: 6px; /* Espaçamento suave entre os parágrafos */
+}
+
+/* Tipografia */
+.track-card__content h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #303638;
+}
+
+.track-card__content p {
+  overflow-wrap: anywhere;
+  margin: 0;
+  font-size: 14px;
+  color: #697276;
+}
+
+/* Destaque para o nome do artista para ficar parecido com a referência */
+.track-card__content p:nth-of-type(1) {
+  font-weight: bold;
+  color: #e7793d; /* Laranja da sua paleta */
+  margin-bottom: 8px;
+}
