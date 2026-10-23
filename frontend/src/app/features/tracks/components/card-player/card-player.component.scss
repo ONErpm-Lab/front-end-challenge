@@ -1,0 +1,146 @@
+:host {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem;
+  overflow: hidden;
+  border-radius: inherit;
+  background: var(--surface-2);
+  clip-path: circle(var(--radius) at var(--origin-x) var(--origin-y));
+  /* Curva simétrica: a área do círculo cresce com o quadrado do raio, então um arranque
+     brusco cobre o card de uma vez; acelerar e frenar suave mantém o crescimento visível. */
+  animation: reveal 560ms cubic-bezier(0.55, 0, 0.2, 1) both;
+}
+
+:host(.is-closing) {
+  animation: conceal 320ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+/* A capa da faixa, ampliada e desfocada: o card "ganha a cor" da música. */
+.player__backdrop {
+  position: absolute;
+  inset: -2.5rem;
+  background: var(--surface-3) center / cover no-repeat;
+  filter: blur(28px) saturate(1.3) brightness(0.5);
+  /* A capa "assenta" enquanto o círculo cresce: dá profundidade sem mover o card. */
+  animation: settle 560ms var(--ease-out) both;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.5));
+  }
+}
+
+.player__close {
+  position: relative;
+  justify-self: end;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgb(255 255 255 / 0.25);
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.4);
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 150ms var(--ease-out);
+
+  &:hover {
+    background: rgb(0 0 0 / 0.65);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.player__embed {
+  position: relative;
+  align-self: center;
+}
+
+/* Detalhes da faixa no espaço que o player (altura fixa do Spotify) deixa livre. */
+.player__footer {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0.25rem 0.25rem;
+  animation: fade-in 250ms var(--ease-out) both;
+
+  &:empty {
+    display: none;
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes reveal {
+  from {
+    clip-path: circle(0 at var(--origin-x) var(--origin-y));
+  }
+}
+
+@keyframes conceal {
+  to {
+    clip-path: circle(0 at var(--origin-x) var(--origin-y));
+  }
+}
+
+/* Card horizontal no celular: player compacto à esquerda, fechar à direita. */
+@media (max-width: 639px) {
+  :host {
+    grid-template-rows: none;
+    grid-template-columns: 1fr auto;
+  }
+
+  .player__close {
+    order: 2;
+  }
+
+  /* No card horizontal não sobra altura: os detalhes continuam no card, atrás do player. */
+  .player__footer {
+    display: none;
+  }
+}
+
+/* Sem movimento espacial: a face aparece e some com um fade curto. */
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    clip-path: none;
+    animation: fade 150ms linear both;
+  }
+
+  .player__backdrop {
+    animation: none;
+  }
+
+  :host(.is-closing) {
+    animation: fade 120ms linear reverse both;
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+}

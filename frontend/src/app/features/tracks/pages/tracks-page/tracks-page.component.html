@@ -1,0 +1,104 @@
+<header class="page-header">
+  <div class="page-header__text">
+    <div class="title-row">
+      <h1>Faixas do contrato</h1>
+      @if (store.source() === 'mock') {
+        <app-info-chip label="Demonstração" heading="Dados de demonstração" tone="warn">
+          A API está sem credenciais do Spotify e usa uma cópia dos metadados reais destes ISRCs.
+          Capas, prévias e alguns estados (disponibilidade no BR, ISRC não encontrado) são simulados
+          para mostrar todos os casos da tela.
+        </app-info-chip>
+      }
+    </div>
+    <p class="page-header__lead">
+      {{ store.isrcs.length }} gravações informadas pelo produtor, consultadas por ISRC na Spotify
+      Web API.
+    </p>
+  </div>
+
+  @if (store.status() === 'ready' && (store.total() || store.notFound().length)) {
+    <div class="toolbar">
+      <p class="summary" aria-live="polite">
+        <strong>{{ store.total() }}</strong> de {{ store.isrcs.length }} encontradas ·
+        <strong>{{ store.availableInBrazil() }}</strong> disponíveis no BR
+      </p>
+      @if (store.hasNoPreviews()) {
+        <app-info-chip label="Sem prévias" heading="Prévias de áudio indisponíveis">
+          O Spotify deixou de enviar o link de prévia (<code>preview_url</code>) para apps novos. O
+          botão de cada faixa abre o player do Spotify.
+        </app-info-chip>
+      }
+      <button
+        type="button"
+        class="button button--ghost"
+        (click)="toggleDirection()"
+        [attr.aria-pressed]="store.direction() === 'desc'"
+        title="Inverter a ordem por título"
+      >
+        <app-icon name="sort" [size]="18" />
+        Título {{ store.direction() === 'asc' ? 'A–Z' : 'Z–A' }}
+      </button>
+    </div>
+  }
+</header>
+
+@switch (store.status()) {
+  @case ('loading') {
+    <div class="grid" aria-busy="true" aria-label="Carregando faixas">
+      @for (isrc of store.isrcs; track isrc.value) {
+        <app-track-skeleton />
+      }
+    </div>
+  }
+
+  @case ('error') {
+    <app-alert
+      heading="Não foi possível falar com o Spotify agora"
+      actionLabel="Tentar de novo"
+      (action)="retry()"
+    >
+      A integração com o fornecedor dos dados está indisponível. Nenhuma faixa foi carregada; tente
+      novamente em instantes.
+    </app-alert>
+  }
+
+  @case ('ready') {
+    @if (store.failed().length) {
+      <app-alert
+        class="partial-alert"
+        tone="warn"
+        heading="Algumas faixas não puderam ser consultadas"
+        actionLabel="Tentar de novo"
+        (action)="retry()"
+      >
+        O Spotify não respondeu para {{ store.failed().length }} de {{ store.isrcs.length }} ISRCs.
+        As demais faixas foram carregadas normalmente.
+      </app-alert>
+    }
+    @if (store.total() === 0 && store.notFound().length === 0) {
+      <p class="empty-state">Nenhuma faixa para exibir.</p>
+    } @else {
+      <ol class="grid" role="list">
+        @for (track of store.tracks(); track track.isrc; let i = $index) {
+          <li
+            class="grid__item"
+            [style.--i]="i"
+            [style.view-transition-name]="'track-' + track.isrc"
+          >
+            <app-track-card [track]="track" />
+          </li>
+        }
+        @for (isrc of store.notFound(); track isrc.value; let i = $index) {
+          <li class="grid__item" [style.--i]="store.total() + i">
+            <app-track-not-found [isrc]="isrc" />
+          </li>
+        }
+        @for (isrc of store.failed(); track isrc.value; let i = $index) {
+          <li class="grid__item" [style.--i]="store.total() + store.notFound().length + i">
+            <app-track-not-found [isrc]="isrc" reason="failed" />
+          </li>
+        }
+      </ol>
+    }
+  }
+}

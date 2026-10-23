@@ -1,0 +1,92 @@
+:host {
+  display: contents;
+}
+
+.preview {
+  position: absolute;
+  right: 0.625rem;
+  bottom: 0.625rem;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 8px 18px -6px rgb(0 0 0 / 0.6);
+  cursor: pointer;
+  transition:
+    transform 220ms var(--ease-out),
+    opacity 220ms var(--ease-out),
+    background-color 160ms ease;
+
+  &:hover:not(:disabled) {
+    transform: scale(1.06);
+    background: var(--accent-strong);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  &:disabled {
+    background: rgb(18 19 22 / 0.78);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+/* Em telas com mouse, o botão aparece ao passar sobre a capa (padrão de apps de música). */
+@media (hover: hover) {
+  :host-context(.card:not(:hover):not(:focus-within)) .preview:not(:disabled) {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  :host(.is-playing) .preview {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  :host-context(.card:not(:hover):not(:focus-within)) .preview:disabled {
+    opacity: 0;
+  }
+}
+
+.progress {
+  position: absolute;
+  inset: auto 0 0;
+  height: 4px;
+  background: rgb(255 255 255 / 0.18);
+  overflow: hidden;
+}
+
+.progress__bar {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  transition: transform 250ms linear;
+}
+
+@media (max-width: 639px) {
+  .preview {
+    right: 50%;
+    bottom: 50%;
+    transform: translate(50%, 50%);
+    width: 2.25rem;
+    height: 2.25rem;
+
+    &:hover:not(:disabled),
+    &:active:not(:disabled) {
+      transform: translate(50%, 50%);
+    }
+
+    &:disabled {
+      background: rgb(18 19 22 / 0.6);
+    }
+  }
+}

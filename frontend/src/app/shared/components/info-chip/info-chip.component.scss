@@ -1,0 +1,79 @@
+:host {
+  position: relative;
+  display: inline-flex;
+  --chip-fg: var(--text-muted);
+  --chip-bg: var(--surface-2);
+}
+
+:host(.info-chip--warn) {
+  --chip-fg: var(--warn);
+  --chip-bg: var(--warn-surface);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2rem;
+  padding: 0.3rem 0.65rem 0.3rem 0.6rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  color: var(--chip-fg);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter 160ms ease;
+
+  &:hover {
+    filter: brightness(1.15);
+  }
+}
+
+.chip__dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  z-index: 20;
+  width: min(22rem, calc(100vw - 2rem));
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  box-shadow: 0 18px 40px -16px rgb(0 0 0 / 0.85);
+  color: var(--text);
+  animation: panel-in 200ms var(--ease-out) both;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.panel__heading {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.panel__text {
+  margin-top: 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}

@@ -1,0 +1,78 @@
+@let t = track();
+<div class="card__art">
+  @if (t.thumbnailUrl) {
+    <img [ngSrc]="t.thumbnailUrl" [alt]="'Capa do álbum ' + t.albumName" width="300" height="300" />
+  } @else {
+    <div class="card__art-fallback" aria-hidden="true">{{ t.title.charAt(0) }}</div>
+  }
+  <app-audio-preview
+    [isrc]="t.isrc"
+    [title]="t.title"
+    [previewUrl]="t.previewUrl"
+    [embedUrl]="embedUrl()"
+  />
+</div>
+@if (isEmbedOpen() && embedUrl(); as url) {
+  <app-card-player
+    [url]="url"
+    [title]="t.title"
+    [coverUrl]="t.albumImageUrl ?? t.thumbnailUrl"
+    [origin]="playerOrigin()"
+    (closed)="onPlayerClosed()"
+  >
+    <span
+      class="badge"
+      [class.badge--ok]="t.availableInBrazil"
+      [class.badge--off]="!t.availableInBrazil"
+    >
+      <span class="badge__dot" aria-hidden="true"></span>
+      {{ t.availableInBrazil ? 'Disponível no BR' : 'Indisponível no BR' }}
+    </span>
+    <span class="card__isrc">{{ isrcLabel() }}</span>
+  </app-card-player>
+}
+
+<div class="card__body">
+  <h2 class="card__title" [title]="t.title">{{ t.title }}</h2>
+  <p class="card__artists" [title]="artists()">{{ artists() }}</p>
+
+  <dl class="card__meta">
+    <div>
+      <dt>Lançamento</dt>
+      <dd>
+        <time [attr.datetime]="t.releaseDate">{{ releaseDate() }}</time>
+      </dd>
+    </div>
+    <div>
+      <dt>Duração</dt>
+      <dd class="tabular">{{ t.durationMs | duration }}</dd>
+    </div>
+  </dl>
+
+  <div class="card__footer">
+    <span
+      class="badge"
+      [class.badge--ok]="t.availableInBrazil"
+      [class.badge--off]="!t.availableInBrazil"
+    >
+      <span class="badge__dot" aria-hidden="true"></span>
+      {{ t.availableInBrazil ? 'Disponível no BR' : 'Indisponível no BR' }}
+    </span>
+    @if (t.spotifyUrl) {
+      <a
+        class="card__link"
+        [href]="t.spotifyUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-label]="'Abrir ' + t.title + ' no Spotify'"
+      >
+        Spotify
+        <app-icon name="external" [size]="15" />
+      </a>
+    }
+  </div>
+
+  <p class="card__isrc">
+    <abbr title="International Standard Recording Code">ISRC</abbr> {{ isrcLabel() }}
+  </p>
+</div>

@@ -1,71 +1,96 @@
-## Início
+# Faixas por ISRC · Spotify
 
-Bem vindo ao mundo da música!
+Página que consulta **10 ISRCs** na Spotify Web API e mostra, **em ordem alfabética por título**:
+capa do álbum, data de lançamento, título, artistas, duração (mm:ss), prévia de áudio, link para o Spotify e se a faixa **está disponível no Brasil**.
+Se a integração cair, a página avisa e oferece **"Tentar de novo"**; se só parte das consultas falhar, mostra as faixas que chegaram e avisa quais ficaram de fora.
 
-Atualmente temos a necessidade de consumir os dados de faixas musicais através do código ISRC, que é uma das coisas mais importantes na indústria fonográfica.
+**Demo pública (dados reais do Spotify):** https://isrc-spotify-challenge.vercel.app
 
-Segundo [Abramus](https://www.abramus.org.br/musica/isrc/), ISRC (International Standard Recording Code ou Código de Gravação Padrão Internacional) é um padrão internacional de código para identificar de forma única as gravações (faixas).
+> Localmente, sem credenciais, o projeto roda em **modo demonstração**: metadados reais dos ISRCs, com alguns estados simulados para mostrar todos os casos da tela, e aviso visível. Testar com dados reais exige credenciais de um app do Spotify cuja conta dona seja **Premium**: veja [Dados reais](#dados-reais-spotify).
 
-Ele funciona como um código de barras da faixa.
+---
 
+## Rodar o projeto
 
-## Problema
+**Pré-requisito:** [Node.js](https://nodejs.org) **22.9 ou superior** (`node -v`). Não precisa de credenciais nem de `.env`.
 
-Durante o fechamento de contrato com um produtor, foram informados 10 ISRC's que não constam em nossas bases de dados, que seguem abaixo:
+### Opção 1 — Ver a aplicação (um terminal)
 
-* NO1R42509310
-* NO1R42511410
-* BRC310600002
-* BR1SP1200071
-* BR1SP1200070
-* BR1SP1500002
-* BXKZM1900338
-* BXKZM1900345
-* QZNJX2081700
-* QZNJX2078148
+```bash
+cd frontend
+npm ci
+npm run build
 
-Precisamos obter e exibir os seguintes dados:
+cd ../api
+npm ci
+npm start
+```
 
-* Thumb do álbum
-* Data de lançamento
-* Título da faixa
-* Lista dos artistas da faixa
-* Duração da faixa em minutos e segundos (mm:ss)
-* Player com prévia do áudio
-* Link para a página da faixa no Spotify
-* Sinalização dizendo se a faixa está ou não disponível no Brasil (BR)
+Abra **http://localhost:3000**. A API serve a página e os dados no mesmo endereço.
 
-Por decisão técnica, precisamos exibí-los através de uma webpage pública, ordenados por título da faixa de forma alfabética, sem necessidade de armazenamento para consulta posterior.
+### Opção 2 — Desenvolver (dois terminais, com recarga automática)
 
-Caso a integração com o fornecedor dos dados não esteja disponível, um alerta deve ser dado ao usuário.
+```bash
+# terminal 1
+cd api
+npm ci
+npm start
+```
 
+```bash
+# terminal 2
+cd frontend
+npm ci
+npm start
+```
 
-## Requisitos
+Abra **http://localhost:4200**. O Angular repassa `/api` para a porta 3000.
 
-* Faça um fork deste repositório e abra um PR quando estiver finalizado.
-* O frontend deve ser no  deve ser feito em Angular versão LTS.
-* A página deve ser responsiva para atender todos os tipos de dispositivos.
-* Use a API do Spotify: [https://developer.spotify.com/](https://developer.spotify.com/) para coletar os dados das faixas.
+### Testes
 
+| O que | Onde | Comando |
+|---|---|---|
+| Unitários + integração | `api/` e `frontend/` | `npm test` |
+| Cobertura (mínimo de 90% na lógica) | `api/` e `frontend/` | `npm run test:coverage` |
+| Regras de arquitetura | `frontend/` | `npm run lint:boundaries` e `npm run lint` |
+| Ponta a ponta (navegador) | `frontend/` | `npx playwright install chromium` (uma vez), depois `npm run e2e` |
 
-## Diferencial
+O `npm run e2e` sobe a API e o Angular sozinho nas portas 3000 e 4200: **feche antes os servidores das opções 1 e 2** (Ctrl+C).
 
-* Desenvolver testes unitários e de integração.
+O mesmo roda no CI a cada push ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
 
+---
 
-## O que será avaliado
+## Arquitetura em resumo
 
-* Fidelidade às instruções.
-* Padrões de projeto.
-* Clean Code e boas práticas.
-* Boas práticas de versionamento.
+- **`frontend/`:** Angular 21 (LTS), com uma pasta por funcionalidade e estado em NgRx Signal Store.
+- **`api/`:** um servidor intermediário (BFF) em Express. Guarda o segredo do Spotify, que nunca vai para o navegador.
+- **Organização:** vertical slices com ports & adapters. O ESLint barra imports entre camadas que não devem se conhecer, e os princípios SOLID são verificados por lint e testes ([princípio a princípio](docs/ARQUITETURA.md#3-princípios-solid-e-camadas)).
 
+## Documentação de apoio
 
-## Perfil que buscamos
+| Quero… | Leia |
+|---|---|
+| **Entender a arquitetura** e saber onde colocar código novo | [docs/ARQUITETURA.md](docs/ARQUITETURA.md) |
+| Saber **por que** cada decisão foi tomada | [docs/DECISOES.md](docs/DECISOES.md) |
+| Ver como a **IA** é usada e controlada no projeto | [docs/GOVERNANCA-IA.md](docs/GOVERNANCA-IA.md) |
+| Dar instruções a um **agente de IA** | [AGENTS.md](AGENTS.md) |
+| Ver o **resumo da entrega** e os próximos passos | [PULL_REQUEST.md](PULL_REQUEST.md) |
+| Ler o **enunciado original** do desafio | [docs/DESAFIO.md](docs/DESAFIO.md) |
 
-* Comunicativo
-* Autodidata
-* Automotivado
-* Curioso
-* Gostar de trabalhar em equipe
-* Compromissado
+## Dados reais (Spotify)
+
+Desde fevereiro de 2026, apps novas do Spotify em *Development Mode* exigem **Premium** na conta dona da app ([guia oficial](https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide)). Sem credenciais, o padrão é o modo demonstração. Para usar dados reais, crie `api/.env`:
+
+```
+SPOTIFY_MODE=live
+SPOTIFY_CLIENT_ID=...
+SPOTIFY_CLIENT_SECRET=...
+```
+
+…e reinicie a API. O frontend não muda. Outras opções (como simular o Spotify fora do ar) estão em [`api/.env.example`](api/.env.example).
+
+**Limites atuais da API do Spotify** (detalhes em [DECISOES.md](docs/DECISOES.md#1-limitações-da-spotify-web-api)):
+- a lista de países disponíveis foi removida, então a disponibilidade no BR vem de `market=BR` + `is_playable`;
+- o link da prévia de áudio (`preview_url`) vem vazio para apps novas; nesse caso, o botão da faixa abre o player incorporado do Spotify;
+- não há busca em lote, então é uma busca por ISRC, em paralelo.

@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.angular/
+.env
+*.log
+.DS_Store
+coverage/
+
+# Playwright
+frontend/test-results/
+frontend/playwright-report/
+
+# Build do Angular copiado no deploy (Vercel serve public/ pela CDN)
+api/public/

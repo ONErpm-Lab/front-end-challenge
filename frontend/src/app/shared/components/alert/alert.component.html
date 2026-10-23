@@ -1,0 +1,11 @@
+<app-icon class="alert__icon" name="alert" [size]="22" />
+<div class="alert__body">
+  <p class="alert__heading">{{ heading() }}</p>
+  <div class="alert__text"><ng-content /></div>
+</div>
+@if (actionLabel()) {
+  <button type="button" class="button button--ghost alert__action" (click)="action.emit()">
+    <app-icon name="refresh" [size]="18" />
+    {{ actionLabel() }}
+  </button>
+}

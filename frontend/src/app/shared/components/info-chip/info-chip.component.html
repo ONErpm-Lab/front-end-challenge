@@ -1,0 +1,15 @@
+<button
+  type="button"
+  class="chip"
+  [attr.aria-expanded]="open()"
+  [attr.aria-controls]="panelId"
+  (click)="toggle()"
+>
+  <span class="chip__dot" aria-hidden="true"></span>
+  {{ label() }}
+  <app-icon name="info" [size]="15" />
+</button>
+<div class="panel" role="note" [id]="panelId" [hidden]="!open()" [attr.aria-label]="heading()">
+  <p class="panel__heading">{{ heading() }}</p>
+  <div class="panel__text"><ng-content /></div>
+</div>

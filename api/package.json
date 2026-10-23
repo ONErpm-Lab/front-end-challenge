@@ -1,0 +1,24 @@
+{
+  "name": "onerp3-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "BFF mínimo que protege as credenciais do Spotify e expõe as faixas por ISRC",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "dev": "node --watch --env-file-if-exists=.env src/server.js",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^4.1.12",
+    "supertest": "^7.1.0",
+    "vitest": "^4.0.8"
+  },
+  "engines": {
+    "node": ">=22.9"
+  }
+}
