@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <title>ISRC lookup</title>
+  <g fill="#ff5a1f">
+    <rect x="2" y="8" width="4" height="12" rx="2" />
+    <rect x="8" y="3" width="4" height="17" rx="2" />
+    <rect x="14" y="6" width="4" height="14" rx="2" />
+    <rect x="20" y="10" width="3" height="10" rx="1.5" />
+  </g>
+</svg>

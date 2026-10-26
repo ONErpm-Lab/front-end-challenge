@@ -1,0 +1,82 @@
+<article class="card" [attr.aria-labelledby]="titleId()">
+  <div class="card__cover">
+    @if (coverUrl(); as url) {
+      <img
+        class="card__image"
+        width="300"
+        height="300"
+        loading="lazy"
+        decoding="async"
+        [src]="url"
+        [alt]="'tracks.coverAlt' | transloco: { album: track().albumName }"
+        (error)="onCoverError()"
+      />
+    } @else {
+      <div class="card__fallback" role="img" [attr.aria-label]="'tracks.coverMissing' | transloco">
+        <i class="pi pi-image" aria-hidden="true"></i>
+      </div>
+    }
+    @if (coverPlayable()) {
+      <!-- A pointer shortcut for the "listen" button below, which stays the accessible control. -->
+      <button
+        type="button"
+        class="card__play"
+        tabindex="-1"
+        aria-hidden="true"
+        (click)="playFromCover()"
+      >
+        <svg viewBox="0 0 24 24" focusable="false"><path [attr.d]="playPath" /></svg>
+      </button>
+    }
+  </div>
+
+  <div class="card__body">
+    <p-tag
+      class="card__badge"
+      [severity]="track().availableInBR ? 'success' : 'danger'"
+      [icon]="track().availableInBR ? 'pi pi-check-circle' : 'pi pi-times-circle'"
+      [value]="
+        (track().availableInBR ? 'tracks.availableInBR' : 'tracks.unavailableInBR') | transloco
+      "
+    />
+    <h2 class="card__title" [id]="titleId()">{{ track().title }}</h2>
+    <p class="card__artists">{{ artists() }}</p>
+
+    <dl class="card__meta">
+      <div>
+        <dt>{{ 'tracks.released' | transloco }}</dt>
+        <dd>{{ released() }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'tracks.duration' | transloco }}</dt>
+        <dd>{{ duration() }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'tracks.album' | transloco }}</dt>
+        <dd>{{ track().albumName }}</dd>
+      </div>
+      <div>
+        <dt>
+          {{ 'tracks.isrc' | transloco }}
+          <orp-copy-button
+            class="card__copy"
+            [value]="track().isrc"
+            [label]="'copy.copyIsrc' | transloco: { isrc: track().isrc }"
+            [copiedLabel]="'copy.copied' | transloco"
+          />
+        </dt>
+        <dd class="card__isrc">{{ track().isrc }}</dd>
+      </div>
+    </dl>
+
+    <orp-track-player class="card__player" [track]="track()" />
+
+    <orp-action-button
+      class="card__link"
+      [href]="track().spotifyUrl"
+      [icon]="spotifyIcon"
+      [label]="'tracks.openOnSpotify' | transloco"
+      [newTabLabel]="'app.newTab' | transloco"
+    />
+  </div>
+</article>

@@ -1,0 +1,16 @@
+<div class="unavailable" role="alert">
+  <span class="unavailable__icon" aria-hidden="true">
+    <i class="pi pi-cloud"></i>
+  </span>
+  <h2 class="unavailable__title">{{ 'status.unavailableTitle' | transloco }}</h2>
+  <p class="unavailable__text">{{ 'status.unavailableMessage' | transloco }}</p>
+  <p-button
+    class="unavailable__retry"
+    [fluid]="true"
+    size="large"
+    icon="pi pi-refresh"
+    [label]="'status.retry' | transloco"
+    [buttonProps]="{ autofocus: false }"
+    (onClick)="retry.emit()"
+  />
+</div>

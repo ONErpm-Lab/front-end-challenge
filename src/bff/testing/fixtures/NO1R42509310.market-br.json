@@ -1,0 +1,107 @@
+{
+  "tracks": {
+    "href": "https://api.spotify.com/v1/search?offset=0&limit=10&query=isrc%3ANO1R42509310&type=track&market=BR&locale=*",
+    "limit": 10,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 0,
+    "items": [
+      {
+        "album": {
+          "album_type": "single",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/3gXdxjEAOYqbKYDYRGuxUS"
+              },
+              "href": "https://api.spotify.com/v1/artists/3gXdxjEAOYqbKYDYRGuxUS",
+              "id": "3gXdxjEAOYqbKYDYRGuxUS",
+              "name": "Carefree",
+              "type": "artist",
+              "uri": "spotify:artist:3gXdxjEAOYqbKYDYRGuxUS"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/1lTEXwwTttlwUk5LnFw4Di"
+              },
+              "href": "https://api.spotify.com/v1/artists/1lTEXwwTttlwUk5LnFw4Di",
+              "id": "1lTEXwwTttlwUk5LnFw4Di",
+              "name": "Redmenn",
+              "type": "artist",
+              "uri": "spotify:artist:1lTEXwwTttlwUk5LnFw4Di"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/5ZOUvcjuQWsNyohlotwRRZ"
+          },
+          "href": "https://api.spotify.com/v1/albums/5ZOUvcjuQWsNyohlotwRRZ",
+          "id": "5ZOUvcjuQWsNyohlotwRRZ",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273c05517f781ec6527f5b1cb05"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02c05517f781ec6527f5b1cb05"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851c05517f781ec6527f5b1cb05"
+            }
+          ],
+          "is_playable": true,
+          "name": "IRON MAIDEN",
+          "release_date": "2025-11-28",
+          "release_date_precision": "day",
+          "total_tracks": 1,
+          "type": "album",
+          "uri": "spotify:album:5ZOUvcjuQWsNyohlotwRRZ"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/3gXdxjEAOYqbKYDYRGuxUS"
+            },
+            "href": "https://api.spotify.com/v1/artists/3gXdxjEAOYqbKYDYRGuxUS",
+            "id": "3gXdxjEAOYqbKYDYRGuxUS",
+            "name": "Carefree",
+            "type": "artist",
+            "uri": "spotify:artist:3gXdxjEAOYqbKYDYRGuxUS"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1lTEXwwTttlwUk5LnFw4Di"
+            },
+            "href": "https://api.spotify.com/v1/artists/1lTEXwwTttlwUk5LnFw4Di",
+            "id": "1lTEXwwTttlwUk5LnFw4Di",
+            "name": "Redmenn",
+            "type": "artist",
+            "uri": "spotify:artist:1lTEXwwTttlwUk5LnFw4Di"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 215491,
+        "explicit": true,
+        "external_ids": {
+          "isrc": "NO1R42509310"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/7qaLSS4e5luH7meEYGu7NM"
+        },
+        "href": "https://api.spotify.com/v1/tracks/7qaLSS4e5luH7meEYGu7NM",
+        "id": "7qaLSS4e5luH7meEYGu7NM",
+        "is_local": false,
+        "is_playable": true,
+        "name": "IRON MAIDEN",
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:7qaLSS4e5luH7meEYGu7NM"
+      }
+    ]
+  }
+}

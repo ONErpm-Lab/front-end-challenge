@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ISRC lookup</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="icon" sizes="32x32" href="favicon.ico" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <!--
+      Applies the saved or system color scheme before the first paint, so dark-mode visitors never
+      see a white flash. Keep the key, class and query in sync with src/app/core/theme/theme.constants.ts
+      (a unit test fails if they drift).
+    -->
+    <script>
+      (function () {
+        var saved = null;
+        try {
+          saved = localStorage.getItem('orp.theme');
+        } catch (e) {}
+        var dark = false;
+        if (saved === 'dark' || saved === 'light') {
+          dark = saved === 'dark';
+        } else {
+          try {
+            dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          } catch (e) {}
+        }
+        if (dark) document.documentElement.classList.add('app-dark');
+      })();
+    </script>
+  </head>
+  <body>
+    <orp-root></orp-root>
+  </body>
+</html>

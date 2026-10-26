@@ -1,0 +1,18 @@
+<p-select
+  styleClass="language-select"
+  optionLabel="label"
+  optionValue="id"
+  [options]="options"
+  [ngModel]="i18n.language()"
+  [ariaLabel]="'app.language' | transloco"
+  [autofocus]="false"
+  scrollHeight="20rem"
+  (onChange)="select($event.value)"
+>
+  <ng-template #selectedItem let-option>
+    <span [attr.lang]="option.locale">{{ option.label }}</span>
+  </ng-template>
+  <ng-template #item let-option>
+    <span [attr.lang]="option.locale">{{ option.label }}</span>
+  </ng-template>
+</p-select>

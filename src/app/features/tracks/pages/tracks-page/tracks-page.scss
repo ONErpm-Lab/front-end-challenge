@@ -1,0 +1,164 @@
+:host {
+  display: block;
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(2.5rem, 8vw, 5rem) var(--orp-gutter) clamp(1.5rem, 5vw, 3rem);
+  text-align: center;
+}
+
+/*
+ * The glow behind the title. It is a layer of its own, faded to nothing towards the bottom edge with a mask:
+ * the radial gradients are a fixed size (24rem tall), taller than the hero on a phone, and would otherwise be
+ * cut off by the edge while still bright, leaving a hard line.
+ */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(
+      60rem 24rem at 50% -10%,
+      color-mix(in srgb, var(--orp-accent) 22%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      40rem 18rem at 85% 0%,
+      color-mix(in srgb, var(--orp-accent-alt) 16%, transparent),
+      transparent 70%
+    );
+  mask-image: linear-gradient(to bottom, #000 35%, transparent 100%);
+}
+
+.hero__title {
+  margin: 0 auto;
+  max-width: 18ch;
+  font-size: clamp(2.25rem, 7vw, 4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  background: var(--orp-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hero__subtitle {
+  margin: 1rem auto 0;
+  max-width: 40rem;
+  font-size: clamp(1rem, 2.4vw, 1.2rem);
+  color: var(--orp-text-muted);
+  text-wrap: balance;
+}
+
+.content {
+  max-width: var(--orp-page-width);
+  margin: 0 auto;
+  padding: 1rem var(--orp-gutter) 4rem;
+}
+
+.alert {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Room between the warning and the cards, and the warning's own link to the list. */
+.warning {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.alert__link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.alert__link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
+/* Nothing matches the filter. */
+.empty {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 1px dashed var(--p-content-border-color);
+  border-radius: 1rem;
+}
+
+.empty__text {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/*
+ * As many columns as fit, each card at least 16.5rem wide: one on phones, two on tablets, three on laptops and
+ * four on wide screens. The grid is also a size container, so a card can tell when it is alone in its row (one
+ * column) and take its compact layout (see track-card.scss).
+ */
+.grid {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16.5rem), 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.grid__item {
+  min-width: 0;
+}
+
+/*
+ * Each entry spans the 8 rows of a track card (see track-card.scss) so that the sections of the cards in a
+ * row line up. Entries that are not track cards (ISRC cards) simply fill the same height.
+ */
+@supports (grid-template-rows: subgrid) {
+  .grid__item {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 8;
+    row-gap: 0;
+  }
+}
+
+/* One column: the entries are no longer aligned with neighbours, so they stop spanning the rows of a track card. */
+@container (width < 34.25rem) {
+  .grid__item {
+    display: block;
+    grid-row: auto;
+    grid-template-rows: none;
+  }
+}
+
+/* The loading placeholders are about as tall as the cards that replace them, so nothing jumps when they arrive. */
+.grid__placeholder {
+  height: 28rem;
+}
+
+@container (width < 34.25rem) {
+  .grid__placeholder {
+    height: 20rem;
+  }
+}

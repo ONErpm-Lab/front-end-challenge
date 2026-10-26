@@ -1,0 +1,12 @@
+<article class="card" [class.card--failed]="!isNotFound()">
+  <i [class]="icon()" class="card__icon" aria-hidden="true"></i>
+  <div class="card__text">
+    <p class="card__isrc">{{ isrc() }}</p>
+    <p class="card__message">{{ messageKey() | transloco }}</p>
+  </div>
+  <orp-copy-button
+    [value]="isrc()"
+    [label]="'copy.copyIsrc' | transloco: { isrc: isrc() }"
+    [copiedLabel]="'copy.copied' | transloco"
+  />
+</article>

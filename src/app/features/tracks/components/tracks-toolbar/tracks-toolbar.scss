@@ -1,0 +1,80 @@
+:host {
+  display: block;
+}
+
+/* Filter, how many were found, and the ISRCs that are not in the database. */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.toolbar__search {
+  flex: 1 1 16rem;
+  max-width: 26rem;
+}
+
+.toolbar__search p-iconfield {
+  position: relative;
+  display: block;
+}
+
+.toolbar__input {
+  width: 100%;
+  padding-right: 2.5rem;
+}
+
+.toolbar__clear {
+  position: absolute;
+  top: 50%;
+  right: 0.35rem;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--orp-text-muted);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.toolbar__clear:hover {
+  background: var(--p-content-hover-background);
+  color: var(--p-text-color);
+}
+
+.toolbar__clear:focus-visible,
+.toolbar__button:focus-visible {
+  outline: 2px solid var(--p-primary-color);
+  outline-offset: 2px;
+}
+
+.toolbar__summary {
+  flex: 1 1 auto;
+  margin: 0;
+  color: var(--orp-text-muted);
+}
+
+.toolbar__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: 999px;
+  background: var(--p-content-background);
+  font: inherit;
+  font-weight: 600;
+  color: var(--p-text-color);
+  cursor: pointer;
+}
+
+.toolbar__button:hover {
+  background: var(--p-content-hover-background);
+}

@@ -1,0 +1,32 @@
+.affected__hint {
+  margin: 0 0 1rem;
+  color: var(--orp-text-muted);
+}
+
+/* Many ISRCs scroll inside the dialog; the list takes focus so the keyboard can scroll it. */
+.affected__list {
+  max-height: min(50vh, 20rem);
+  margin: 0;
+  padding: 0.25rem 0.75rem;
+  overflow-y: auto;
+  list-style: none;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: 0.75rem;
+}
+
+.affected__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.2rem 0;
+}
+
+.affected__item + .affected__item {
+  border-top: 1px solid var(--p-content-border-color);
+}
+
+.affected__isrc {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.02em;
+}

@@ -1,0 +1,44 @@
+<p-dialog
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [closeAriaLabel]="'status.close' | transloco"
+  [header]="title()"
+  [visible]="visible()"
+  [style]="{ width: '30rem', maxWidth: 'calc(100vw - 2rem)' }"
+  (visibleChange)="visible.set($event)"
+  (onHide)="closed.emit()"
+>
+  <p class="affected__hint">{{ hint() }}</p>
+  <ul class="affected__list" tabindex="0" [attr.aria-label]="listLabel()">
+    @for (isrc of isrcs(); track isrc) {
+      <li class="affected__item">
+        <span class="affected__isrc">{{ isrc }}</span>
+        <orp-copy-button
+          [value]="isrc"
+          [label]="'copy.copyIsrc' | transloco: { isrc }"
+          [copiedLabel]="'copy.copied' | transloco"
+        />
+      </li>
+    }
+  </ul>
+  <ng-template #footer>
+    <orp-copy-button
+      [value]="allText()"
+      [label]="'copy.copyAll' | transloco"
+      [caption]="'copy.copyAll' | transloco"
+      [copiedLabel]="'copy.copied' | transloco"
+    />
+    @if (retryable()) {
+      <p-button
+        severity="secondary"
+        icon="pi pi-refresh"
+        [label]="'status.retry' | transloco"
+        [outlined]="true"
+        [buttonProps]="{ autofocus: false }"
+        (onClick)="retry.emit()"
+      />
+    }
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,15 @@
+<button
+  type="button"
+  class="copy"
+  [class.copy--captioned]="caption()"
+  [class.copy--done]="done()"
+  [attr.aria-label]="caption() ? null : label()"
+  [title]="label()"
+  (click)="copy()"
+>
+  <i class="pi" [class.pi-copy]="!done()" [class.pi-check]="done()" aria-hidden="true"></i>
+  @if (caption(); as text) {
+    <span>{{ done() ? copiedLabel() : text }}</span>
+  }
+</button>
+<span class="visually-hidden" role="status">{{ done() ? copiedLabel() : '' }}</span>

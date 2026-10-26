@@ -1,0 +1,59 @@
+.footer {
+  margin-top: 2rem;
+  border-top: 1px solid var(--p-content-border-color);
+  background: var(--p-content-background);
+}
+
+.footer__inner {
+  display: grid;
+  gap: 0.35rem;
+  max-width: var(--orp-page-width);
+  margin: 0 auto;
+  padding: 1.5rem var(--orp-gutter) 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.footer__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 0.6rem;
+  margin: 0;
+}
+
+.footer__line--muted,
+.footer__separator {
+  color: var(--orp-text-muted);
+}
+
+.footer__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+  color: var(--p-primary-color);
+  text-decoration: none;
+}
+
+.footer__link:hover {
+  text-decoration: underline;
+}
+
+.footer__link:focus-visible {
+  outline: 2px solid var(--p-primary-color);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
+/* On narrow screens the separator would dangle at a line break: stack the parts instead. */
+@media (max-width: 36rem) {
+  .footer__separator {
+    display: none;
+  }
+
+  .footer__line {
+    flex-direction: column;
+  }
+}

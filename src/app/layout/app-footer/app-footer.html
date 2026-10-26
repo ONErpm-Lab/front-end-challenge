@@ -1,0 +1,26 @@
+<footer class="footer">
+  <div class="footer__inner">
+    <p class="footer__line">
+      <a
+        class="footer__link footer__author"
+        target="_blank"
+        rel="noopener noreferrer"
+        [href]="authorUrl"
+      >
+        {{ authorName }}<span class="visually-hidden"> ({{ 'app.newTab' | transloco }})</span>
+      </a>
+      <span class="footer__separator" aria-hidden="true">·</span>
+      <span>{{ 'footer.builtFor' | transloco }}</span>
+    </p>
+
+    <p class="footer__line footer__line--muted">
+      <a class="footer__link" target="_blank" rel="noopener noreferrer" [href]="repositoryUrl">
+        <i class="pi pi-github" aria-hidden="true"></i>
+        {{ 'footer.sourceCode' | transloco
+        }}<span class="visually-hidden"> ({{ 'app.newTab' | transloco }})</span>
+      </a>
+      <span class="footer__separator" aria-hidden="true">·</span>
+      <span>{{ 'footer.dataFrom' | transloco }}</span>
+    </p>
+  </div>
+</footer>

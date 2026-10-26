@@ -1,0 +1,92 @@
+:host {
+  display: block;
+}
+
+/*
+ * A black pill on the light theme and a white one on the dark theme (colors in `ACTION_COLORS`, exposed as
+ * `--p-action-*`), so it always stands out from the card.
+ */
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: var(--action-min-height, 2.75rem);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--p-action-background);
+  border-radius: var(--p-border-radius-md, 0.5rem);
+  background: var(--p-action-background);
+  font: inherit;
+  font-weight: 700;
+  color: var(--p-action-color);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.action:hover {
+  background: var(--p-action-hover-background);
+}
+
+.action:focus-visible {
+  outline: 2px solid var(--p-primary-color);
+  outline-offset: 3px;
+}
+
+.action__mark {
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: currentColor;
+}
+
+.action__mark--spotify {
+  width: 1.6rem;
+  height: 1.6rem;
+  fill: var(--p-action-spotify);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action {
+    transition: none;
+  }
+}
+
+/* The action in effect (the track playing) wears the accent ring, so it is found among ten identical buttons. */
+.action--current {
+  box-shadow:
+    0 0 0 2px var(--p-content-background),
+    0 0 0 4px var(--p-primary-color);
+}
+
+/* The equalizer of the track playing: the bars rise and fall out of step, as in the header's mark. */
+.action__bar {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: equalize 1s ease-in-out infinite;
+}
+
+.action__bar--2 {
+  animation-delay: -0.35s;
+}
+
+.action__bar--3 {
+  animation-delay: -0.7s;
+}
+
+@keyframes equalize {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action__bar {
+    animation: none;
+  }
+}

@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  height: 100%;
+  /* Inside a page-grid entry that spans the rows of a track card, fill all of them. */
+  grid-row: 1 / -1;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
+  padding: 1.25rem;
+  border: 1px dashed var(--p-content-border-color);
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, var(--p-content-background) 70%, transparent);
+}
+
+.card--failed {
+  border-color: var(--p-primary-color);
+}
+
+.card__icon {
+  flex: none;
+  font-size: 1.5rem;
+  color: var(--orp-text-muted);
+}
+
+.card--failed .card__icon {
+  color: var(--p-primary-color);
+}
+
+.card__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.card__isrc {
+  margin: 0;
+  font-family: ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.card__message {
+  margin: 0.15rem 0 0;
+  color: var(--orp-text-muted);
+}

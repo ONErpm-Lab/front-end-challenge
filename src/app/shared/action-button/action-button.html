@@ -1,0 +1,44 @@
+<ng-template #content>
+  @if (animated()) {
+    <!-- The equalizer: three bars that move, like the mark in the header. -->
+    <svg
+      class="action__mark action__mark--equalizer"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect class="action__bar action__bar--1" x="3.5" y="4" width="4" height="16" rx="1.5" />
+      <rect class="action__bar action__bar--2" x="10" y="4" width="4" height="16" rx="1.5" />
+      <rect class="action__bar action__bar--3" x="16.5" y="4" width="4" height="16" rx="1.5" />
+    </svg>
+  } @else {
+    <svg
+      [class]="'action__mark ' + iconName()"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path [attr.d]="iconPath()" />
+    </svg>
+  }
+  <span class="action__label">{{ label() }}</span>
+</ng-template>
+
+@if (href(); as url) {
+  <a class="action" target="_blank" rel="noopener noreferrer" [href]="url">
+    <ng-container [ngTemplateOutlet]="content" />
+    @if (newTabLabel(); as hint) {
+      <span class="visually-hidden">({{ hint }})</span>
+    }
+  </a>
+} @else {
+  <button
+    class="action"
+    type="button"
+    [class.action--current]="current()"
+    [attr.aria-current]="current() ? 'true' : null"
+    (click)="pressed.emit()"
+  >
+    <ng-container [ngTemplateOutlet]="content" />
+  </button>
+}

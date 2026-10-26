@@ -1,0 +1,132 @@
+/*
+ * Pinned to the bottom of the window while the page scrolls, yet placed after the footer in the flow, so at the
+ * end of the page it sits below the footer instead of covering it. Empty (no box at all) until a track is chosen.
+ */
+:host {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  display: block;
+}
+
+.bar {
+  border-top: 1px solid var(--p-content-border-color);
+  background: color-mix(in srgb, var(--p-content-background) 92%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 -8px 24px rgb(0 0 0 / 0.12);
+  animation: rise 0.25s ease-out;
+}
+
+.bar__inner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: min(var(--orp-page-width), 64rem);
+  margin: 0 auto;
+  padding: 0.5rem var(--orp-gutter);
+}
+
+/* The stage has the embed's height from the first moment: nothing jumps when the embed arrives. */
+.bar__stage {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+/*
+ * Spotify puts its player in here. The frame has an opaque white canvas when the page is dark, which shows as
+ * white at the rounded corners of the player: clipping to the player's own 12px radius leaves only the player.
+ * No line gap under the frame either (the frame is inline).
+ */
+.bar__mount {
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  font-size: 0;
+  line-height: 0;
+  color-scheme: normal;
+}
+
+/* The fallback embed, when Spotify's script could not load. */
+.bar__frame {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 0.75rem;
+  color-scheme: normal;
+}
+
+/*
+ * Loads in the background, hidden until it has something to show. `visibility` (not `opacity`) so the frame
+ * keeps its place but cannot be focused or reached by assistive technology while it is not ready.
+ */
+.bar__mount--pending,
+.bar__frame--pending {
+  visibility: hidden;
+}
+
+.bar__loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: 0.75rem;
+  background: var(--p-content-background);
+  color: var(--orp-text-muted);
+  font-size: 0.9rem;
+}
+
+.bar__spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--p-content-border-color);
+  border-top-color: var(--p-primary-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.bar__close {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 1.1rem;
+  color: var(--p-text-color);
+  cursor: pointer;
+}
+
+.bar__close:hover {
+  background: var(--p-content-hover-background);
+}
+
+.bar__close:focus-visible {
+  outline: 2px solid var(--p-primary-color);
+  outline-offset: 2px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar,
+  .bar__spinner {
+    animation: none;
+  }
+}

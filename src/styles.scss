@@ -1,0 +1,112 @@
+@use '@fontsource-variable/inter/wght.css';
+@use 'primeicons/primeicons.css';
+
+/*
+ * Design tokens. Colors come from the PrimeNG preset (src/app/core/theme), so light and dark
+ * need no duplicated values here: `--p-*` variables switch with the `.app-dark` class on <html>.
+ */
+:root {
+  --orp-page-width: 80rem;
+  --orp-gutter: clamp(1rem, 4vw, 2rem);
+  --orp-accent: var(--p-primary-color);
+  --orp-accent-alt: #d6246e;
+  --orp-gradient: linear-gradient(100deg, var(--p-primary-color), var(--orp-accent-alt));
+  --orp-text-muted: var(--p-text-muted-color);
+  --orp-font: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  color-scheme: light;
+}
+
+:root.app-dark {
+  --orp-accent-alt: #ff6fa5;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* While the player bar is on the page, keep a focused element from hiding behind it. */
+html:has(orp-player-bar section) {
+  scroll-padding-bottom: 7rem;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--orp-font);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--p-text-color);
+  background: var(--p-surface-50);
+  -webkit-font-smoothing: antialiased;
+}
+
+:root.app-dark body {
+  background: var(--p-surface-950);
+}
+
+/* The footer sits at the bottom of short pages and below the content on long ones. */
+orp-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+/* The page's own landmark receives focus from the skip link; no outline needed for a non-control. */
+main:focus {
+  outline: none;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  color: var(--p-primary-contrast-color);
+  background: var(--p-primary-color);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.language-select {
+  min-width: 9.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

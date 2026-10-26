@@ -1,0 +1,25 @@
+# Not needed to build the image, and never to be baked into it.
+.git
+.github
+.husky
+.claude
+.vscode
+.idea
+.env
+.env.*
+!.env.example
+node_modules
+dist
+coverage
+test-results
+playwright-report
+.angular
+docs
+e2e
+*.md
+!README.md
+Dockerfile
+.dockerignore
+.vercel
+api
+vercel.json

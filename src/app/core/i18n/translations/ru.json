@@ -1,0 +1,73 @@
+{
+  "app": {
+    "title": "Отсутствующие ISRC",
+    "subtitle": "Треки из контракта продюсера, которых пока нет в наших базах данных.",
+    "language": "Язык",
+    "eyebrow": "Поиск по ISRC",
+    "skipToContent": "Перейти к содержимому",
+    "theme": {
+      "toDark": "Включить тёмную тему",
+      "toLight": "Включить светлую тему"
+    },
+    "newTab": "откроется в новой вкладке"
+  },
+  "tracks": {
+    "listLabel": "Треки",
+    "released": "Дата выпуска",
+    "duration": "Длительность",
+    "isrc": "ISRC",
+    "album": "Альбом",
+    "openOnSpotify": "Открыть в Spotify",
+    "preview": "Фрагмент аудио",
+    "coverAlt": "Обложка альбома «{{album}}»",
+    "coverMissing": "Обложка недоступна",
+    "availableInBR": "Доступен в Бразилии",
+    "unavailableInBR": "Недоступен в Бразилии",
+    "notFound": "ISRC не найден в Spotify",
+    "failed": "Не удалось загрузить этот ISRC",
+    "listen": "Послушать фрагмент",
+    "playerTitle": "Плеер Spotify: {{title}}",
+    "loadingPlayer": "Загрузка плеера…",
+    "nowPlaying": "Сейчас играет",
+    "closePlayer": "Закрыть плеер"
+  },
+  "status": {
+    "loading": "Загрузка треков…",
+    "empty": "Нет треков для отображения.",
+    "partialFailure": "Некоторые ISRC не удалось загрузить. Затронуто ISRC: {{count}}",
+    "unavailableTitle": "Музыкальные данные недоступны",
+    "unavailableMessage": "Сейчас не удаётся связаться со Spotify. Повторите попытку чуть позже.",
+    "retry": "Повторить",
+    "showAffected": "Показать затронутые ISRC",
+    "affectedTitle": "ISRC, которые не удалось загрузить",
+    "affectedList": "Затронутые ISRC",
+    "affectedHint": "Spotify не ответил для этих кодов. Повторите попытку, чтобы запросить их снова.",
+    "close": "Закрыть"
+  },
+  "footer": {
+    "builtFor": "Разработано для технического задания ONErpm по фронтенду.",
+    "sourceCode": "Исходный код",
+    "dataFrom": "Данные о треках — Spotify Web API."
+  },
+  "list": {
+    "filterLabel": "Фильтр по названию трека или ISRC",
+    "filterPlaceholder": "Название трека или ISRC",
+    "filterClear": "Сбросить фильтр",
+    "filterCount": "Показано {{shown}} из {{total}}",
+    "filterEmpty": "Ничего не найдено по запросу «{{query}}».",
+    "summary": "Треков в Spotify: {{count}}",
+    "missingButton": "ISRC, которых нет в нашей базе: {{count}}",
+    "missingTitle": "ISRC, которых нет в нашей базе",
+    "missingHint": "В Spotify нет треков для этих ISRC. Скопируйте их, чтобы поискать в другом месте.",
+    "sortAsc": "Название A–Z",
+    "sortDesc": "Название Z–A",
+    "sortHint": "Изменить порядок на обратный",
+    "sortedAsc": "Отсортировано по названию, от A до Z",
+    "sortedDesc": "Отсортировано по названию, от Z до A"
+  },
+  "copy": {
+    "copyIsrc": "Копировать ISRC {{isrc}}",
+    "copied": "Скопировано",
+    "copyAll": "Копировать все"
+  }
+}

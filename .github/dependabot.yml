@@ -1,0 +1,61 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    # Fixed prefixes: `include: scope` would emit `chore(deps-dev)` for dev dependencies,
+    # a scope that commitlint.config.js does not allow.
+    commit-message:
+      prefix: 'chore(deps)'
+      prefix-development: 'chore(deps)'
+    groups:
+      angular:
+        patterns: ['@angular/*', '@angular-devkit/*', '@schematics/*', 'angular-eslint', 'ng-*']
+      tooling:
+        patterns:
+          [
+            'eslint*',
+            '@eslint/*',
+            'typescript-eslint',
+            'prettier',
+            'husky',
+            'lint-staged',
+            '@commitlint/*',
+          ]
+      testing:
+        patterns: ['vitest', '@vitest/*', 'jsdom']
+    ignore:
+      # Majors follow the Angular LTS decision (ADR 0002) and are upgraded deliberately.
+      - dependency-name: '@angular/*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@angular-devkit/*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'angular-eslint'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'primeng'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@primeuix/themes'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@angular/cdk'
+        update-types: ['version-update:semver-major']
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: 'ci(deps)'
+
+  - package-ecosystem: github-actions
+    directories: ['/', '/.github/actions/*']
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: 'ci(deps)'
+    groups:
+      actions:
+        patterns: ['*']

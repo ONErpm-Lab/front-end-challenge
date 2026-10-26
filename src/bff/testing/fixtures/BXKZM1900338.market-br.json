@@ -1,0 +1,107 @@
+{
+  "tracks": {
+    "href": "https://api.spotify.com/v1/search?offset=0&limit=10&query=isrc%3ABXKZM1900338&type=track&market=BR&locale=*",
+    "limit": 10,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 0,
+    "items": [
+      {
+        "album": {
+          "album_type": "single",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/3kSqC5qoBoK6HF2bPQtVzx"
+              },
+              "href": "https://api.spotify.com/v1/artists/3kSqC5qoBoK6HF2bPQtVzx",
+              "id": "3kSqC5qoBoK6HF2bPQtVzx",
+              "name": "DJ Maskot",
+              "type": "artist",
+              "uri": "spotify:artist:3kSqC5qoBoK6HF2bPQtVzx"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/35d9HY68hiP3dEPohszJlh"
+              },
+              "href": "https://api.spotify.com/v1/artists/35d9HY68hiP3dEPohszJlh",
+              "id": "35d9HY68hiP3dEPohszJlh",
+              "name": "MC Madan",
+              "type": "artist",
+              "uri": "spotify:artist:35d9HY68hiP3dEPohszJlh"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/0SUrjjpraYCdUt4D0MxqDk"
+          },
+          "href": "https://api.spotify.com/v1/albums/0SUrjjpraYCdUt4D0MxqDk",
+          "id": "0SUrjjpraYCdUt4D0MxqDk",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2738662e8e1b80142ff92344518"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e028662e8e1b80142ff92344518"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d000048518662e8e1b80142ff92344518"
+            }
+          ],
+          "is_playable": true,
+          "name": "Sexta Sua Linda",
+          "release_date": "2019-09-27",
+          "release_date_precision": "day",
+          "total_tracks": 1,
+          "type": "album",
+          "uri": "spotify:album:0SUrjjpraYCdUt4D0MxqDk"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/3kSqC5qoBoK6HF2bPQtVzx"
+            },
+            "href": "https://api.spotify.com/v1/artists/3kSqC5qoBoK6HF2bPQtVzx",
+            "id": "3kSqC5qoBoK6HF2bPQtVzx",
+            "name": "DJ Maskot",
+            "type": "artist",
+            "uri": "spotify:artist:3kSqC5qoBoK6HF2bPQtVzx"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/35d9HY68hiP3dEPohszJlh"
+            },
+            "href": "https://api.spotify.com/v1/artists/35d9HY68hiP3dEPohszJlh",
+            "id": "35d9HY68hiP3dEPohszJlh",
+            "name": "MC Madan",
+            "type": "artist",
+            "uri": "spotify:artist:35d9HY68hiP3dEPohszJlh"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 213397,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "BXKZM1900338"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/4oxx2IYjbvf1a6PGcmzf3O"
+        },
+        "href": "https://api.spotify.com/v1/tracks/4oxx2IYjbvf1a6PGcmzf3O",
+        "id": "4oxx2IYjbvf1a6PGcmzf3O",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Sexta Sua Linda",
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:4oxx2IYjbvf1a6PGcmzf3O"
+      }
+    ]
+  }
+}

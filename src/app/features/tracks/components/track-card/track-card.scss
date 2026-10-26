@@ -1,0 +1,313 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: 1.25rem;
+  background: var(--p-content-background);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--p-surface-950) 8%, transparent);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -12px color-mix(in srgb, var(--p-surface-950) 35%, transparent);
+  }
+}
+
+.card__cover {
+  position: relative;
+  aspect-ratio: 1;
+  background: color-mix(in srgb, var(--p-text-color) 10%, transparent);
+}
+
+.card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 3rem;
+  color: var(--orp-text-muted);
+}
+
+/*
+ * The play button that rises over the cover when the card is pointed at, as on Spotify. It is a shortcut for
+ * the "listen" button below (which stays the accessible control, hence `aria-hidden` and no tab stop). Where
+ * there is no hover (touch), it is always there.
+ */
+.card__play {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--p-play-background);
+  color: var(--p-play-color);
+  box-shadow: 0 8px 16px rgb(0 0 0 / 0.3);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    background-color 0.15s ease;
+}
+
+.card__play svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: currentColor;
+}
+
+.card:hover .card__play,
+.card:focus-within .card__play {
+  opacity: 1;
+  transform: none;
+}
+
+.card__play:hover {
+  background: var(--p-play-hover-background);
+  transform: scale(1.06);
+}
+
+@media (hover: none) {
+  .card__play {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card__play {
+    transition: none;
+  }
+
+  .card__play:hover {
+    transform: none;
+  }
+}
+
+/* Never on top of the cover: translucent tag colors are unreadable over arbitrary artwork. */
+.card__badge {
+  align-self: flex-start;
+}
+
+.card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.card__artists {
+  margin: -0.4rem 0 0;
+  color: var(--orp-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.card__meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem 1rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* The copy button sits by the "ISRC" label, where there is room (the code takes the whole cell). */
+.card__meta dt {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--orp-text-muted);
+}
+
+.card__meta dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.card__isrc {
+  font-family: ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  /* A code is never broken in two lines: it would no longer read as one. */
+  overflow-wrap: normal;
+  white-space: nowrap;
+}
+
+/* It is taller than the label: it must not make the card taller. */
+.card__copy {
+  margin-block: -0.5rem;
+}
+
+/* The link sits at the bottom of the card, whatever the height of the sections above it. */
+.card__link {
+  margin-top: auto;
+}
+
+/*
+ * Aligned sections. Cards of one row would otherwise differ in height section by section (a title or a
+ * date wrapping to two lines pushes everything below it). With subgrid, every card spans the same 8 rows
+ * of the page grid, so each row is as tall as the tallest card needs and the same section starts at the
+ * same height in every card, at any width. The rows are: cover, badge, title, artists, two for the facts
+ * (released/duration, album/ISRC), player, link. Browsers without subgrid keep the flex layout above.
+ */
+@supports (grid-template-rows: subgrid) {
+  :host {
+    display: contents;
+  }
+
+  .card {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: 1 / -1;
+    row-gap: 0;
+  }
+
+  .card__cover {
+    grid-row: 1;
+  }
+
+  .card__body {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: 2 / -1;
+    row-gap: 0.75rem;
+  }
+
+  .card__meta {
+    grid-template-rows: subgrid;
+    grid-row: span 2;
+    row-gap: 0.6rem;
+  }
+
+  .card__link {
+    align-self: end;
+    margin-top: 0;
+  }
+}
+
+/*
+ * Alone in its row (a phone), a tall card would fill the whole screen and still need scrolling. The card turns
+ * into a compact one: a small cover beside the badge, title and artists, then the facts, then the two actions.
+ * The body stops being a box of its own so its parts can sit in the card's grid.
+ */
+@container (width < 34.25rem) {
+  :host {
+    display: block;
+    height: auto;
+  }
+
+  .card {
+    --action-min-height: 2.5rem;
+
+    display: grid;
+    grid-template-columns: 6.25rem minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-row: auto;
+    gap: 0.5rem 0.75rem;
+    height: auto;
+    padding: 0.75rem;
+    border-radius: 1rem;
+  }
+
+  .card__cover {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    align-self: start;
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+
+  .card__fallback {
+    font-size: 2rem;
+  }
+
+  .card__play {
+    right: 0.35rem;
+    bottom: 0.35rem;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .card__play svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .card__body {
+    display: contents;
+  }
+
+  .card__badge {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .card__title {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 1.05rem;
+  }
+
+  .card__artists {
+    grid-column: 2;
+    grid-row: 3;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .card__meta {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    grid-template-rows: none;
+    gap: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .card__player {
+    grid-column: 1 / -1;
+    grid-row: 5;
+  }
+
+  .card__link {
+    grid-column: 1 / -1;
+    grid-row: 6;
+    align-self: stretch;
+  }
+}

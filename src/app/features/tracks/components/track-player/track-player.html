@@ -1,0 +1,10 @@
+@if (available()) {
+  <div class="player" role="group" [attr.aria-label]="'tracks.preview' | transloco">
+    <orp-action-button
+      [icon]="icon()"
+      [label]="labelKey() | transloco"
+      [current]="current()"
+      (pressed)="play()"
+    />
+  </div>
+}

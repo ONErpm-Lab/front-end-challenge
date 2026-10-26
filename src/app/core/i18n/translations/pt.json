@@ -1,0 +1,73 @@
+{
+  "app": {
+    "title": "ISRCs ausentes",
+    "subtitle": "Faixas do contrato do produtor que ainda não constam em nossas bases.",
+    "language": "Idioma",
+    "eyebrow": "Consulta de ISRC",
+    "skipToContent": "Pular para o conteúdo",
+    "theme": {
+      "toDark": "Mudar para o tema escuro",
+      "toLight": "Mudar para o tema claro"
+    },
+    "newTab": "abre em uma nova aba"
+  },
+  "tracks": {
+    "listLabel": "Faixas",
+    "released": "Lançamento",
+    "duration": "Duração",
+    "isrc": "ISRC",
+    "album": "Álbum",
+    "openOnSpotify": "Abrir no Spotify",
+    "preview": "Prévia do áudio",
+    "coverAlt": "Capa do álbum {{album}}",
+    "coverMissing": "Capa indisponível",
+    "availableInBR": "Disponível no Brasil",
+    "unavailableInBR": "Indisponível no Brasil",
+    "notFound": "ISRC não encontrado no Spotify",
+    "failed": "Não foi possível carregar este ISRC",
+    "listen": "Ouvir uma prévia",
+    "playerTitle": "Player do Spotify para {{title}}",
+    "loadingPlayer": "Carregando o player…",
+    "nowPlaying": "Tocando agora",
+    "closePlayer": "Fechar o player"
+  },
+  "status": {
+    "loading": "Carregando faixas…",
+    "empty": "Nenhuma faixa para exibir.",
+    "partialFailure": "Alguns ISRCs não puderam ser carregados. ISRCs afetados: {{count}}",
+    "unavailableTitle": "Dados musicais indisponíveis",
+    "unavailableMessage": "Não foi possível acessar o Spotify agora. Tente novamente em instantes.",
+    "retry": "Tentar novamente",
+    "showAffected": "Ver ISRCs afetados",
+    "affectedTitle": "ISRCs que não puderam ser carregados",
+    "affectedList": "ISRCs afetados",
+    "affectedHint": "O Spotify não respondeu para estes. Tente novamente para consultá-los outra vez.",
+    "close": "Fechar"
+  },
+  "footer": {
+    "builtFor": "Desenvolvido para o desafio técnico de front-end da ONErpm.",
+    "sourceCode": "Código-fonte",
+    "dataFrom": "Dados das faixas da Spotify Web API."
+  },
+  "list": {
+    "filterLabel": "Filtrar por nome da música ou ISRC",
+    "filterPlaceholder": "Nome da música ou ISRC",
+    "filterClear": "Limpar o filtro",
+    "filterCount": "Mostrando {{shown}} de {{total}}",
+    "filterEmpty": "Nada corresponde a “{{query}}”.",
+    "summary": "Faixas no Spotify: {{count}}",
+    "missingButton": "ISRCs que não constam na nossa base: {{count}}",
+    "missingTitle": "ISRCs que não constam na nossa base",
+    "missingHint": "O Spotify não tem faixa para estes ISRCs. Copie-os para procurar em outro lugar.",
+    "sortAsc": "Título A–Z",
+    "sortDesc": "Título Z–A",
+    "sortHint": "Inverter a ordem",
+    "sortedAsc": "Ordenado por título, de A a Z",
+    "sortedDesc": "Ordenado por título, de Z a A"
+  },
+  "copy": {
+    "copyIsrc": "Copiar o ISRC {{isrc}}",
+    "copied": "Copiado",
+    "copyAll": "Copiar todos"
+  }
+}

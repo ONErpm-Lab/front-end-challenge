@@ -1,0 +1,87 @@
+{
+  "tracks": {
+    "href": "https://api.spotify.com/v1/search?offset=0&limit=10&query=isrc%3AQZNJX2081700&type=track&market=BR&locale=*",
+    "limit": 10,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 0,
+    "items": [
+      {
+        "album": {
+          "album_type": "single",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/18tiQfwxC3Kh0dmGUqx05F"
+              },
+              "href": "https://api.spotify.com/v1/artists/18tiQfwxC3Kh0dmGUqx05F",
+              "id": "18tiQfwxC3Kh0dmGUqx05F",
+              "name": "Капитан Коркин",
+              "type": "artist",
+              "uri": "spotify:artist:18tiQfwxC3Kh0dmGUqx05F"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/4L5Oau4x8hQAiEXR4AsHjr"
+          },
+          "href": "https://api.spotify.com/v1/albums/4L5Oau4x8hQAiEXR4AsHjr",
+          "id": "4L5Oau4x8hQAiEXR4AsHjr",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273367f4675c76077f630655f3b"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02367f4675c76077f630655f3b"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851367f4675c76077f630655f3b"
+            }
+          ],
+          "is_playable": true,
+          "name": "Нам не нравится",
+          "release_date": "2020-12-24",
+          "release_date_precision": "day",
+          "total_tracks": 1,
+          "type": "album",
+          "uri": "spotify:album:4L5Oau4x8hQAiEXR4AsHjr"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/18tiQfwxC3Kh0dmGUqx05F"
+            },
+            "href": "https://api.spotify.com/v1/artists/18tiQfwxC3Kh0dmGUqx05F",
+            "id": "18tiQfwxC3Kh0dmGUqx05F",
+            "name": "Капитан Коркин",
+            "type": "artist",
+            "uri": "spotify:artist:18tiQfwxC3Kh0dmGUqx05F"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 229334,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "QZNJX2081700"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/2Sg8a9mtv5v6mGEuscIdFx"
+        },
+        "href": "https://api.spotify.com/v1/tracks/2Sg8a9mtv5v6mGEuscIdFx",
+        "id": "2Sg8a9mtv5v6mGEuscIdFx",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Нам не нравится",
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:2Sg8a9mtv5v6mGEuscIdFx"
+      }
+    ]
+  }
+}

@@ -1,0 +1,96 @@
+/*
+ * The host element must not create a box of its own: the sticky header needs the whole page as its
+ * containing block, and `orp-root` is a flex column that would otherwise shrink the host to the header's size.
+ */
+:host {
+  display: contents;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--p-content-border-color);
+  background: color-mix(in srgb, var(--p-content-background) 82%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: var(--orp-page-width);
+  margin: 0 auto;
+  padding: 0.75rem var(--orp-gutter);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.brand__mark {
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  fill: var(--orp-accent);
+}
+
+.brand__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bar {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: equalize 1.6s ease-in-out infinite;
+}
+
+.bar--2 {
+  animation-delay: -0.4s;
+}
+
+.bar--3 {
+  animation-delay: -0.8s;
+}
+
+.bar--4 {
+  animation-delay: -1.2s;
+}
+
+@keyframes equalize {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.55);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    animation: none;
+  }
+}
+
+/* The brand text gives way before the controls do on narrow phones. */
+@media (max-width: 30rem) {
+  .brand__name {
+    display: none;
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "app": {
+    "title": "Missing ISRCs",
+    "subtitle": "Tracks from the producer's contract that are not in our database yet.",
+    "language": "Language",
+    "eyebrow": "ISRC lookup",
+    "skipToContent": "Skip to content",
+    "theme": {
+      "toDark": "Switch to the dark theme",
+      "toLight": "Switch to the light theme"
+    },
+    "newTab": "opens in a new tab"
+  },
+  "tracks": {
+    "listLabel": "Tracks",
+    "released": "Released",
+    "duration": "Duration",
+    "isrc": "ISRC",
+    "album": "Album",
+    "openOnSpotify": "Open on Spotify",
+    "preview": "Audio preview",
+    "coverAlt": "Cover of the album {{album}}",
+    "coverMissing": "No cover available",
+    "availableInBR": "Available in Brazil",
+    "unavailableInBR": "Not available in Brazil",
+    "notFound": "ISRC not found on Spotify",
+    "failed": "Could not load this ISRC",
+    "listen": "Listen to a preview",
+    "playerTitle": "Spotify player for {{title}}",
+    "loadingPlayer": "Loading the player…",
+    "nowPlaying": "Now playing",
+    "closePlayer": "Close the player"
+  },
+  "status": {
+    "loading": "Loading tracks…",
+    "empty": "No tracks to show.",
+    "partialFailure": "Some ISRCs could not be loaded. ISRCs affected: {{count}}",
+    "unavailableTitle": "Music data unavailable",
+    "unavailableMessage": "We could not reach Spotify right now. Please try again in a moment.",
+    "retry": "Try again",
+    "showAffected": "Show affected ISRCs",
+    "affectedTitle": "ISRCs that could not be loaded",
+    "affectedList": "Affected ISRCs",
+    "affectedHint": "Spotify did not answer for these. Try again to look them up once more.",
+    "close": "Close"
+  },
+  "footer": {
+    "builtFor": "Developed for the ONErpm front-end technical challenge.",
+    "sourceCode": "Source code",
+    "dataFrom": "Track data from the Spotify Web API."
+  },
+  "list": {
+    "filterLabel": "Filter by track name or ISRC",
+    "filterPlaceholder": "Track name or ISRC",
+    "filterClear": "Clear the filter",
+    "filterCount": "Showing {{shown}} of {{total}}",
+    "filterEmpty": "Nothing matches “{{query}}”.",
+    "summary": "Tracks on Spotify: {{count}}",
+    "missingButton": "ISRCs not in our database: {{count}}",
+    "missingTitle": "ISRCs not in our database",
+    "missingHint": "Spotify has no track for these ISRCs. Copy them to look them up elsewhere.",
+    "sortAsc": "Title A–Z",
+    "sortDesc": "Title Z–A",
+    "sortHint": "Reverse the order",
+    "sortedAsc": "Sorted by title, A to Z",
+    "sortedDesc": "Sorted by title, Z to A"
+  },
+  "copy": {
+    "copyIsrc": "Copy ISRC {{isrc}}",
+    "copied": "Copied",
+    "copyAll": "Copy all"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "tracks": {
+    "href": "https://api.spotify.com/v1/search?offset=0&limit=10&query=isrc%3ABRC310600002&type=track&market=BR&locale=*",
+    "limit": 10,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 0,
+    "items": [
+      {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/68vvXAJFi8LizXAjGHiWtZ"
+              },
+              "href": "https://api.spotify.com/v1/artists/68vvXAJFi8LizXAjGHiWtZ",
+              "id": "68vvXAJFi8LizXAjGHiWtZ",
+              "name": "PianOrquestra",
+              "type": "artist",
+              "uri": "spotify:artist:68vvXAJFi8LizXAjGHiWtZ"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/4z5tTNSi1MdrKbKz0Riauf"
+          },
+          "href": "https://api.spotify.com/v1/albums/4z5tTNSi1MdrKbKz0Riauf",
+          "id": "4z5tTNSi1MdrKbKz0Riauf",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2731932184ef8c5c68f8c550c33"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e021932184ef8c5c68f8c550c33"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d000048511932184ef8c5c68f8c550c33"
+            }
+          ],
+          "is_playable": true,
+          "name": "Dez Mãos e um Piano Preparado",
+          "release_date": "2013-06-13",
+          "release_date_precision": "day",
+          "total_tracks": 10,
+          "type": "album",
+          "uri": "spotify:album:4z5tTNSi1MdrKbKz0Riauf"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/68vvXAJFi8LizXAjGHiWtZ"
+            },
+            "href": "https://api.spotify.com/v1/artists/68vvXAJFi8LizXAjGHiWtZ",
+            "id": "68vvXAJFi8LizXAjGHiWtZ",
+            "name": "PianOrquestra",
+            "type": "artist",
+            "uri": "spotify:artist:68vvXAJFi8LizXAjGHiWtZ"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 170733,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "BRC310600002"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/4lwE7ainG51zmxt1xAC7XQ"
+        },
+        "href": "https://api.spotify.com/v1/tracks/4lwE7ainG51zmxt1xAC7XQ",
+        "id": "4lwE7ainG51zmxt1xAC7XQ",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Repente",
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:4lwE7ainG51zmxt1xAC7XQ"
+      }
+    ]
+  }
+}

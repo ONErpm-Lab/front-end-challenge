@@ -1,0 +1,94 @@
+<section class="hero" aria-labelledby="page-title">
+  <h1 id="page-title" class="hero__title">{{ 'app.title' | transloco }}</h1>
+  <p class="hero__subtitle">{{ 'app.subtitle' | transloco }}</p>
+</section>
+
+<section
+  class="content"
+  [attr.aria-label]="'tracks.listLabel' | transloco"
+  [attr.aria-busy]="busy()"
+>
+  @if (store.isUnavailable()) {
+    <orp-unavailable-panel (retry)="reload()" />
+  } @else if (store.isReady()) {
+    <orp-tracks-toolbar
+      [(query)]="query"
+      [visibleCount]="visibleItems().length"
+      (missingRequested)="missingOpen.set(true)"
+    />
+
+    @if (store.failedCount() > 0) {
+      <p-message class="warning" severity="warn" role="status">
+        <div class="alert">
+          <span>{{ 'status.partialFailure' | transloco: { count: store.failedCount() } }}</span>
+          <button
+            #affectedTrigger
+            type="button"
+            class="alert__link"
+            aria-haspopup="dialog"
+            (click)="affectedOpen.set(true)"
+          >
+            {{ 'status.showAffected' | transloco }}
+          </button>
+        </div>
+      </p-message>
+
+      <orp-isrc-list-dialog
+        [(visible)]="affectedOpen"
+        [isrcs]="store.failedIsrcs()"
+        [title]="'status.affectedTitle' | transloco"
+        [hint]="'status.affectedHint' | transloco"
+        [listLabel]="'status.affectedList' | transloco"
+        [retryable]="true"
+        (retry)="retryAffected()"
+        (closed)="affectedTrigger.focus()"
+      />
+    }
+
+    @if (store.notFoundCount() > 0) {
+      <orp-isrc-list-dialog
+        [(visible)]="missingOpen"
+        [isrcs]="store.notFoundIsrcs()"
+        [title]="'list.missingTitle' | transloco"
+        [hint]="'list.missingHint' | transloco"
+        [listLabel]="'list.missingTitle' | transloco"
+        (closed)="focusMissingTrigger()"
+      />
+    }
+
+    @if (visibleItems().length === 0) {
+      <div class="empty" role="status">
+        <p class="empty__text">{{ 'list.filterEmpty' | transloco: { query: query() } }}</p>
+        <p-button
+          severity="secondary"
+          icon="pi pi-times"
+          [label]="'list.filterClear' | transloco"
+          [outlined]="true"
+          [buttonProps]="{ autofocus: false }"
+          (onClick)="clearQuery()"
+        />
+      </div>
+    }
+
+    <ul class="grid">
+      @for (item of visibleItems(); track item.isrc + item.status) {
+        <li class="grid__item">
+          @if (item.status === LookupStatus.FOUND) {
+            <orp-track-card [track]="item.track" />
+          } @else {
+            <orp-isrc-card [isrc]="item.isrc" [status]="item.status" />
+          }
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="visually-hidden" role="status">{{ 'status.loading' | transloco }}</p>
+    <div class="grid" aria-hidden="true">
+      @for (placeholder of placeholders; track placeholder) {
+        <div class="grid__placeholder">
+          <p-skeleton height="100%" borderRadius="1.25rem" />
+        </div>
+      }
+    </div>
+  }
+</section>

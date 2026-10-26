@@ -1,0 +1,35 @@
+@if (track()) {
+  <section class="bar" [attr.aria-label]="'tracks.preview' | transloco">
+    <div class="bar__inner">
+      <div class="bar__stage" [style.height.px]="height">
+        @if (!shown()) {
+          <div class="bar__loading" role="status">
+            <span class="bar__spinner" aria-hidden="true"></span>
+            {{ 'tracks.loadingPlayer' | transloco }}
+          </div>
+        }
+        @if (fallbackUrl(); as url) {
+          <iframe
+            class="bar__frame"
+            allow="encrypted-media"
+            [class.bar__frame--pending]="!shown()"
+            [src]="url"
+            [title]="playerTitle()"
+            [height]="height"
+            (load)="onFallbackLoad($event)"
+          ></iframe>
+        } @else {
+          <div #mount class="bar__mount" [class.bar__mount--pending]="!ready()"></div>
+        }
+      </div>
+      <button
+        type="button"
+        class="bar__close"
+        [attr.aria-label]="'tracks.closePlayer' | transloco"
+        (click)="close()"
+      >
+        <i class="pi pi-times" aria-hidden="true"></i>
+      </button>
+    </div>
+  </section>
+}

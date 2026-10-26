@@ -1,0 +1,65 @@
+<div class="toolbar">
+  <div class="toolbar__search" role="search">
+    <p-iconfield>
+      <p-inputicon class="pi pi-search" />
+      <input
+        #filterInput
+        pInputText
+        class="toolbar__input"
+        type="text"
+        autocomplete="off"
+        spellcheck="false"
+        [value]="query()"
+        [attr.aria-label]="'list.filterLabel' | transloco"
+        [placeholder]="'list.filterPlaceholder' | transloco"
+        (input)="onQuery($event)"
+        (keydown.escape)="clearQuery()"
+      />
+      @if (query() !== '') {
+        <button
+          type="button"
+          class="toolbar__clear"
+          [attr.aria-label]="'list.filterClear' | transloco"
+          [title]="'list.filterClear' | transloco"
+          (click)="clearQuery()"
+        >
+          <i class="pi pi-times" aria-hidden="true"></i>
+        </button>
+      }
+    </p-iconfield>
+  </div>
+
+  <p class="toolbar__summary" role="status">
+    @if (filtering()) {
+      {{ 'list.filterCount' | transloco: { shown: visibleCount(), total: store.totalCount() } }}
+    } @else {
+      {{ 'list.summary' | transloco: { count: store.foundCount() } }}
+    }
+  </p>
+
+  @let sortText = sortLabelKey() | transloco;
+  <button
+    type="button"
+    class="toolbar__button toolbar__sort"
+    [title]="'list.sortHint' | transloco"
+    [attr.aria-label]="('list.sortHint' | transloco) + ': ' + sortText"
+    (click)="store.toggleDirection()"
+  >
+    <i [class]="sortIcon()" aria-hidden="true"></i>
+    {{ sortText }}
+  </button>
+  <span class="visually-hidden" role="status">{{ sortAnnouncementKey() | transloco }}</span>
+
+  @if (store.notFoundCount() > 0) {
+    <button
+      #missingTrigger
+      type="button"
+      class="toolbar__button toolbar__missing"
+      aria-haspopup="dialog"
+      (click)="missingRequested.emit()"
+    >
+      <i class="pi pi-list" aria-hidden="true"></i>
+      {{ 'list.missingButton' | transloco: { count: store.notFoundCount() } }}
+    </button>
+  }
+</div>
