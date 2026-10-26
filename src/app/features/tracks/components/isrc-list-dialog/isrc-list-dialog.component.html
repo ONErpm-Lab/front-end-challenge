@@ -1,0 +1,40 @@
+<div class="dialog">
+  <div class="head">
+    <h2 id="isrc-dialog-title" class="title">{{ data.titleKey | transloco }}</h2>
+    <button
+      type="button"
+      class="btn btn--icon close"
+      [attr.aria-label]="'status.close' | transloco"
+      (click)="close()"
+    >
+      <orp-icon name="close" />
+    </button>
+  </div>
+  <p class="hint">{{ data.hintKey | transloco }}</p>
+  <ul class="list" [attr.aria-label]="data.titleKey | transloco">
+    @for (isrc of data.isrcs; track isrc) {
+      <li class="item">
+        <span class="mono">{{ isrc }}</span>
+        <orp-copy-button
+          [value]="isrc"
+          [label]="'copy.copyIsrc' | transloco: { isrc }"
+          [copiedLabel]="'copy.copied' | transloco"
+        />
+      </li>
+    }
+  </ul>
+  <div class="actions">
+    <orp-copy-button
+      [value]="all()"
+      [label]="'copy.copyAll' | transloco"
+      [caption]="'copy.copyAll' | transloco"
+      [copiedLabel]="'copy.copied' | transloco"
+    />
+    @if (data.retry) {
+      <button type="button" class="btn btn--accent" (click)="retry()">
+        <orp-icon name="retry" [size]="15" />
+        {{ 'status.retry' | transloco }}
+      </button>
+    }
+  </div>
+</div>

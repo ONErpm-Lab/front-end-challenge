@@ -1,0 +1,11 @@
+<div class="panel" role="alert">
+  <span class="icon" aria-hidden="true"><orp-icon name="alert" [size]="22" /></span>
+  <div class="text">
+    <h2 class="title">{{ 'status.unavailableTitle' | transloco }}</h2>
+    <p class="message">{{ 'status.unavailableMessage' | transloco }}</p>
+  </div>
+  <button type="button" class="btn retry" (click)="retry.emit()">
+    <orp-icon name="retry" [size]="16" [strokeWidth]="2.5" />
+    {{ 'status.retry' | transloco }}
+  </button>
+</div>

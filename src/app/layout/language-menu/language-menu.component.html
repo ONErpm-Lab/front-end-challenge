@@ -1,0 +1,30 @@
+<!-- Named by its content, so the name always holds the visible text: the full name on wide screens, the code on phones. -->
+<button type="button" class="btn trigger" [cdkMenuTriggerFor]="menu">
+  <orp-icon name="globe" />
+  <span class="visually-hidden">{{ 'app.language' | transloco }}:&ngsp;</span>
+  <span class="trigger__label" [lang]="current().locale">{{ current().label }}&ngsp;</span>
+  <span class="trigger__short">{{ current().id.toUpperCase() }}</span>
+  <orp-icon name="chevron-down" [size]="14" />
+</button>
+
+<ng-template #menu>
+  <div class="menu" cdkMenu [attr.aria-label]="'app.language' | transloco">
+    @for (option of i18n.options; track option.id) {
+      <button
+        type="button"
+        class="item"
+        cdkMenuItemRadio
+        [cdkMenuItemChecked]="option.id === i18n.language()"
+        [lang]="option.locale"
+        (cdkMenuItemTriggered)="choose(option.id)"
+      >
+        <span class="item__check" aria-hidden="true">
+          @if (option.id === i18n.language()) {
+            <orp-icon name="check" [size]="14" [strokeWidth]="2.5" />
+          }
+        </span>
+        {{ option.label }}
+      </button>
+    }
+  </div>
+</ng-template>

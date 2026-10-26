@@ -1,0 +1,15 @@
+@if (url() && !broken()) {
+  <img
+    [src]="url()"
+    [alt]="alt()"
+    [width]="size()"
+    [height]="size()"
+    [attr.loading]="eager() ? 'eager' : 'lazy'"
+    decoding="async"
+    (error)="broken.set(true)"
+  />
+} @else {
+  <span class="placeholder" role="img" [attr.aria-label]="missingLabel()">
+    <orp-icon name="disc" [size]="iconSize()" [strokeWidth]="1.5" />
+  </span>
+}

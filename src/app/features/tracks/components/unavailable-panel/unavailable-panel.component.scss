@@ -1,0 +1,39 @@
+.panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--warn-border);
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+}
+.icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--warn-strong) 16%, transparent);
+}
+.text {
+  flex: 1 1 16rem;
+}
+.title {
+  font-size: 1.0625rem;
+  font-weight: 800;
+}
+.message {
+  font-size: 0.875rem;
+}
+.retry {
+  border-color: var(--warn-strong);
+  background: var(--warn-strong);
+  color: var(--warn-strong-ink);
+}
+@media (width < 40rem) {
+  .retry {
+    width: 100%;
+  }
+}

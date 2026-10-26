@@ -1,0 +1,11 @@
+dist
+.angular
+coverage
+node_modules
+package-lock.json
+.claude
+playwright-report
+test-results
+blob-report
+src/bff/testing/fixtures
+README.md

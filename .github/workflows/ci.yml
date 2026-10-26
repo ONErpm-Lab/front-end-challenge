@@ -1,0 +1,215 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main-spa]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  commits:
+    name: Commit messages
+    if: github.event_name == 'pull_request' && !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up project
+        uses: ./.github/actions/setup-project
+
+      - name: Lint commit messages
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: npx --no-install commitlint --from "$BASE_SHA" --to "$HEAD_SHA" --verbose
+
+  quality:
+    name: Lint, format and types
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up project
+        uses: ./.github/actions/setup-project
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Type-check app and specs
+        run: npm run typecheck
+
+  test:
+    name: Unit and integration tests
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up project
+        uses: ./.github/actions/setup-project
+
+      # Fails when coverage drops below the thresholds in angular.json.
+      - name: Run tests with coverage
+        run: npm run test:ci
+
+      - name: Summarize coverage
+        if: always()
+        run: |
+          if [ -f coverage/onerpm-tracks/coverage-summary.json ]; then
+            node -e "
+              const { total } = require('./coverage/onerpm-tracks/coverage-summary.json');
+              const rows = Object.entries(total).map(([k, v]) => '| ' + k + ' | ' + v.pct + '% |').join('\n');
+              console.log('### Coverage\n\n| Metric | Covered |\n| --- | --- |\n' + rows);
+            " >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: coverage
+          path: coverage/onerpm-tracks/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  build:
+    name: Production build
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up project
+        uses: ./.github/actions/setup-project
+
+      - name: Production build
+        run: npm run build
+
+  e2e:
+    name: End-to-end and accessibility
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    # Pinned: the Playwright browsers and their system packages are tested on this image.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up project
+        uses: ./.github/actions/setup-project
+
+      # The install used to be one `playwright install --with-deps`, which downloads the browser and also apt
+      # packages (fonts included) from a mirror that is sometimes very slow: the job then hung until the step
+      # timed out and no test ran. Now: the browser is cached by Playwright version, every download is retried
+      # with its own time limit, and apt is only touched when Chromium cannot start without it.
+      - name: Find the Playwright version
+        id: playwright
+        run: |
+          version="$(npx playwright --version | awk '{print $NF}')"
+          test -n "$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Cache the Chromium download
+        id: chromium
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      - name: Download Chromium
+        if: steps.chromium.outputs.cache-hit != 'true'
+        timeout-minutes: 8
+        run: |
+          for attempt in 1 2 3; do
+            timeout --kill-after=10 120 npx playwright install chromium && exit 0
+            echo "::warning::Chromium download, attempt $attempt, failed or timed out"
+          done
+          exit 1
+
+      - name: Install the system packages Chromium needs, if it cannot start without them
+        timeout-minutes: 8
+        run: |
+          if node -e "require('@playwright/test').chromium.launch().then((browser) => browser.close())"; then
+            echo "Chromium starts as it is: no system packages to install"
+            exit 0
+          fi
+          for attempt in 1 2 3; do
+            timeout --kill-after=10 120 npx playwright install-deps chromium && exit 0
+            echo "::warning::System packages, attempt $attempt, failed or timed out"
+          done
+          exit 1
+
+      - name: Run end-to-end and axe accessibility tests
+        run: npm run e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  audit:
+    name: Dependency audit (informational)
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # New advisories appear without any change in this repo, so they must not block unrelated PRs.
+    continue-on-error: true
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up project
+        uses: ./.github/actions/setup-project
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+  # Single required check for branch protection: it stays green for draft PRs (jobs skipped).
+  ci-ok:
+    name: CI OK
+    if: always()
+    needs: [commits, quality, test, build, e2e]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify every required job
+        run: |
+          if [ "${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}" = "true" ]; then
+            echo "A required job failed or was cancelled." >&2
+            exit 1
+          fi

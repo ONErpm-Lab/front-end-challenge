@@ -1,0 +1,68 @@
+.trigger {
+  min-height: 2.5rem;
+  padding: 0 0.75rem;
+}
+
+.trigger__short {
+  display: none;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  min-width: 11rem;
+  margin-top: 0.375rem;
+  padding: 0.375rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-dialog);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 0.75rem 0 0.5rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible,
+  &.cdk-focused {
+    background: var(--surface-sunken);
+    outline: none;
+  }
+
+  &[aria-checked='true'] {
+    color: var(--accent);
+  }
+}
+
+.item__check {
+  display: inline-flex;
+  width: 1rem;
+}
+
+@media (width < 40rem) {
+  /* Hidden from the eye only: the full name stays in the accessible name. */
+  .trigger__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .trigger__short {
+    display: inline;
+  }
+}

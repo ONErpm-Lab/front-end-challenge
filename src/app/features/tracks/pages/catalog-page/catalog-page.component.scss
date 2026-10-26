@@ -1,0 +1,119 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 1.75rem 2rem 3rem;
+}
+
+.intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.intro__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.title {
+  font-size: 2.125rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.subtitle {
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+.intro__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.partial {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--warn-border);
+  background: var(--warn-bg);
+  color: var(--warn-ink);
+}
+
+.partial__text {
+  flex: 1 1 16rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.partial__btn {
+  min-height: 2.5rem;
+  border-color: var(--warn-border);
+  background: transparent;
+  color: inherit;
+}
+
+.workspace {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.tracks {
+  flex: 999 1 40rem;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.detail {
+  position: sticky;
+  top: 1rem;
+  flex: 1 1 21rem;
+  max-width: 26rem;
+  padding: 1.25rem;
+}
+
+.detail__loading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+/* Keep in sync with SHEET_BREAKPOINT: below it the detail opens as a bottom sheet instead. */
+@media (width < 64rem) {
+  .detail {
+    display: none;
+  }
+}
+
+@media (width < 40rem) {
+  .page {
+    gap: 1rem;
+    padding: 1rem 1rem 2.5rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .intro__actions {
+    display: grid;
+    width: 100%;
+  }
+
+  .tracks {
+    margin: 0 -0.25rem;
+  }
+}

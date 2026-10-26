@@ -1,0 +1,54 @@
+<div class="toolbar">
+  <div class="search">
+    <label for="track-filter" class="visually-hidden">{{ 'list.filterLabel' | transloco }}</label>
+    <orp-icon class="search__icon" name="search" [size]="17" />
+    <input
+      #filter
+      id="track-filter"
+      type="search"
+      autocomplete="off"
+      spellcheck="false"
+      [value]="store.query()"
+      [placeholder]="'list.filterPlaceholder' | transloco"
+      (input)="onInput($event)"
+    />
+    @if (store.query()) {
+      <button
+        type="button"
+        class="search__clear"
+        [attr.aria-label]="'list.filterClear' | transloco"
+        (click)="clear(filter)"
+      >
+        <orp-icon name="close" [size]="14" [strokeWidth]="2.5" />
+      </button>
+    }
+  </div>
+
+  <div class="chips" role="group" [attr.aria-label]="'list.statusFilter' | transloco">
+    @for (chip of chips(); track chip.id) {
+      <button
+        type="button"
+        class="chip"
+        [attr.aria-pressed]="chip.pressed"
+        (click)="store.setStatusFilter(chip.id)"
+      >
+        {{ chip.label | transloco }}
+        <span class="chip__count mono">{{ chip.count }}</span>
+      </button>
+    }
+  </div>
+
+  <button
+    type="button"
+    class="btn sort"
+    [title]="'list.sortHint' | transloco"
+    (click)="store.toggleDirection()"
+  >
+    <orp-icon name="sort" [size]="15" />
+    <span class="visually-hidden"
+      >{{ (descending() ? 'list.sortedDesc' : 'list.sortedAsc') | transloco }}.
+      {{ 'list.sortHint' | transloco }}:</span
+    >
+    <span>{{ (descending() ? 'list.sortDesc' : 'list.sortAsc') | transloco }}</span>
+  </button>
+</div>

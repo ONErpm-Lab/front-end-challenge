@@ -1,0 +1,64 @@
+<div class="page">
+  <div class="intro">
+    <div class="intro__text">
+      <h1 class="title">{{ 'app.title' | transloco }}</h1>
+      <p class="subtitle">{{ 'app.subtitle' | transloco }}</p>
+    </div>
+    @if (store.isReady()) {
+      <div class="intro__actions">
+        @if (store.notFoundIsrcs().length > 0) {
+          <button type="button" class="btn" (click)="showNotFound()">
+            {{ 'list.missingButton' | transloco: { count: store.notFoundIsrcs().length } }}
+          </button>
+        }
+        @if (foundIsrcs()) {
+          <orp-copy-button
+            [value]="foundIsrcs()"
+            [label]="'list.copyAllIsrcs' | transloco"
+            [caption]="'list.copyAllIsrcs' | transloco"
+            [copiedLabel]="'copy.copied' | transloco"
+          />
+        }
+      </div>
+    }
+  </div>
+
+  @if (store.isUnavailable()) {
+    <orp-unavailable-panel (retry)="store.reload()" />
+  } @else {
+    @if (store.isReady() && store.failedIsrcs().length > 0) {
+      <div class="partial" role="status">
+        <orp-icon name="alert" [size]="18" />
+        <span class="partial__text">{{
+          'status.partialFailure' | transloco: { count: store.failedIsrcs().length }
+        }}</span>
+        <button type="button" class="btn partial__btn" (click)="showFailed()">
+          {{ 'status.showAffected' | transloco }}
+        </button>
+      </div>
+    }
+
+    <orp-catalog-summary [summary]="store.summary()" [loading]="store.isLoading()" />
+
+    <div class="workspace">
+      <section class="card tracks" [attr.aria-label]="'tracks.listLabel' | transloco">
+        <orp-tracks-toolbar />
+        <orp-tracks-table (picked)="onPick($event)" />
+      </section>
+
+      @if (!usesSheet()) {
+        <aside class="card detail" [attr.aria-label]="'tracks.detailsTitle' | transloco">
+          @if (store.isLoading()) {
+            <div class="detail__loading" aria-hidden="true">
+              <span class="skeleton" style="aspect-ratio: 1; width: 100%"></span>
+              <span class="skeleton" style="width: 40%; height: 1.5rem"></span>
+              <span class="skeleton" style="width: 70%; height: 1rem"></span>
+            </div>
+          } @else {
+            <orp-track-detail />
+          }
+        </aside>
+      }
+    </div>
+  }
+</div>

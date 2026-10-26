@@ -1,0 +1,127 @@
+{
+  "tracks": {
+    "href": "https://api.spotify.com/v1/search?offset=0&limit=10&query=isrc%3ANO1R42511410&type=track&market=BR&locale=*",
+    "limit": 10,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 0,
+    "items": [
+      {
+        "album": {
+          "album_type": "single",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0lEUt2NEeRPs6hbBkyyChp"
+              },
+              "href": "https://api.spotify.com/v1/artists/0lEUt2NEeRPs6hbBkyyChp",
+              "id": "0lEUt2NEeRPs6hbBkyyChp",
+              "name": "A-Booty",
+              "type": "artist",
+              "uri": "spotify:artist:0lEUt2NEeRPs6hbBkyyChp"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/50D8WLisYl2C8eM3UNLzBQ"
+              },
+              "href": "https://api.spotify.com/v1/artists/50D8WLisYl2C8eM3UNLzBQ",
+              "id": "50D8WLisYl2C8eM3UNLzBQ",
+              "name": "Prodde G's",
+              "type": "artist",
+              "uri": "spotify:artist:50D8WLisYl2C8eM3UNLzBQ"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/1lTEXwwTttlwUk5LnFw4Di"
+              },
+              "href": "https://api.spotify.com/v1/artists/1lTEXwwTttlwUk5LnFw4Di",
+              "id": "1lTEXwwTttlwUk5LnFw4Di",
+              "name": "Redmenn",
+              "type": "artist",
+              "uri": "spotify:artist:1lTEXwwTttlwUk5LnFw4Di"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/7kroEzczj3mFwjHmMWxT27"
+          },
+          "href": "https://api.spotify.com/v1/albums/7kroEzczj3mFwjHmMWxT27",
+          "id": "7kroEzczj3mFwjHmMWxT27",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2732e8e1563e76944cf9a7afcbc"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e022e8e1563e76944cf9a7afcbc"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d000048512e8e1563e76944cf9a7afcbc"
+            }
+          ],
+          "is_playable": true,
+          "name": "Run It Back (Iron Maiden)",
+          "release_date": "2025-12-05",
+          "release_date_precision": "day",
+          "total_tracks": 1,
+          "type": "album",
+          "uri": "spotify:album:7kroEzczj3mFwjHmMWxT27"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0lEUt2NEeRPs6hbBkyyChp"
+            },
+            "href": "https://api.spotify.com/v1/artists/0lEUt2NEeRPs6hbBkyyChp",
+            "id": "0lEUt2NEeRPs6hbBkyyChp",
+            "name": "A-Booty",
+            "type": "artist",
+            "uri": "spotify:artist:0lEUt2NEeRPs6hbBkyyChp"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/50D8WLisYl2C8eM3UNLzBQ"
+            },
+            "href": "https://api.spotify.com/v1/artists/50D8WLisYl2C8eM3UNLzBQ",
+            "id": "50D8WLisYl2C8eM3UNLzBQ",
+            "name": "Prodde G's",
+            "type": "artist",
+            "uri": "spotify:artist:50D8WLisYl2C8eM3UNLzBQ"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1lTEXwwTttlwUk5LnFw4Di"
+            },
+            "href": "https://api.spotify.com/v1/artists/1lTEXwwTttlwUk5LnFw4Di",
+            "id": "1lTEXwwTttlwUk5LnFw4Di",
+            "name": "Redmenn",
+            "type": "artist",
+            "uri": "spotify:artist:1lTEXwwTttlwUk5LnFw4Di"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 135111,
+        "explicit": true,
+        "external_ids": {
+          "isrc": "NO1R42511410"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/0P3DznoqrsGWw3gOTNFj1j"
+        },
+        "href": "https://api.spotify.com/v1/tracks/0P3DznoqrsGWw3gOTNFj1j",
+        "id": "0P3DznoqrsGWw3gOTNFj1j",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Run It Back (Iron Maiden)",
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:0P3DznoqrsGWw3gOTNFj1j"
+      }
+    ]
+  }
+}

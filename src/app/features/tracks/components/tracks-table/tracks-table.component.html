@@ -1,0 +1,154 @@
+<div class="scroller">
+  <table [attr.aria-busy]="store.isLoading()">
+    <caption class="visually-hidden">
+      {{
+        'tracks.listLabel' | transloco
+      }}
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">{{ 'list.columns.track' | transloco }}</th>
+        <th scope="col" class="col-isrc">{{ 'list.columns.isrc' | transloco }}</th>
+        <th scope="col" class="col-released">{{ 'list.columns.released' | transloco }}</th>
+        <th scope="col" class="col-duration">{{ 'list.columns.duration' | transloco }}</th>
+        <th scope="col" class="col-brazil">{{ 'list.columns.brazil' | transloco }}</th>
+        <th scope="col" class="col-chevron">
+          <span class="visually-hidden">{{ 'list.columns.details' | transloco }}</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (store.isLoading()) {
+        @for (row of skeleton; track row) {
+          <tr aria-hidden="true">
+            <td>
+              <div class="track">
+                <span class="skeleton cover-skeleton"></span>
+                <span class="track__text">
+                  <span class="skeleton" style="width: 9rem; height: 0.75rem"></span>
+                  <span class="skeleton" style="width: 6rem; height: 0.625rem"></span>
+                </span>
+              </div>
+            </td>
+            <td class="col-isrc">
+              <span class="skeleton" style="width: 7rem; height: 0.75rem"></span>
+            </td>
+            <td class="col-released">
+              <span class="skeleton" style="width: 5rem; height: 0.75rem"></span>
+            </td>
+            <td class="col-duration">
+              <span class="skeleton" style="width: 2.5rem; height: 0.75rem"></span>
+            </td>
+            <td class="col-brazil">
+              <span class="skeleton" style="width: 5rem; height: 1.5rem"></span>
+            </td>
+            <td class="col-chevron"></td>
+          </tr>
+        }
+      } @else {
+        @for (row of rows(); track row.result.isrc) {
+          <tr [class.selected]="row.selected">
+            @if (row.track; as track) {
+              <td>
+                <div class="track">
+                  <orp-track-cover
+                    [url]="track.coverUrl"
+                    [alt]="''"
+                    [missingLabel]="'tracks.coverMissing' | transloco"
+                  />
+                  <span class="track__text">
+                    <button
+                      type="button"
+                      class="track__title"
+                      [attr.aria-current]="row.selected ? 'true' : null"
+                      [attr.aria-label]="'tracks.viewDetails' | transloco: { title: track.title }"
+                      (click)="pick(track.isrc, $any($event.currentTarget))"
+                    >
+                      {{ track.title }}
+                    </button>
+                    <span class="track__artists">{{ row.artists }}</span>
+                  </span>
+                </div>
+              </td>
+              <td class="col-isrc mono">{{ track.isrc }}</td>
+              <td class="col-released">{{ row.released }}</td>
+              <td class="col-duration mono">{{ row.duration }}</td>
+              <td class="col-brazil">
+                @if (track.availableInBR) {
+                  <span class="badge badge--success">
+                    <orp-icon name="check" [size]="12" [strokeWidth]="3" />
+                    <span class="badge__text">{{ 'tracks.available' | transloco }}</span>
+                    <span class="badge__short" aria-hidden="true">BR</span>
+                  </span>
+                } @else {
+                  <span class="badge badge--neutral">
+                    <orp-icon name="close" [size]="12" [strokeWidth]="3" />
+                    <span class="badge__text">{{ 'tracks.unavailable' | transloco }}</span>
+                    <span class="badge__short" aria-hidden="true">BR</span>
+                  </span>
+                }
+              </td>
+              <td class="col-chevron" aria-hidden="true">
+                <orp-icon name="chevron-right" />
+              </td>
+            } @else {
+              <td>
+                <div class="track">
+                  <orp-track-cover [alt]="''" [missingLabel]="'tracks.coverMissing' | transloco" />
+                  <span class="track__text">
+                    <span class="track__isrc mono">{{ row.result.isrc }}</span>
+                    <span class="track__artists">{{
+                      (row.result.status === lookupStatus.NOT_FOUND
+                        ? 'tracks.notFound'
+                        : 'tracks.failed'
+                      ) | transloco
+                    }}</span>
+                  </span>
+                </div>
+              </td>
+              <td class="col-isrc mono">{{ row.result.isrc }}</td>
+              <td class="col-released">—</td>
+              <td class="col-duration">—</td>
+              <td class="col-brazil">
+                <span class="badge badge--warn">
+                  <orp-icon class="badge__alert" name="alert" [size]="13" />
+                  <span class="badge__text">{{
+                    (row.result.status === lookupStatus.NOT_FOUND
+                      ? 'tracks.notFoundShort'
+                      : 'tracks.failedShort'
+                    ) | transloco
+                  }}</span>
+                </span>
+              </td>
+              <td class="col-chevron"></td>
+            }
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
+
+@if (!store.isLoading() && rows().length === 0) {
+  <div class="empty">
+    @if (query()) {
+      <p class="empty__title">{{ 'list.filterEmpty' | transloco: { query: query() } }}</p>
+      <p class="empty__hint">{{ 'list.emptyQueryHint' | transloco }}</p>
+    } @else {
+      <p class="empty__title">{{ 'list.emptyStatus' | transloco }}</p>
+    }
+    <button type="button" class="btn btn--primary" (click)="store.clearFilters()">
+      {{ 'list.resetFilters' | transloco }}
+    </button>
+  </div>
+}
+
+<p class="count" role="status">
+  @if (!store.isLoading()) {
+    @if (store.isFiltered()) {
+      {{ 'list.filterCount' | transloco: { shown: rows().length, total: store.items().length } }}
+    } @else {
+      {{ 'list.summary' | transloco: { count: store.summary().found } }}
+    }
+  }
+</p>

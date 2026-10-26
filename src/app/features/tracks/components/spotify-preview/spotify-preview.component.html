@@ -1,0 +1,21 @@
+<div class="stage" [style.height.px]="height">
+  @if (!shown()) {
+    <div class="loading" role="status">
+      <span class="spinner" aria-hidden="true"></span>
+      {{ 'tracks.loadingPlayer' | transloco }}
+    </div>
+  }
+  @if (fallbackUrl(); as url) {
+    <iframe
+      class="frame"
+      allow="encrypted-media"
+      [class.pending]="!shown()"
+      [src]="url"
+      [title]="playerTitle()"
+      [height]="height"
+      (load)="onFallbackLoad($event)"
+    ></iframe>
+  } @else {
+    <div #mount class="mount" [class.pending]="!ready()"></div>
+  }
+</div>

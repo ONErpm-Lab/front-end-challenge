@@ -1,0 +1,88 @@
+name: Deploy to GitHub Pages
+
+# Manual only: Actions → "Deploy to GitHub Pages" → Run workflow, on main-spa (ADR 0006).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One deploy at a time; a new run waits instead of cancelling the one being published.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Check and build
+    if: github.ref == 'refs/heads/main-spa'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up project
+        uses: ./.github/actions/setup-project
+
+      - name: Lint
+        run: npm run lint
+
+      # Fails when coverage drops below the thresholds in angular.json.
+      - name: Run tests with coverage
+        run: npm run test:ci
+
+      # Gives the base path of the site: /<repository>/ for a project page.
+      - name: Read the Pages settings
+        id: pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      # The credentials end up in the published JavaScript anyway (ADR 0002); they are kept out of Git only.
+      - name: Write the Spotify credentials into the production environment
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+        run: |
+          if [ -z "$SPOTIFY_CLIENT_ID" ] || [ -z "$SPOTIFY_CLIENT_SECRET" ]; then
+            echo "::error::Set the SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET repository secrets"
+            exit 1
+          fi
+          node -e "
+            const spotify = { clientId: process.env.SPOTIFY_CLIENT_ID, clientSecret: process.env.SPOTIFY_CLIENT_SECRET };
+            require('fs').writeFileSync('src/environments/environment.ts',
+              \"import { Environment } from './environment.interfaces';\n\n\" +
+              'export const environment: Environment = ' +
+              JSON.stringify({ production: true, spotify }, null, 2) + ';\n');
+          "
+
+      - name: Production build
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: npm run build -- --base-href "${BASE_PATH}/"
+
+      # Any unknown path is answered by the app itself, which sends it back to the catalog.
+      - name: Serve the app for unknown paths
+        run: cp dist/onerpm-tracks/browser/index.html dist/onerpm-tracks/browser/404.html
+
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist/onerpm-tracks/browser
+
+  deploy:
+    name: Publish
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

@@ -1,0 +1,87 @@
+{
+  "tracks": {
+    "href": "https://api.spotify.com/v1/search?offset=0&limit=10&query=isrc%3AQZNJX2078148&type=track&market=BR&locale=*",
+    "limit": 10,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 0,
+    "items": [
+      {
+        "album": {
+          "album_type": "single",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/5CP1F3lO9qNaHJPPM0F4FZ"
+              },
+              "href": "https://api.spotify.com/v1/artists/5CP1F3lO9qNaHJPPM0F4FZ",
+              "id": "5CP1F3lO9qNaHJPPM0F4FZ",
+              "name": "Надя Точилкина",
+              "type": "artist",
+              "uri": "spotify:artist:5CP1F3lO9qNaHJPPM0F4FZ"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/44kxK6QCN3mi8QDqg7eTC3"
+          },
+          "href": "https://api.spotify.com/v1/albums/44kxK6QCN3mi8QDqg7eTC3",
+          "id": "44kxK6QCN3mi8QDqg7eTC3",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273cdd07497a2fd6ca6c21e31b3"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02cdd07497a2fd6ca6c21e31b3"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851cdd07497a2fd6ca6c21e31b3"
+            }
+          ],
+          "is_playable": true,
+          "name": "Доверюсь солнцу",
+          "release_date": "2020-12-11",
+          "release_date_precision": "day",
+          "total_tracks": 1,
+          "type": "album",
+          "uri": "spotify:album:44kxK6QCN3mi8QDqg7eTC3"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/5CP1F3lO9qNaHJPPM0F4FZ"
+            },
+            "href": "https://api.spotify.com/v1/artists/5CP1F3lO9qNaHJPPM0F4FZ",
+            "id": "5CP1F3lO9qNaHJPPM0F4FZ",
+            "name": "Надя Точилкина",
+            "type": "artist",
+            "uri": "spotify:artist:5CP1F3lO9qNaHJPPM0F4FZ"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 221886,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "QZNJX2078148"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/1EIYjzkRSy5rYQOn2VKfZb"
+        },
+        "href": "https://api.spotify.com/v1/tracks/1EIYjzkRSy5rYQOn2VKfZb",
+        "id": "1EIYjzkRSy5rYQOn2VKfZb",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Доверюсь солнцу",
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:1EIYjzkRSy5rYQOn2VKfZb"
+      }
+    ]
+  }
+}

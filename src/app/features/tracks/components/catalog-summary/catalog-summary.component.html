@@ -1,0 +1,54 @@
+<section class="summary" [attr.aria-label]="'kpi.label' | transloco" [attr.aria-busy]="loading()">
+  @if (loading()) {
+    @for (placeholder of [1, 2, 3, 4]; track placeholder) {
+      <div class="card kpi" aria-hidden="true">
+        <span class="skeleton" style="width: 60%; height: 0.75rem"></span>
+        <span class="skeleton" style="width: 35%; height: 1.75rem"></span>
+        <span class="skeleton" style="width: 50%; height: 0.625rem"></span>
+      </div>
+    }
+    <div class="card chart" aria-hidden="true">
+      <span class="skeleton" style="width: 40%; height: 0.75rem"></span>
+      <span class="skeleton" style="width: 100%; height: 4rem"></span>
+    </div>
+  } @else {
+    <div class="card kpi">
+      <h2 class="kpi__label">{{ 'kpi.queried' | transloco }}</h2>
+      <p class="kpi__value">{{ summary().total }}</p>
+      <p class="kpi__hint">{{ 'kpi.queriedHint' | transloco }}</p>
+    </div>
+    <div class="card kpi">
+      <h2 class="kpi__label">{{ 'kpi.found' | transloco }}</h2>
+      <p class="kpi__value">{{ summary().found }}</p>
+      <div class="meter" aria-hidden="true">
+        <span class="meter__fill" [style.transform]="'scaleX(' + foundRatio() + ')'"></span>
+      </div>
+      <p class="kpi__hint">{{ 'kpi.foundHint' | transloco: { percent: foundPercent() } }}</p>
+    </div>
+    <div class="card kpi">
+      <h2 class="kpi__label">{{ 'kpi.availableBR' | transloco }}</h2>
+      <p class="kpi__value kpi__value--success">{{ summary().availableInBR }}</p>
+      <p class="kpi__hint">{{ 'kpi.availableBRHint' | transloco }}</p>
+    </div>
+    <div class="card kpi">
+      <h2 class="kpi__label">{{ 'kpi.duration' | transloco }}</h2>
+      <p class="kpi__value mono">{{ duration() }}</p>
+      <p class="kpi__hint">{{ 'kpi.durationHint' | transloco: { count: summary().found } }}</p>
+    </div>
+    <figure class="card chart">
+      <figcaption class="kpi__label">{{ 'kpi.releases' | transloco }}</figcaption>
+      <ol class="bars">
+        @for (year of years(); track year.year) {
+          <li class="bar">
+            <span class="visually-hidden">{{
+              'kpi.releaseYear' | transloco: { year: year.year, count: year.count }
+            }}</span>
+            <span class="bar__count" aria-hidden="true">{{ year.count }}</span>
+            <span class="bar__fill" aria-hidden="true" [style.height.rem]="year.height"></span>
+            <span class="bar__year mono" aria-hidden="true">{{ year.year }}</span>
+          </li>
+        }
+      </ol>
+    </figure>
+  }
+</section>

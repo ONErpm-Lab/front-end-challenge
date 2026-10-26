@@ -1,0 +1,48 @@
+@if (dates().length > 1) {
+  <button
+    #trigger
+    type="button"
+    class="badge badge--warn trigger"
+    cdkOverlayOrigin
+    #origin="cdkOverlayOrigin"
+    aria-haspopup="dialog"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="open() ? popoverId : null"
+    (click)="toggle()"
+  >
+    <orp-icon name="alert" [size]="12" [strokeWidth]="2.5" />
+    {{ 'tracks.releaseDatesFound' | transloco: { count: dates().length } }}
+  </button>
+
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="origin"
+    [cdkConnectedOverlayOpen]="open()"
+    [cdkConnectedOverlayPositions]="positions"
+    (attach)="onAttach()"
+    (detach)="close(false)"
+    (overlayKeydown)="onKeydown($event)"
+    (overlayOutsideClick)="onOutsideClick($event)"
+  >
+    <div
+      #popover
+      class="popover"
+      role="dialog"
+      tabindex="-1"
+      [id]="popoverId"
+      [attr.aria-label]="'tracks.releaseDatesTitle' | transloco"
+    >
+      <p class="popover__title" aria-hidden="true">{{ 'tracks.releaseDatesTitle' | transloco }}</p>
+      <ul class="popover__list">
+        @for (date of rows(); track date.value) {
+          <li [class.shown]="date.shown">
+            {{ date.label }}
+            @if (date.shown) {
+              <span class="popover__tag">{{ 'tracks.releaseDateShown' | transloco }}</span>
+            }
+          </li>
+        }
+      </ul>
+    </div>
+  </ng-template>
+}

@@ -1,0 +1,202 @@
+{
+  "tracks": {
+    "href": "https://api.spotify.com/v1/search?offset=0&limit=10&query=isrc%3ABXKZM1900345&type=track&market=BR&locale=*",
+    "limit": 10,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 0,
+    "items": [
+      {
+        "album": {
+          "album_type": "single",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/4L8Oinspwt52TOH9afx80o"
+              },
+              "href": "https://api.spotify.com/v1/artists/4L8Oinspwt52TOH9afx80o",
+              "id": "4L8Oinspwt52TOH9afx80o",
+              "name": "DJ Malibu",
+              "type": "artist",
+              "uri": "spotify:artist:4L8Oinspwt52TOH9afx80o"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/3fnFtuc28eKQRsMqs3fP5L"
+          },
+          "href": "https://api.spotify.com/v1/albums/3fnFtuc28eKQRsMqs3fP5L",
+          "id": "3fnFtuc28eKQRsMqs3fP5L",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b27331a27cbe5ca525fd27e16e5b"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e0231a27cbe5ca525fd27e16e5b"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000485131a27cbe5ca525fd27e16e5b"
+            }
+          ],
+          "is_playable": true,
+          "name": "Louca",
+          "release_date": "2019-10-04",
+          "release_date_precision": "day",
+          "total_tracks": 1,
+          "type": "album",
+          "uri": "spotify:album:3fnFtuc28eKQRsMqs3fP5L"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4L8Oinspwt52TOH9afx80o"
+            },
+            "href": "https://api.spotify.com/v1/artists/4L8Oinspwt52TOH9afx80o",
+            "id": "4L8Oinspwt52TOH9afx80o",
+            "name": "DJ Malibu",
+            "type": "artist",
+            "uri": "spotify:artist:4L8Oinspwt52TOH9afx80o"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0m4p9bFcCB7xFbOBnSZqDJ"
+            },
+            "href": "https://api.spotify.com/v1/artists/0m4p9bFcCB7xFbOBnSZqDJ",
+            "id": "0m4p9bFcCB7xFbOBnSZqDJ",
+            "name": "MC Pack",
+            "type": "artist",
+            "uri": "spotify:artist:0m4p9bFcCB7xFbOBnSZqDJ"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1UFLR3TTJAODTIog5FNv3e"
+            },
+            "href": "https://api.spotify.com/v1/artists/1UFLR3TTJAODTIog5FNv3e",
+            "id": "1UFLR3TTJAODTIog5FNv3e",
+            "name": "MC Gui Andrade",
+            "type": "artist",
+            "uri": "spotify:artist:1UFLR3TTJAODTIog5FNv3e"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 124315,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "BXKZM1900345"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/1Esxp6lXJWU7TaOQM2JsQn"
+        },
+        "href": "https://api.spotify.com/v1/tracks/1Esxp6lXJWU7TaOQM2JsQn",
+        "id": "1Esxp6lXJWU7TaOQM2JsQn",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Louca",
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:1Esxp6lXJWU7TaOQM2JsQn"
+      },
+      {
+        "album": {
+          "album_type": "single",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/4L8Oinspwt52TOH9afx80o"
+              },
+              "href": "https://api.spotify.com/v1/artists/4L8Oinspwt52TOH9afx80o",
+              "id": "4L8Oinspwt52TOH9afx80o",
+              "name": "DJ Malibu",
+              "type": "artist",
+              "uri": "spotify:artist:4L8Oinspwt52TOH9afx80o"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/1GoEvOAOEiRZrGJBdNJ3dp"
+          },
+          "href": "https://api.spotify.com/v1/albums/1GoEvOAOEiRZrGJBdNJ3dp",
+          "id": "1GoEvOAOEiRZrGJBdNJ3dp",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2731cd3135bb70b14104ad5cec6"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e021cd3135bb70b14104ad5cec6"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d000048511cd3135bb70b14104ad5cec6"
+            }
+          ],
+          "is_playable": true,
+          "name": "Louca",
+          "release_date": "2019-10-05",
+          "release_date_precision": "day",
+          "total_tracks": 1,
+          "type": "album",
+          "uri": "spotify:album:1GoEvOAOEiRZrGJBdNJ3dp"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4L8Oinspwt52TOH9afx80o"
+            },
+            "href": "https://api.spotify.com/v1/artists/4L8Oinspwt52TOH9afx80o",
+            "id": "4L8Oinspwt52TOH9afx80o",
+            "name": "DJ Malibu",
+            "type": "artist",
+            "uri": "spotify:artist:4L8Oinspwt52TOH9afx80o"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0m4p9bFcCB7xFbOBnSZqDJ"
+            },
+            "href": "https://api.spotify.com/v1/artists/0m4p9bFcCB7xFbOBnSZqDJ",
+            "id": "0m4p9bFcCB7xFbOBnSZqDJ",
+            "name": "MC Pack",
+            "type": "artist",
+            "uri": "spotify:artist:0m4p9bFcCB7xFbOBnSZqDJ"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1UFLR3TTJAODTIog5FNv3e"
+            },
+            "href": "https://api.spotify.com/v1/artists/1UFLR3TTJAODTIog5FNv3e",
+            "id": "1UFLR3TTJAODTIog5FNv3e",
+            "name": "MC Gui Andrade",
+            "type": "artist",
+            "uri": "spotify:artist:1UFLR3TTJAODTIog5FNv3e"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 124315,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "BXKZM1900345"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/5w4O21KEy5RBVCiecgmSMo"
+        },
+        "href": "https://api.spotify.com/v1/tracks/5w4O21KEy5RBVCiecgmSMo",
+        "id": "5w4O21KEy5RBVCiecgmSMo",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Louca",
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:5w4O21KEy5RBVCiecgmSMo"
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+<button
+  type="button"
+  class="btn"
+  [class.btn--icon]="!caption()"
+  [class.done]="done()"
+  [attr.aria-label]="caption() ? null : label()"
+  [title]="label()"
+  (click)="copy()"
+>
+  <orp-icon [name]="done() ? 'check' : 'copy'" />
+  @if (caption(); as text) {
+    <span>{{ done() ? copiedLabel() : text }}</span>
+  }
+</button>
+<span class="visually-hidden" role="status">{{ done() ? copiedLabel() : '' }}</span>

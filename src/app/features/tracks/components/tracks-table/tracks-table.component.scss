@@ -1,0 +1,216 @@
+:host {
+  display: block;
+}
+
+.scroller {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 46rem;
+  border-collapse: collapse;
+}
+
+th {
+  height: 2.5rem;
+  padding: 0 1rem;
+  background: var(--row-hover);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: left;
+  white-space: nowrap;
+}
+
+td {
+  height: 4rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.8125rem;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+tbody tr {
+  position: relative;
+
+  &:hover {
+    background: var(--row-hover);
+  }
+
+  &.selected {
+    background: var(--accent-soft);
+  }
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  max-width: 28rem;
+}
+
+.cover-skeleton {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  flex: none;
+}
+
+.track__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.track__title {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* The whole row picks the track: the button's hit area covers it. */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    &::after {
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
+    }
+  }
+}
+
+.track__isrc {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.track__artists {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge__short,
+.badge .badge__alert {
+  display: none;
+}
+
+.col-chevron {
+  width: 2.5rem;
+  color: var(--muted);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.empty__title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.empty__hint {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.count {
+  min-height: 2.75rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* Phones: the track, its duration and a short BR badge; the rest lives in the detail sheet. */
+@media (width < 48rem) {
+  table {
+    min-width: 0;
+  }
+
+  /* The track takes whatever the duration and the badge leave, and its texts get ellipsis. */
+  td:first-child {
+    width: 100%;
+    max-width: 0;
+  }
+
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .col-isrc,
+  .col-released,
+  .col-chevron {
+    display: none;
+  }
+
+  td {
+    height: 4.25rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .col-duration {
+    width: 3.75rem;
+    text-align: right;
+  }
+
+  .col-brazil {
+    width: 4rem;
+    padding-left: 0;
+    text-align: right;
+  }
+
+  /* Still read out: only the eye gets the short form. */
+  .badge__text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .badge__short {
+    display: inline;
+  }
+
+  .badge orp-icon {
+    display: none;
+  }
+
+  .badge--warn {
+    padding: 0 0.5rem;
+  }
+
+  .badge .badge__alert {
+    display: inline-flex;
+  }
+}

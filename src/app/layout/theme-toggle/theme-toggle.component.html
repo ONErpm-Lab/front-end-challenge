@@ -1,0 +1,9 @@
+<button
+  type="button"
+  class="btn btn--icon"
+  [attr.aria-label]="(theme.isDark() ? 'app.theme.toLight' : 'app.theme.toDark') | transloco"
+  [title]="(theme.isDark() ? 'app.theme.toLight' : 'app.theme.toDark') | transloco"
+  (click)="theme.toggle()"
+>
+  <orp-icon [name]="theme.isDark() ? 'sun' : 'moon'" [size]="17" />
+</button>

@@ -1,0 +1,105 @@
+@if (track(); as track) {
+  <article class="detail" [attr.aria-labelledby]="headingId()">
+    @if (sheet()) {
+      <div class="sheet-head">
+        <span class="handle" aria-hidden="true"></span>
+        <button
+          type="button"
+          class="btn btn--icon close"
+          [attr.aria-label]="'tracks.closeDetails' | transloco"
+          (click)="closed.emit()"
+        >
+          <orp-icon name="close" />
+        </button>
+      </div>
+    }
+
+    <div class="identity">
+      <orp-track-cover
+        class="cover"
+        [url]="track.coverUrl"
+        [alt]="'tracks.coverAlt' | transloco: { album: track.albumName }"
+        [missingLabel]="'tracks.coverMissing' | transloco"
+        [size]="sheet() ? 72 : 300"
+        [fluid]="!sheet()"
+        [eager]="true"
+        [iconSize]="sheet() ? 24 : 64"
+      />
+      <div class="heading">
+        @if (track.availableInBR) {
+          <span class="badge badge--success">
+            <orp-icon name="check" [size]="12" [strokeWidth]="3" />
+            {{ 'tracks.availableInBR' | transloco }}
+          </span>
+        } @else {
+          <span class="badge badge--neutral">
+            <orp-icon name="close" [size]="12" [strokeWidth]="3" />
+            {{ 'tracks.unavailableInBR' | transloco }}
+          </span>
+        }
+        <h2 class="title" [id]="headingId()">{{ track.title }}</h2>
+        <p class="artists">{{ artists() }}</p>
+      </div>
+    </div>
+
+    <section class="preview" [attr.aria-label]="'tracks.listen' | transloco">
+      @if (playing()) {
+        <orp-spotify-preview [track]="track" />
+        <button type="button" class="btn btn--block close-player" (click)="closePlayer()">
+          <orp-icon name="close" [size]="14" />
+          {{ 'tracks.closePlayer' | transloco }}
+        </button>
+      } @else {
+        <button type="button" class="listen" (click)="listen($any($event.currentTarget))">
+          <span class="listen__icon" aria-hidden="true"><orp-icon name="play" [size]="18" /></span>
+          <span class="listen__text">
+            <span class="listen__label">{{ 'tracks.listen' | transloco }}</span>
+            <span class="listen__note">{{ 'tracks.previewNote' | transloco }}</span>
+          </span>
+        </button>
+      }
+    </section>
+
+    <dl class="meta">
+      <div class="meta__wide">
+        <dt>{{ 'tracks.album' | transloco }}</dt>
+        <dd>{{ track.albumName }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'tracks.released' | transloco }}</dt>
+        <dd class="released">
+          {{ released() }}
+          <orp-release-dates [dates]="track.releaseDates" [shown]="track.releaseDate" />
+        </dd>
+      </div>
+      <div>
+        <dt>{{ 'tracks.duration' | transloco }}</dt>
+        <dd class="mono">{{ duration() }}</dd>
+      </div>
+      <div class="meta__wide">
+        <dt>{{ 'tracks.isrc' | transloco }}</dt>
+        <dd class="isrc">
+          <span class="mono">{{ track.isrc }}</span>
+          <orp-copy-button
+            [value]="track.isrc"
+            [label]="'copy.copyIsrc' | transloco: { isrc: track.isrc }"
+            [copiedLabel]="'copy.copied' | transloco"
+          />
+        </dd>
+      </div>
+    </dl>
+
+    <a
+      class="btn btn--primary btn--block spotify"
+      [href]="track.spotifyUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {{ 'tracks.openOnSpotify' | transloco }}
+      <orp-icon name="external" [size]="15" />
+      <span class="visually-hidden">({{ 'app.newTab' | transloco }})</span>
+    </a>
+  </article>
+} @else {
+  <p class="none">{{ 'tracks.noSelection' | transloco }}</p>
+}

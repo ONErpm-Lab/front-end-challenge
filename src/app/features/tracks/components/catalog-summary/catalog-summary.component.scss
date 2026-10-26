@@ -1,0 +1,124 @@
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.kpi,
+.chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.125rem;
+}
+
+.kpi {
+  flex: 1 1 10.5rem;
+}
+
+.chart {
+  flex: 2 1 20rem;
+}
+
+.kpi__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.kpi__value {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+
+  &.mono {
+    font-size: 1.875rem;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  &--success {
+    color: var(--success-ink);
+  }
+}
+
+.kpi__hint {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.meter {
+  height: 0.375rem;
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+
+.meter__fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.875rem;
+  min-height: 5.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.bar__count {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.bar__fill {
+  width: 100%;
+  max-width: 2.5rem;
+  border-radius: 0.375rem 0.375rem 0.125rem 0.125rem;
+  background: var(--accent);
+}
+
+.bar__year {
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+
+@media (width < 40rem) {
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.625rem;
+  }
+
+  .kpi,
+  .chart {
+    padding: 0.875rem;
+    gap: 0.25rem;
+  }
+
+  .chart {
+    grid-column: 1 / -1;
+  }
+
+  .kpi__value {
+    font-size: 1.5rem;
+
+    &.mono {
+      font-size: 1.375rem;
+    }
+  }
+}
